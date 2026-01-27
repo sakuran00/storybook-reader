@@ -5,6 +5,13 @@ export interface Book {
     status: 'available' | 'unavailable';
     author: string;
     cover: string;
+    pages?: {
+        image: string;
+        textJa: string;
+        textEn: string;
+        audioJa: string; // 音声ファイルパス（例: /audio/adventure/adventure_page1.ja.mp3）
+        audioEn: string;
+    }[];
 }
 
 export const BOOKS : Book[] = [
@@ -14,7 +21,78 @@ export const BOOKS : Book[] = [
     subtitle: "日本語 / English",
     status: "available",
     author: "saku",
-    cover: "/covers/おひめさまのぼうけん.png"
+    cover: "/covers/おひめさまのぼうけん.png",
+    pages:[
+        {
+            image:"/pages/adventure/adventure_page1.png",
+            textJa:"/text/adventure/adventure_page1.ja.txt",
+            textEn:"/text/adventure/adventure_page1.en.txt",
+            audioJa:"/audio/adventure/adventure_page1.ja.mp3",
+            audioEn:"/audio/adventure/adventure_page1.en.mp3",
+        },
+        {
+            image:"/pages/adventure/adventure_page2.png",
+            textJa:"/text/adventure/adventure_page2.ja.txt",
+            textEn:"/text/adventure/adventure_page2.en.txt",
+            audioJa:"/audio/adventure/adventure_page2.ja.mp3",
+            audioEn:"/audio/adventure/adventure_page2.en.mp3",
+        },
+        {
+            image:"/pages/adventure/adventure_page3.png",
+            textJa:"/text/adventure/adventure_page3.ja.txt",
+            textEn:"/text/adventure/adventure_page3.en.txt",
+            audioJa:"/audio/adventure/adventure_page3.ja.mp3",
+            audioEn:"/audio/adventure/adventure_page3.en.mp3",
+        },         {
+            image:"/pages/adventure/adventure_page4.png",
+            textJa:"/text/adventure/adventure_page4.ja.txt",
+            textEn:"/text/adventure/adventure_page4.en.txt",
+            audioJa:"/audio/adventure/adventure_page4.ja.mp3",
+            audioEn:"/audio/adventure/adventure_page4.en.mp3",
+        },         {
+            image:"/pages/adventure/adventure_page5.png",
+            textJa:"/text/adventure/adventure_page5.ja.txt",
+            textEn:"/text/adventure/adventure_page5.en.txt",
+            audioJa:"/audio/adventure/adventure_page5.ja.mp3",
+            audioEn:"/audio/adventure/adventure_page5.en.mp3",
+        },         {
+            image:"/pages/adventure/adventure_page6.png",
+            textJa:"/text/adventure/adventure_page6.ja.txt",
+            textEn:"/text/adventure/adventure_page6.en.txt",
+            audioJa:"/audio/adventure/adventure_page6.ja.mp3",
+            audioEn:"/audio/adventure/adventure_page6.en.mp3",
+        },         
+        {
+            image:"/pages/adventure/adventure_page7.png",
+            textJa:"/text/adventure/adventure_page7.ja.txt",
+            textEn:"/text/adventure/adventure_page7.en.txt",
+            audioJa:"/audio/adventure/adventure_page7.ja.mp3",
+            audioEn:"/audio/adventure/adventure_page7.en.mp3",
+        }, 
+        {
+            image:"/pages/adventure/adventure_page8.png",
+            textJa:"/text/adventure/adventure_page8.ja.txt",
+            textEn:"/text/adventure/adventure_page8.en.txt",
+            audioJa:"/audio/adventure/adventure_page8.ja.mp3",
+            audioEn:"/audio/adventure/adventure_page8.en.mp3",
+        }, 
+        {
+
+            image:"/pages/adventure/adventure_page9.png",
+            textJa:"/text/adventure/adventure_page9.ja.txt",
+            textEn:"/text/adventure/adventure_page9.en.txt",
+            audioJa:"/audio/adventure/adventure_page9.ja.mp3",
+            audioEn:"/audio/adventure/adventure_page9.en.mp3",
+        }, 
+        {
+
+            image:"/pages/adventure/adventure_page10.png",
+            textJa:"/text/adventure/adventure_page10.ja.txt",
+            textEn:"/text/adventure/adventure_page10.en.txt",
+            audioJa:"/audio/adventure/adventure_page10.ja.mp3",
+            audioEn:"/audio/adventure/adventure_page10.en.mp3",
+        }, 
+    ]
     },
     {
     id: "magic-forest-princess",
@@ -30,7 +108,5 @@ export const BOOKS : Book[] = [
     subtitle: "Coming soon",
     status: "unavailable",
     author: "",
-    cover: "/covers/magic book (ロゴ).png"
-    },
-
-]
+    cover: "/covers/magic book (ロゴ).png",
+    }]
