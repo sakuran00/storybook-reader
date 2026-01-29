@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { BOOKS } from "@/data/books";
-import TextPage from "@/components/reader/TextPage";
+import BookFlipReader from "@/components/reader/BookFlipReader";
 import { useMemo, useState, use } from "react"
 
 export default function BookDetail({ params }: { params: Promise<{ id: string }> }){
@@ -20,9 +20,6 @@ export default function BookDetail({ params }: { params: Promise<{ id: string }>
         );
     }
 
-    const totalPages = book.pages?.length || 0;
-    const currentPageData = book.pages?.[currentPage]
-
     return(
         <div className="mx-auto max-w-3/4 px-4 py-12 space-y-8">
          {/* {ヘッダー} */}
@@ -31,7 +28,7 @@ export default function BookDetail({ params }: { params: Promise<{ id: string }>
                 <h1 className="text-3xl font-bold text-gray-900">{book.title}</h1>
                 <p className="text-sm text-gray-600">{book.subtitle}</p>
             </div>
-            <Link href="/" className="text-sm text-blue-600"></Link>
+            <Link href="/" className="text-sm text-blue-600">本棚に戻る</Link>
         </div>
 
         {/* {言語切り替え} */}
@@ -51,37 +48,8 @@ export default function BookDetail({ params }: { params: Promise<{ id: string }>
             </button>
         </div>
 
-        {/* ページ番号表示 */}
-        <div className="text-center text-sm text-gray-600">
-            {currentPage + 1} / {totalPages}
-        </div>
-
-        {/* 現在のページのみ表示 */}
-        {currentPageData && (
-            <TextPage
-            key={currentPage}
-            imageSrc={currentPageData.image}
-            textUrl={lang === "ja" ? currentPageData.textJa : currentPageData.textEn}
-            audioUrl={lang === "ja" ? currentPageData.audioJa : currentPageData.audioEn}
-        />
-        )}
-        {/* ページ送りボタン*/}
-        <div className="flex items-center justify-between gap-4">
-            <button
-                onClick={() => setCurrentPage( prev => Math.max(prev -1, 0))}
-                disabled={currentPage === 0}
-                className="rounded-full bg-gray-200 px-4 py-2 text-sm text-gray-800 disabled:opacity-50"
-                >
-                ← 前へ
-            </button>
-            <button
-                onClick={() => setCurrentPage( prev => Math.min(totalPages -1, prev +1 ))}
-                disabled={currentPage === totalPages -1}
-                className = "rounded-full border border-gray-300 px-6 py-2 text-sm disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-100"
-                >
-                次へ →
-            </button>
-        </div>
+        {/* {FlipBook} */}
+        <BookFlipReader book={book} lang={lang} />
         </div>
     )
 }
