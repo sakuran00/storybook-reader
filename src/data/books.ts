@@ -137,6 +137,113 @@ export const BOOKS: Book[] = [
     status: "available",
     author: "saku",
     cover: "/covers/もりのゆうきなおひめさま.png",
+    pages:[
+        {
+        image: "/pages/magicForest/magicForest_cover.png",
+        textJa: "/text/magicForest/magicForest_cover.ja.txt",
+        textEn: "/text/magicForest/magicForest_cover.en.txt",
+      },
+      {
+        image: "/pages/magicForest/magicForest_page1-1.png",
+      },
+      {
+        image: "/pages/magicForest/magicForest_page1-2.png",
+        textJa: "/text/magicForest/magicForest_page1.ja.txt",
+        textEn: "/text/magicForest/magicForest_page1.en.txt",
+        audioJa: "/audio/magicForest/magicForest_page1.ja.mp3",
+        audioEn: "/audio/magicForest/magicForest_page1.en.mp3",
+      },
+      {
+        image: "/pages/magicForest/magicForest_page2-1.png",
+      },
+      {
+        image: "/pages/magicForest/magicForest_page2-2.png",
+        textJa: "/text/magicForest/magicForest_page2.ja.txt",
+        textEn: "/text/magicForest/magicForest_page2.en.txt",
+        audioJa: "/audio/magicForest/magicForest_page2.ja.mp3",
+        audioEn: "/audio/magicForest/magicForest_page2.en.mp3",
+      },
+      {
+        image: "/pages/magicForest/magicForest_page3-1.png",
+      },
+      {
+        image: "/pages/magicForest/magicForest_page3-2.png",
+        textJa: "/text/magicForest/magicForest_page3.ja.txt",
+        textEn: "/text/magicForest/magicForest_page3.en.txt",
+        audioJa: "/audio/magicForest/magicForest_page3.ja.mp3",
+        audioEn: "/audio/magicForest/magicForest_page3.en.mp3",
+      },
+      {
+        image: "/pages/magicForest/magicForest_page4-1.png",
+      },
+      {
+        image: "/pages/magicForest/magicForest_page4-2.png",
+        textJa: "/text/magicForest/magicForest_page4.ja.txt",
+        textEn: "/text/magicForest/magicForest_page4.en.txt",
+        audioJa: "/audio/magicForest/magicForest_page4.ja.mp3",
+        audioEn: "/audio/magicForest/magicForest_page4.en.mp3",
+      },
+      {
+        image: "/pages/magicForest/magicForest_page5-1.png",
+      },
+      {
+        image: "/pages/magicForest/magicForest_page5-2.png",
+        textJa: "/text/magicForest/magicForest_page5.ja.txt",
+        textEn: "/text/magicForest/magicForest_page5.en.txt",
+        audioJa: "/audio/magicForest/magicForest_page5.ja.mp3",
+        audioEn: "/audio/magicForest/magicForest_page5.en.mp3",
+      },
+      {
+        image: "/pages/magicForest/magicForest_page6-1.png",
+      },
+      {
+        image: "/pages/magicForest/magicForest_page6-2.png",
+        textJa: "/text/magicForest/magicForest_page6.ja.txt",
+        textEn: "/text/magicForest/magicForest_page6.en.txt",
+        audioJa: "/audio/magicForest/magicForest_page6.ja.mp3",
+        audioEn: "/audio/magicForest/magicForest_page6.en.mp3",
+      },
+      {
+        image: "/pages/magicForest/magicForest_page7-1.png",
+      },
+      {
+        image: "/pages/magicForest/magicForest_page7-2.png",
+        textJa: "/text/magicForest/magicForest_page7.ja.txt",
+        textEn: "/text/magicForest/magicForest_page7.en.txt",
+        audioJa: "/audio/magicForest/magicForest_page7.ja.mp3",
+        audioEn: "/audio/magicForest/magicForest_page7.en.mp3",
+      },
+      {
+        image: "/pages/magicForest/magicForest_page8-1.png",
+      },
+      {
+        image: "/pages/magicForest/magicForest_page8-2.png",
+        textJa: "/text/magicForest/magicForest_page8.ja.txt",
+        textEn: "/text/magicForest/magicForest_page8.en.txt",
+        audioJa: "/audio/magicForest/magicForest_page8.ja.mp3",
+        audioEn: "/audio/magicForest/magicForest_page8.en.mp3",
+      },
+      {
+        image: "/pages/magicForest/magicForest_page9-1.png",
+      },
+      {
+        image: "/pages/magicForest/magicForest_page9-2.png",
+        textJa: "/text/magicForest/magicForest_page9.ja.txt",
+        textEn: "/text/magicForest/magicForest_page9.en.txt",
+        audioJa: "/audio/magicForest/magicForest_page9.ja.mp3",
+        audioEn: "/audio/magicForest/magicForest_page9.en.mp3",
+      },
+      {
+        image: "/pages/magicForest/magicForest_page10-1.png",
+      },
+      {
+        image: "/pages/magicForest/magicForest_page10-2.png",
+        textJa: "/text/magicForest/magicForest_page10.ja.txt",
+        textEn: "/text/magicForest/magicForest_page10.en.txt",
+        audioJa: "/audio/magicForest/magicForest_page10.ja.mp3",
+        audioEn: "/audio/magicForest/magicForest_page10.en.mp3",
+      },
+    ]
   },
   {
     id: "coming-soon",

@@ -7,10 +7,10 @@ import edge_tts
 # ==========================================
 
 #テキストファイルが置いてある場所
-TEXT_DIR = "public/text/adventure"
+TEXT_DIR = "public/text/magicForest"
 
 #音声ファイルを保存する場所
-AUDIO_DIR = "public/audio/adventure"
+AUDIO_DIR = "public/audio/magicForest"
 
 # 使用する声の種類（MicrosoftのAI音声）
 VOICE_JA = "ja-JP-NanamiNeural"
@@ -26,7 +26,7 @@ async def main():
     print(f" 保存先を確認:{AUDIO_DIR}")
 
     #2 テキストフォルダ内のファイル一覧を取得
-    files = sorted([f for f in os.listdir(TEXT_DIR) if f.endswith("ja.txt")])#ファイルを名前順に
+    files = sorted([f for f in os.listdir(TEXT_DIR) if f.endswith("page1.ja.txt")])#ファイルを名前順に
     print(f"{TEXT_DIR}の中にあるファイルを処理します..")
 
     #3 ファイルを一つずつ順番に処理するループ
