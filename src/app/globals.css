@@ -1,14 +1,14 @@
 @import "tailwindcss";
 
-html, body{
+html,
+body {
   min-height: 100%;
 }
 
-body{
+body {
   /* public 配下はルート参照になるので /bg.jpg にする */
-  background-image: url('/bg.jpg');
+  background-image: url("/bg.jpg");
   background-size: cover;
   background-attachment: fixed;
-  background-position: center;}
-
-
+  background-position: center;
+}

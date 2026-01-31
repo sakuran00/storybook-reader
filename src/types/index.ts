@@ -1,10 +1,10 @@
 /** カテゴリ型定義 */
-export type Category = 'attitude' | 'symbol' | 'all';
+export type Category = "attitude" | "symbol" | "all";
 
 /** 音声情報 */
 export interface Voice {
   id: string;
-  language: 'ja' | 'en';
+  language: "ja" | "en";
   narrator: string; // 朗読者名
   audioUrl: string;
   duration: number; // 秒単位
@@ -39,7 +39,7 @@ export interface PlaybackState {
   currentPageIndex: number; // 0から始まるページインデックス
   currentBookId: string;
   isPlaying: boolean;
-  currentLanguage: 'ja' | 'en';
+  currentLanguage: "ja" | "en";
   volume: number; // 0-100
   currentTime: number; // 現在の再生位置（秒）
 }
@@ -62,5 +62,5 @@ export interface AudioPlayerProps {
   onPlayPause: () => void;
   onNext: () => void;
   onPrev: () => void;
-  onLanguageChange: (language: 'ja' | 'en') => void;
+  onLanguageChange: (language: "ja" | "en") => void;
 }

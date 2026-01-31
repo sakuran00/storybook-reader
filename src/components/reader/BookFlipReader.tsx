@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useRef, useState, useCallback, ComponentType } from "react";
 import HTMLFlipBook from "react-pageflip";
@@ -45,6 +45,7 @@ export default function BookFlipReader({ book, lang }: BookFlipReaderProps) {
             <div className="text-center text-sm text-gray-600">
                 {currentPage + 1} / {totalPages}
             </div>
+
             <div>
                 {/*
                 refに渡す型を any にすることで解消されます
@@ -76,14 +77,14 @@ export default function BookFlipReader({ book, lang }: BookFlipReaderProps) {
                     showPageCorners={true}
                     disableFlipByClick={false}
                 >
-                    {book.pages?.map((page, i) => (
-                        <FlipPageElement
-                            key={`${i}-${lang}`}
-                            imageSrc={page.image}
-                            textUrl={lang === "ja" ? page.textJa : page.textEn}
-                            audioUrl={lang === "ja" ? page.audioJa : page.audioEn}
-                        />
-                    ))}   
+                {book.pages?.map((page, i) => (
+                <FlipPageElement
+                key={`${i}-${lang}`}
+                imageSrc={page.image}
+                textUrl={lang === "ja" ? page.textJa : page.textEn}
+                audioUrl={lang === "ja" ? page.audioJa : page.audioEn}
+                />
+                    ))}  
                 </HTMLFlipBook>
             </div>
 
