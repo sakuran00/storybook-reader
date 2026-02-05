@@ -2,6 +2,13 @@
 
 import { useEffect, useState, forwardRef } from "react";
 import Image from "next/image";
+import { Zen_Maru_Gothic } from "next/font/google";
+
+const zenMaru = Zen_Maru_Gothic({
+  weight: ["400", "500", "700"],
+  subsets: ["latin"],
+  display: "swap",
+});
 
 export interface FlipPageProps {
   imageSrc: string;
@@ -38,12 +45,12 @@ const FlipPage = forwardRef<HTMLDivElement, FlipPageProps>(
 
         {/* テキストエリア（textUrlがある場合のみ表示） */}
         {textUrl && (
-          <div className="flip-page-text">
+          <div className={`flip-page-text ${zenMaru.className}`}>
             {loading ? (
               <p className="text-gray-500 text-sm">読み込み中...</p>
             ) : (
               <>
-                <pre className="absolute mt-156 ml-5 w-[480px] whitespace-pre-wrap text-center text-gray-800">
+                <pre className={`absolute mt-156 ml-5 w-[480px] whitespace-pre-wrap text-center text-gray-800 ${zenMaru.className}`}>
                   {text}
                 </pre>
                 {audioUrl && (

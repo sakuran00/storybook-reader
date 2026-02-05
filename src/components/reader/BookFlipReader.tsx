@@ -4,6 +4,13 @@ import { useRef, useState, useCallback, ComponentType } from "react";
 import HTMLFlipBook from "react-pageflip";
 import FlipPage, { type FlipPageProps } from "./FlipPage";
 import { Book } from "@/data/books";
+import { Zen_Maru_Gothic } from "next/font/google";
+
+const zenMaru = Zen_Maru_Gothic({
+  weight: ["400", "500", "700"],
+  subsets: ["latin"],
+  display: "swap",
+});
 
 // FlipPageの型を調整（ESLint対策でanyを使わない）
 const FlipPageElement = FlipPage as unknown as ComponentType<FlipPageProps>;
@@ -41,7 +48,7 @@ export default function BookFlipReader({ book, lang }: BookFlipReaderProps) {
     const totalPages = book.pages?.length || 0;
 
     return (
-        <div className="space-y-6">
+        <div className={`space-y-6 ${zenMaru.className}`}>
             <div className="text-center text-sm text-gray-600">
                 {currentPage + 1} / {totalPages}
             </div>

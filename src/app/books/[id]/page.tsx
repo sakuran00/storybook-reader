@@ -4,6 +4,13 @@ import Link from "next/link";
 import { BOOKS } from "@/data/books";
 import BookFlipReader from "@/components/reader/BookFlipReader";
 import { useMemo, useState, use } from "react";
+import { Zen_Maru_Gothic } from "next/font/google";
+
+const zenMaru = Zen_Maru_Gothic({
+  weight: ["400", "500", "700"],
+  subsets: ["latin"],
+  display: "swap",
+});
 
 export default function BookDetail({
   params,
@@ -27,7 +34,7 @@ export default function BookDetail({
   }
 
   return (
-    <div className="mx-auto max-w-3/4 px-4 py-12 space-y-8">
+    <div className={`mx-auto max-w-3/4 px-4 py-12 space-y-8 ${zenMaru.className}`}>
       {/* {ヘッダー} */}
       <div className="flex items-start justify-between gap-4">
         <div>

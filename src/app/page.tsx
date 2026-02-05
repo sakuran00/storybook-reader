@@ -1,12 +1,25 @@
 "use client";
 import { BOOKS } from "@/data/books";
 import BookCard from "@/components/book/BookCard";
+import { Zen_Kaku_Gothic_New, Zen_Maru_Gothic } from "next/font/google";
+
+const zenKaku = Zen_Kaku_Gothic_New({
+  weight: ["400", "500", "700"],
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const zenMaru = Zen_Maru_Gothic({
+  weight: ["400", "500", "700"],
+  subsets: ["latin"],
+  display: "swap",
+});
 
 type FilterType = "all" | "available" | "unavailable";
 
 export default function Home() {
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8">
+    <div className={`mx-auto max-w-7xl px-4 py-8 ${zenMaru.className}`}>
       <h1 className="mb-2 text-3xl font-bold">本棚</h1>
       <p className="mb-6 text-gray-600">読みたい絵本を選んでね</p>
 
