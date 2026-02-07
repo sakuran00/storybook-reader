@@ -5,8 +5,7 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -24,7 +23,7 @@ model User {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  //リレーション
+  //リレーション User:Profile = 1:1 User:ReadingProgress = 1:N
   profile         Profile?
   readingProgress ReadingProgress[]
 
@@ -33,10 +32,10 @@ model User {
 
 model Profile {
   id          String  @id @default(uuid())
-  userId      String  @unique
+  userId      String  @unique @map("user_id")
   displayName String? @map("display_name")
   avatarUrl   String? @map("avatar_url")
-  //リレーション
+  //リレーション User:Profile = 1:1
   user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("profiles")
@@ -48,7 +47,7 @@ model Book {
   author          String?
   coverUrl        String            @map("cover_url")
   status          String            @default("available")
-  //リレーション
+  //リレーション　Book:Page = 1:N Book:ReadingProgress = 1:N
   pages           Page[]
   readingProgress ReadingProgress[]
 
@@ -58,17 +57,17 @@ model Book {
 model Page {
   id         String  @id @default(uuid())
   bookId     String  @map("book_id")
-  PageNumber Int     @map("page_number")
+  pageNumber Int     @map("page_number")
   imageUrl   String  @map("image_url")
-  textJaUrl  String  @map("text_ja_url")
-  textEnUrl  String  @map("text_en_url")
+  textJaUrl  String? @map("text_ja_url")
+  textEnUrl  String? @map("text_en_url")
   audioJaUrl String? @map("audio_ja_url")
   audioEnUrl String? @map("audio_en_url")
 
-  //リレーション
+  //リレーション Page:Book = N:1
   book Book @relation(fields: [bookId], references: [id], onDelete: Cascade)
 
-  @@unique([bookId, PageNumber])
+  @@unique([bookId, pageNumber])
   @@map("pages")
 }
 
@@ -80,7 +79,7 @@ model ReadingProgress {
   isFinished    Boolean  @default(false) @map("is_finished")
   updatedAt     DateTime @updatedAt @map("updated_at")
   language      Language @default(en)
-  //リレーション
+  //リレーション ReadingProgress:User = N:1 ReadingProgress:Book = N:1
   user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   book          Book     @relation(fields: [bookId], references: [id], onDelete: Cascade)
 
