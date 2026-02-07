@@ -1,0 +1,89 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Language {
+  ja
+  en
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  //リレーション
+  profile         Profile?
+  readingProgress ReadingProgress[]
+
+  @@map("users")
+}
+
+model Profile {
+  id          String  @id @default(uuid())
+  userId      String  @unique
+  displayName String? @map("display_name")
+  avatarUrl   String? @map("avatar_url")
+  //リレーション
+  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("profiles")
+}
+
+model Book {
+  id              String            @id //例：”princess-adventure”
+  title           String
+  author          String?
+  coverUrl        String            @map("cover_url")
+  status          String            @default("available")
+  //リレーション
+  pages           Page[]
+  readingProgress ReadingProgress[]
+
+  @@map("books")
+}
+
+model Page {
+  id         String  @id @default(uuid())
+  bookId     String  @map("book_id")
+  PageNumber Int     @map("page_number")
+  imageUrl   String  @map("image_url")
+  textJaUrl  String  @map("text_ja_url")
+  textEnUrl  String  @map("text_en_url")
+  audioJaUrl String? @map("audio_ja_url")
+  audioEnUrl String? @map("audio_en_url")
+
+  //リレーション
+  book Book @relation(fields: [bookId], references: [id], onDelete: Cascade)
+
+  @@unique([bookId, PageNumber])
+  @@map("pages")
+}
+
+model ReadingProgress {
+  id            String   @id @default(uuid())
+  userId        String   @map("user_id")
+  bookId        String   @map("book_id")
+  lastPageIndex Int      @default(0) @map("last_page_index")
+  isFinished    Boolean  @default(false) @map("is_finished")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+  language      Language @default(en)
+  //リレーション
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  book          Book     @relation(fields: [bookId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, bookId])
+  @@map("reading_progress")
+}
