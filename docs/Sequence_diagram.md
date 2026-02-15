@@ -2,7 +2,9 @@
 sequenceDiagram
     actor User
     participant NextJS as Next.js Client
+    participant Google as Google OAuth
     participant Supabase as Supabase Auth/DB
+    participant Callback as auth/callback
     participant Storage as Supabase Storage
 
     User->>NextJS: サイトにアクセス
@@ -11,9 +13,21 @@ sequenceDiagram
     alt 未ログイン
         Supabase-->>NextJS: null
         NextJS->>User: ログイン画面表示
-        User->>NextJS: ログイン実行
+    end
+
+    alt メール/パスワード
+        User->>NextJS:「サインイン」クリック
         NextJS->>Supabase: signInWithPassword
         Supabase-->>NextJS: Session OK
+    else Google OAuth
+        User->>NextJS:「Googleでサインイン」クリック
+        NextJS->>Google: signInWithOAuth
+        Google->>User:ログイン画面表示
+        User->>Google:認証実行
+        Google->>Callback: リダイレクト(code付き)
+        Callback->>Supabase: exchangeCodeForSession(code)
+        Supabase-->>Callback: Session確立
+        Callback-->>NextJS: セッション有効化
     end
 
     User->>NextJS: 絵本を選択 (クリック)

@@ -17,6 +17,7 @@ import {
 }  from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import React from "react";
+import { signup } from "@/app/auth/signup/actions";
 
 interface SignupFormProps {
   onSubmit?: (data: { email: string; password: string }) => void;
@@ -49,7 +50,7 @@ export function SignupForm({ onSubmit }: SignupFormProps): React.ReactElement {
         <CardTitle className="flex justify-center text-2xl font-bold">アカウント作成</CardTitle>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} action={signup}>
           <FieldGroup>
             <Field>
               <FieldLabel htmlFor="name">名前</FieldLabel>

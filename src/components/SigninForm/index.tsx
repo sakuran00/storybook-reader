@@ -16,6 +16,8 @@ import {
 }  from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import React from "react";
+import { signin } from "@/app/auth/signin/actions";
+import { createClient } from "@supabase/supabase-js";
 
 interface SigninFormProps {
   onSubmit?: (data: { email: string; password: string }) => void;
@@ -33,22 +35,36 @@ const zenMaru = Zen_Maru_Gothic({
   display: 'swap',
 })
 
+
+
 export function SigninForm({ onSubmit }: SigninFormProps): React.ReactElement {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) =>{
     e.preventDefault();
-    onSubmit?.({ email, password});
+    onSubmit?.({ email, password });
   };
+
+  const googleSigninHandler = () => {
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL || '',
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
+    );
+    supabase.auth.signInWithOAuth({ provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`
+      }
+    });
+  }
 
   return(
   <Card className={zenKaku.className}>
       <CardHeader>
-        <CardTitle className="flex justify-center text-2xl font-bold">サインイン</CardTitle>
+        <CardTitle className="flex justify-center text-2xl font-bold ">サインイン</CardTitle>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} action={signin}>
           <FieldGroup>
             <Field>
               <FieldLabel htmlFor="email">メールアドレス</FieldLabel>
@@ -73,8 +89,8 @@ export function SigninForm({ onSubmit }: SigninFormProps): React.ReactElement {
             </Field>
             <FieldGroup>
               <Field>
-                <Button type="submit">サインイン</Button>
-                <Button variant="outline" type="button">
+                <Button type="submit" className="hover:cursor-pointer hover:">サインイン</Button>
+                <Button variant="outline" type="button" onClick={googleSigninHandler} className="hover:cursor-pointer">
                   Googleでサインイン
                 </Button>
                 <FieldDescription className="text-sm text-center">
@@ -88,3 +104,4 @@ export function SigninForm({ onSubmit }: SigninFormProps): React.ReactElement {
     </Card>
   )
 }
+
