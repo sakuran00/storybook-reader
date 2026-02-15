@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@/lib/supabase/server";
 
 /** サインイン処理 */
 export async function signin(formData: FormData) {
@@ -17,7 +17,7 @@ export async function signin(formData: FormData) {
   const { error } = await supabase.auth.signInWithPassword(data);
   console.error(error);
 
-  if (error){
+  if (error) {
     redirect("/error");
   }
 

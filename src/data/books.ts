@@ -137,8 +137,8 @@ export const BOOKS: Book[] = [
     status: "available",
     author: "saku",
     cover: "/covers/もりのゆうきなおひめさま.png",
-    pages:[
-        {
+    pages: [
+      {
         image: "/pages/magicForest/magicForest_cover.png",
         textJa: "/text/magicForest/magicForest_cover.ja.txt",
         textEn: "/text/magicForest/magicForest_cover.en.txt",
@@ -243,7 +243,7 @@ export const BOOKS: Book[] = [
         audioJa: "/audio/magicForest/magicForest_page10.ja.mp3",
         audioEn: "/audio/magicForest/magicForest_page10.en.mp3",
       },
-    ]
+    ],
   },
   {
     id: "coming-soon",

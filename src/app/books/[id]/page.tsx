@@ -34,7 +34,9 @@ export default function BookDetail({
   }
 
   return (
-    <div className={`mx-auto max-w-3/4 px-4 py-12 space-y-8 ${zenMaru.className}`}>
+    <div
+      className={`mx-auto max-w-3/4 px-4 py-12 space-y-8 ${zenMaru.className}`}
+    >
       {/* {ヘッダー} */}
       <div className="flex items-start justify-between gap-4">
         <div>

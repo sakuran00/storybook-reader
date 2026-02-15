@@ -2,10 +2,10 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@/lib/supabase/server";
 
 /** サインアップ処理 */
-export async function signup(formData: FormData){
+export async function signup(formData: FormData) {
   const supabase = await createClient();
 
   const data = {
@@ -16,10 +16,10 @@ export async function signup(formData: FormData){
   const { error } = await supabase.auth.signUp(data);
   console.error(error);
 
-  if (error){
+  if (error) {
     redirect("/error");
   }
 
   revalidatePath("/", "layout");
-  redirect("/auth/signup/before-confirm")
+  redirect("/auth/signup/before-confirm");
 }

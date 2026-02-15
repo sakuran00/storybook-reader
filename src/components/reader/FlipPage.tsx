@@ -50,7 +50,9 @@ const FlipPage = forwardRef<HTMLDivElement, FlipPageProps>(
               <p className="text-gray-500 text-sm">読み込み中...</p>
             ) : (
               <>
-                <pre className={`absolute mt-156 ml-5 w-[480px] whitespace-pre-wrap text-center text-gray-800 ${zenMaru.className}`}>
+                <pre
+                  className={`absolute mt-156 ml-5 w-[480px] whitespace-pre-wrap text-center text-gray-800 ${zenMaru.className}`}
+                >
                   {text}
                 </pre>
                 {audioUrl && (
