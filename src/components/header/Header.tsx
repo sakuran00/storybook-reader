@@ -1,7 +1,6 @@
 "use client";
 
 import { Zen_Maru_Gothic } from "next/font/google";
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
@@ -12,15 +11,19 @@ const zenMaru = Zen_Maru_Gothic({
   display: "swap",
 });
 
-//受け取るPropsを決める
+//受け取るProps
 interface HeaderProps {
-  title: string; //表示するタイトル
+  title: string;
   navItems?: { label: string; href: string }[]; //ナビゲーション項目
+  isAuthenticated: boolean; //認証状態
 }
 
 //UI構造
-export default function Header({ title, navItems = [] }: HeaderProps) {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+export default function Header({
+  title,
+  navItems = [],
+  isAuthenticated,
+}: HeaderProps) {
   const router = useRouter();
   const supabase = createClient();
 
@@ -29,6 +32,7 @@ export default function Header({ title, navItems = [] }: HeaderProps) {
     const { error } = await supabase.auth.signOut();
     if (error) console.log(error);
     router.push("/auth/signin");
+    router.refresh();
   };
 
   return (
@@ -45,7 +49,7 @@ export default function Header({ title, navItems = [] }: HeaderProps) {
             </div>
             <div className="flex gap-3">
               <Button size={"sm"} onClick={() => router.push("/auth/signup")}>
-                サインアップ
+                新規作成
               </Button>
               <Button size={"sm"} onClick={() => router.push("/auth/signin")}>
                 サインイン

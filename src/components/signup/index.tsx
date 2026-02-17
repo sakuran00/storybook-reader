@@ -45,16 +45,6 @@ export function SignupForm({ onSubmit }: SignupFormProps): React.ReactElement {
     onSubmit?.({ email, password });
   };
 
-  const googleSignupHandler = () => {
-    const supabase = createClient();
-    supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
-      },
-    });
-  };
-
   return (
     <Card className={zenKaku.className}>
       <CardHeader>
@@ -66,8 +56,8 @@ export function SignupForm({ onSubmit }: SignupFormProps): React.ReactElement {
         <form onSubmit={handleSubmit} action={signup}>
           <FieldGroup>
             <Field>
-              <FieldLabel htmlFor="name">名前</FieldLabel>
-              <Input id="name" type="text" placeholder="鈴木一郎" required />
+              <FieldLabel htmlFor="name">ニックネーム</FieldLabel>
+              <Input id="name" type="text" placeholder="さくら" required />
             </Field>
             <Field>
               <FieldLabel htmlFor="email">メールアドレス</FieldLabel>
@@ -82,7 +72,7 @@ export function SignupForm({ onSubmit }: SignupFormProps): React.ReactElement {
               <FieldLabel htmlFor="password">パスワード</FieldLabel>
               <Input id="password" type="password" required />
               <FieldDescription className="text-sm">
-                8文字以上で、大文字・小文字・数字を含めてください。
+                8文字以上で、数字を含めてください。
               </FieldDescription>
             </Field>
             <Field>
@@ -95,13 +85,6 @@ export function SignupForm({ onSubmit }: SignupFormProps): React.ReactElement {
             <FieldGroup>
               <Field>
                 <Button type="submit">アカウント作成</Button>
-                <Button
-                  variant="outline"
-                  type="button"
-                  onClick={googleSignupHandler}
-                >
-                  Googleでサインアップ
-                </Button>
                 <FieldDescription className="text-sm text-center">
                   すでにアカウントをお持ちですか？ <a href="#">サインイン</a>
                 </FieldDescription>

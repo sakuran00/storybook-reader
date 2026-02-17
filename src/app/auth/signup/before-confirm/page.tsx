@@ -1,4 +1,4 @@
-import PageTitle from "@/components/PageTitle";
+import PageTitle from "@/components/pageTitle";
 
 // メール送信完了画面
 export default function BeforeConfirmPage() {

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
+import { createClient } from "@/lib/supabase/server";
 
 export async function GET(request: NextRequest) {
   // code取得
@@ -14,10 +14,7 @@ export async function GET(request: NextRequest) {
 
   try {
     //このコードを使ってセッション確立
-    const supabase = await createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL || "",
-      process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || "",
-    );
+    const supabase = await createClient();
 
     const { error } = await supabase.auth.exchangeCodeForSession(code);
 

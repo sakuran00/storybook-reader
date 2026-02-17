@@ -18,6 +18,12 @@ const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
 };
 
+//デバッグ用
+console.log(
+  "DEBUG: DATABASE_URL is",
+  process.env.DATABASE_URL ? "defined" : "undefined",
+);
+
 // 既存のインスタンスがあれば再利用、なければ新規作成
 export const prisma = globalForPrisma.prisma || new PrismaClient();
 
