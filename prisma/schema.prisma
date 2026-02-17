@@ -31,12 +31,12 @@ model User {
 }
 
 model Profile {
-  id          String  @id @default(uuid())
-  userId      String  @unique @map("user_id")
-  displayName String? @map("display_name")
-  avatarUrl   String? @map("avatar_url")
+  id        String  @id @default(uuid())
+  userId    String  @unique @map("user_id")
+  nickName  String? @map("nickname")
+  avatarUrl String? @map("avatar_url")
   //リレーション User:Profile = 1:1
-  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("profiles")
 }

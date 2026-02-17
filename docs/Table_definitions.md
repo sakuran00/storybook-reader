@@ -13,7 +13,7 @@
 | --- | --- | --- | --- |
 | id | uuid | PK | プロフィールID |
 | user_id | uuid | FK(users.id), UNIQUE | ユーザーID |
-| display_name | text | | 表示名 |
+| nickname | text | | 表示名 |
 | avatar_url | text | | アバター画像URL |
 
 ## `books` (絵本マスタ)

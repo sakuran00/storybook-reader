@@ -34,11 +34,6 @@ export function SigninForm({ onSubmit }: SigninFormProps): React.ReactElement {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    onSubmit?.({ email, password });
-  };
-
   const googleSigninHandler = () => {
     const supabase = createClient();
     supabase.auth.signInWithOAuth({
@@ -57,11 +52,12 @@ export function SigninForm({ onSubmit }: SigninFormProps): React.ReactElement {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit} action={signin}>
+        <form action={signin}>
           <FieldGroup>
             <Field>
               <FieldLabel htmlFor="email">メールアドレス</FieldLabel>
               <Input
+                name="email"
                 id="email"
                 type="email"
                 placeholder="ichiro_suzuki@example.com"
@@ -73,6 +69,7 @@ export function SigninForm({ onSubmit }: SigninFormProps): React.ReactElement {
             <Field>
               <FieldLabel htmlFor="password">パスワード</FieldLabel>
               <Input
+                name="password"
                 id="password"
                 type="password"
                 required
@@ -94,7 +91,7 @@ export function SigninForm({ onSubmit }: SigninFormProps): React.ReactElement {
                   Googleでサインイン
                 </Button>
                 <FieldDescription className="text-sm text-center">
-                  パスワードがわからない方は <a href="#">こちら</a>
+                  パスワードがわからない方は <a href="/auth/forgot-password">こちら</a>
                 </FieldDescription>
               </Field>
             </FieldGroup>

@@ -5,7 +5,6 @@ import { Zen_Kaku_Gothic_New, Zen_Maru_Gothic } from "next/font/google";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -18,8 +17,6 @@ import {
 import { Input } from "@/components/ui/input";
 import React from "react";
 import { signup } from "@/app/auth/signup/actions";
-import { createClient } from "@/lib/supabase/client";
-
 interface SignupFormProps {
   onSubmit?: (data: { email: string; password: string }) => void;
 }
@@ -39,11 +36,7 @@ const zenMaru = Zen_Maru_Gothic({
 export function SignupForm({ onSubmit }: SignupFormProps): React.ReactElement {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    onSubmit?.({ email, password });
-  };
+  const [confirmPassword, setConfirmPassword] = React.useState("");
 
   return (
     <Card className={zenKaku.className}>
@@ -53,31 +46,55 @@ export function SignupForm({ onSubmit }: SignupFormProps): React.ReactElement {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit} action={signup}>
+        <form action={signup}>
           <FieldGroup>
             <Field>
-              <FieldLabel htmlFor="name">ニックネーム</FieldLabel>
-              <Input id="name" type="text" placeholder="さくら" required />
+              <FieldLabel htmlFor="nickname">ニックネーム</FieldLabel>
+              <Input
+              name="nickname" 
+              id="nickname"
+              type="text"
+              placeholder="さくら"
+              required
+              />
             </Field>
             <Field>
               <FieldLabel htmlFor="email">メールアドレス</FieldLabel>
               <Input
+                name="email"
                 id="email"
                 type="email"
-                placeholder="ichiro_suzuki@example.com"
+                placeholder="sakura@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 required
               />
             </Field>
             <Field>
               <FieldLabel htmlFor="password">パスワード</FieldLabel>
-              <Input id="password" type="password" required />
+              <Input 
+              name="password"
+              id="password"
+              type="password"
+              placeholder="********"
+              value={password}
+              onChange={(e)=> setPassword(e.target.value)}
+              required
+              />
               <FieldDescription className="text-sm">
                 8文字以上で、数字を含めてください。
               </FieldDescription>
             </Field>
             <Field>
               <FieldLabel htmlFor="confirm-password">パスワード確認</FieldLabel>
-              <Input id="confirm-password" type="password" required />
+              <Input 
+              id="confirm-password" 
+              type="password"
+              placeholder="********"
+              value={confirmPassword}
+              onChange={(e)=> setConfirmPassword(e.target.value)}
+              required 
+              />
               <FieldDescription>
                 パスワードを確認してください。
               </FieldDescription>
@@ -86,7 +103,7 @@ export function SignupForm({ onSubmit }: SignupFormProps): React.ReactElement {
               <Field>
                 <Button type="submit">アカウント作成</Button>
                 <FieldDescription className="text-sm text-center">
-                  すでにアカウントをお持ちですか？ <a href="#">サインイン</a>
+                  すでにアカウントをお持ちですか？ <a href="/auth/signin">サインイン</a>
                 </FieldDescription>
               </Field>
             </FieldGroup>
