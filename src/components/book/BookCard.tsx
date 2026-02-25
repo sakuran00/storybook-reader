@@ -1,5 +1,18 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Zen_Kaku_Gothic_New, Zen_Maru_Gothic } from "next/font/google";
+
+const zenKaku = Zen_Kaku_Gothic_New({
+  weight: ["400", "500", "700"],
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const zenMaru = Zen_Maru_Gothic({
+  weight: ["400", "500", "700"],
+  subsets: ["latin"],
+  display: "swap",
+});
 
 interface BookCardProps {
   id: string;
@@ -8,57 +21,92 @@ interface BookCardProps {
   author?: string;
   coverImageUrl: string;
   disabled?: boolean;
+  isDragging?: boolean; // *ドラッグ中の誤クリック防止用
+
+  // デザイン用
+  variant?: "cover" | "spine"; //表紙（cover）か背表紙（spine）か
+  rotation?: string; // 傾きのクラス（例: rotate-1, -rotate-2)
 }
 
 export default function BookCard({
   id,
   title,
   subtitle,
-  author,
   coverImageUrl,
   disabled = false,
+  isDragging = false,
+  variant = "cover",
+  rotation = "rotate-0",
 }: BookCardProps) {
-  const cardContent = (
-    <>
-      <div className="relative aspect-[3/4] overflow-hidden bg-gray-100">
+
+  //表紙モードのコンテンツ
+  const coverContent = (
+      <div className={`
+        relative aspect-[3/4] w-48 shadow-md transition-transform 
+        duration-300 hover:-translate-y-2 hover:shadow-xl hover:rotate-0 
+        ${rotation}
+        `}>
         {coverImageUrl ? (
           <Image
             src={coverImageUrl}
-            alt={`Cover of the book ${title}`}
+            alt={title}
             fill
-            className="object-cover transition group-hover:scale-105"
-            sizes="(max-width: 768px) 50vw, 33vw"
+            className="object-cover rounded-sm"
+            draggable={false} // 画像のドラッグを無効化
           />
         ) : (
-          <div className="flex h-full items-center justify-center text-gray-400">
-            Cover
-          </div>
+          <div className={`flex h-full items-center justify-center text-gray-200 ${zenKaku.className}`}>No Image</div>
         )}
-      </div>
-      <div className="p-4">
-        <h3 className="text-md font-semibold text-gray-900">{title}</h3>
-        <p className="mt-1 text-sm text-gray-600">{subtitle}</p>
-        {author && <p className="mt-2 text-xs text-gray-500">by {author}</p>}
-      </div>
-    </>
+        {/* 帯のようなデザインを入れるならここ */}
+    </div>
   );
 
-  const className = `group block overflow-hidden rounded-lg border border-gray-200 shadow-sm transition hover:shadow-md
-        ${
-          disabled ? "cursor-not-allowed opacity-50" : "hover:border-gray-300"
-        }`;
+  //背表紙モードのコンテンツ
+  const spineContent = (
+    <div className={`
+      relative h-64 w-12 rounded-sm shadow-md transition-transform duration-300
+      hover:-translate-y-4 hover:shadow-xl hover:rotate-0 
+      border border-gray-100 bg-white 
+      ${rotation}
+      `}>
+        {/* タイトルと著者を縦書きで表示 */}
+        <div className="flex-1 flex items-center justify-center py-4">
+          <h3 
+            className={`text-sm font-bold tracking-widest text-gray-500 ${zenMaru.className}`}
+            style={{writingMode: "vertical-rl"}}
+            >
+            {title}
+          </h3>
+        </div>
+      
+      {/* 帯部分 */}
+      <div className="h-16 w-full flex items-center justify-center px-1 py-1 bg-pink-200">
+      {/* 帯の中のテキスト */}
+      <span className="text-[10px] text-white break-all leading-tight text-center line-clamp-3">
+        {subtitle}
+      </span>
+      </div>
+    </div>
+  );
+
+  const content = variant === "cover" ? coverContent : spineContent
 
   if (disabled) {
-    return (
-      <div className={className} aria-disabled={disabled}>
-        {cardContent}
-      </div>
-    );
+    return 
+      <div className="opacity-50 grayscale">{content}</div>
   }
 
   return (
-    <Link href={`/books/${id}`} className={className} aria-disabled={disabled}>
-      {cardContent}
+    <Link 
+      href={`/books/${id}`} 
+      className="block"
+      draggable={false}
+      onClick={(e) => {
+        if(isDragging)
+          e.preventDefault();
+      }}
+    >
+      {content}
     </Link>
   );
 }

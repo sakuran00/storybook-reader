@@ -2,12 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Zen_Kaku_Gothic_New, Zen_Maru_Gothic } from "next/font/google";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Field,
   FieldDescription,
@@ -51,11 +46,11 @@ export function SignupForm({ onSubmit }: SignupFormProps): React.ReactElement {
             <Field>
               <FieldLabel htmlFor="nickname">ニックネーム</FieldLabel>
               <Input
-              name="nickname" 
-              id="nickname"
-              type="text"
-              placeholder="さくら"
-              required
+                name="nickname"
+                id="nickname"
+                type="text"
+                placeholder="さくら"
+                required
               />
             </Field>
             <Field>
@@ -72,14 +67,14 @@ export function SignupForm({ onSubmit }: SignupFormProps): React.ReactElement {
             </Field>
             <Field>
               <FieldLabel htmlFor="password">パスワード</FieldLabel>
-              <Input 
-              name="password"
-              id="password"
-              type="password"
-              placeholder="********"
-              value={password}
-              onChange={(e)=> setPassword(e.target.value)}
-              required
+              <Input
+                name="password"
+                id="password"
+                type="password"
+                placeholder="********"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
               />
               <FieldDescription className="text-sm">
                 8文字以上で、数字を含めてください。
@@ -87,13 +82,13 @@ export function SignupForm({ onSubmit }: SignupFormProps): React.ReactElement {
             </Field>
             <Field>
               <FieldLabel htmlFor="confirm-password">パスワード確認</FieldLabel>
-              <Input 
-              id="confirm-password" 
-              type="password"
-              placeholder="********"
-              value={confirmPassword}
-              onChange={(e)=> setConfirmPassword(e.target.value)}
-              required 
+              <Input
+                id="confirm-password"
+                type="password"
+                placeholder="********"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
               />
               <FieldDescription>
                 パスワードを確認してください。
@@ -103,7 +98,8 @@ export function SignupForm({ onSubmit }: SignupFormProps): React.ReactElement {
               <Field>
                 <Button type="submit">アカウント作成</Button>
                 <FieldDescription className="text-sm text-center">
-                  すでにアカウントをお持ちですか？ <a href="/auth/signin">サインイン</a>
+                  すでにアカウントをお持ちですか？{" "}
+                  <a href="/auth/signin">サインイン</a>
                 </FieldDescription>
               </Field>
             </FieldGroup>

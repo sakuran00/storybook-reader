@@ -2,6 +2,7 @@
 import { BOOKS } from "@/data/books";
 import BookCard from "@/components/book/BookCard";
 import { Zen_Kaku_Gothic_New, Zen_Maru_Gothic } from "next/font/google";
+import { useDragScroll } from "@/hooks/useDragScroll";
 
 const zenKaku = Zen_Kaku_Gothic_New({
   weight: ["400", "500", "700"],
@@ -15,26 +16,71 @@ const zenMaru = Zen_Maru_Gothic({
   display: "swap",
 });
 
+//色のリスト
+const SPINE_COLORS = [
+  "bg-red-700",
+  "bg-green-700",
+  "bg-blue-800",
+  "bg-yellow-600",
+  "bg-purple-800",
+  "bg-slate-700"
+]
+
+const ROTATIONS = [
+  "rotate-0", "rotate-1",   "-rotate-1",   "rotate-2",   "-rotate-2", 
+]
+
 type FilterType = "all" | "available" | "unavailable";
 
 export default function Home() {
-  return (
-    <div className={`mx-auto max-w-7xl px-4 py-8 ${zenMaru.className}`}>
-      <h1 className="mb-2 text-3xl font-bold">本棚</h1>
-      <p className="mb-6 text-gray-600">読みたい絵本を選んでね</p>
+  const { ref, onMouseDown, onMouseLeave, onMouseUp, onMouseMove, isDragging } = useDragScroll();
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {BOOKS.map((book) => (
-          <BookCard
-            key={book.id}
-            id={book.id}
-            title={book.title}
-            subtitle={book.subtitle}
-            author={book.author}
-            coverImageUrl={book.cover}
-            disabled={book.status === "unavailable"}
-          />
-        ))}
+  return (
+    <div className={`mx-auto max-w-7xl px-4 py-8 pt-24 ${zenMaru.className}`}>
+      <h1 className="mb-2 text-3xl font-bold">本棚</h1>
+      <div 
+        ref={ref}
+        onMouseDown={onMouseDown}
+        onMouseLeave={onMouseLeave}
+        onMouseUp={onMouseUp}
+        onMouseMove={onMouseMove}
+        className={`
+          flex flex-row gap-8 items-end min-w-max 
+          border-b-[12px] border-amber-800/60 px-10 pb-0  /* 下のパディングを0にして、本と棚板を密着させる */
+
+           /* 影部分 */
+          bg-gradient-to-b from-transparent via-transparent to-black/10
+    
+          /* その他のスタイル */
+          rounded-lg cursor-grab active:cursor-grabbing select-none
+          `}>
+        {BOOKS.map((book, index) => {
+          //背表紙の色と傾きをランダムに決定
+          const isSpine = (index + 1) % 3 === 0; //例: 3の倍数を背表紙とする
+          const isCover = !isSpine; //それ以外は表紙とする
+
+          //色と角度を順番やランダムで決める。
+          const rotation = ROTATIONS[index % ROTATIONS.length];
+
+        return(
+            <BookCard
+              key={book.id}
+              {...book}
+              coverImageUrl={book.cover}
+              isDragging={isDragging} //ドラッグ中の誤クリック防止用に渡す
+              variant={isCover ? "cover" : "spine"} //偶数番目を表紙、奇数番目を背表紙とする
+              rotation={rotation}
+            />
+          );
+        })}
+      </div>
+      <div 
+        className={`
+          flex flex-row gap-8 items-end min-w-max 
+          border-b-[12px] border-amber-800/60 px-10 pb-0 
+          bg-gradient-to-b from-transparent via-transparent to-black/10
+          rounded-lg cursor-grab active:cursor-grabbing select-none h-80
+          `}>
       </div>
     </div>
   );

@@ -91,7 +91,8 @@ export function SigninForm({ onSubmit }: SigninFormProps): React.ReactElement {
                   Googleでサインイン
                 </Button>
                 <FieldDescription className="text-sm text-center">
-                  パスワードがわからない方は <a href="/auth/forgot-password">こちら</a>
+                  パスワードがわからない方は{" "}
+                  <a href="/auth/forgot-password">こちら</a>
                 </FieldDescription>
               </Field>
             </FieldGroup>
