@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { prisma } from "@/db/client";
+import { Prisma } from "@prisma/client";
 
 type AuthUserMeta={
   nickname?:string
@@ -35,9 +36,14 @@ export async function GET(request: NextRequest) {
 
     const meta = (user.user_metadata ?? {}) as AuthUserMeta;
     const nickName = meta.nickname?.trim() || user?.email.split("@")[0];
-    const data = {
+    const createData: Prisma.ProfileUncheckedCreateInput = {
+      userId: user.id,
+      nickName: nickName || null
+    };
+
+    const updateData: Prisma.ProfileUpdateInput = {
       ...(nickName !== undefined ? { nickName } : {}),
-    }
+    };
 
     await prisma.user.upsert({
       where: { id: user.id },
@@ -47,8 +53,8 @@ export async function GET(request: NextRequest) {
 
     await prisma.profile.upsert({
       where: { userId: user.id },
-      create: { userId: user?.id, ...data },
-      update: data ,
+      create: createData,
+      update: updateData,
     })
 
     return NextResponse.redirect(new URL("/", request.url));

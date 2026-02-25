@@ -11,12 +11,17 @@
  */
 
 import { PrismaClient } from "@prisma/client";
+import { PrismaPg } from "@prisma/adapter-pg";
 
 // グローバル領域にprismaインスタンスを保存する場所を確保
 //変数作成：「globalForPrisma]　これはアプリ全体で共有できる場所（globalThis）で、その中には prisma という名前で、PrismaClientインスタンスか、またはまだ何もない（undefined）状態のものが入る
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
 };
+
+const adapter = new PrismaPg({
+  connectionString: process.env.DATABASE_URL!,
+});
 
 //デバッグ用
 console.log(
@@ -25,7 +30,7 @@ console.log(
 );
 
 // 既存のインスタンスがあれば再利用、なければ新規作成
-export const prisma = globalForPrisma.prisma || new PrismaClient();
+export const prisma = globalForPrisma.prisma || new PrismaClient({ adapter });
 
 // 開発環境のみグローバルに保存（Hot Reload対策）
 if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
