@@ -43,8 +43,7 @@ export default function BookCard({
   const coverContent = (
       <div className={`
         relative aspect-[3/4] w-48 shadow-md transition-transform 
-        duration-300 hover:-translate-y-2 hover:shadow-xl hover:rotate-0 
-        ${rotation}
+        duration-300 hover:-translate-y-2 hover:shadow-xl
         `}>
         {coverImageUrl ? (
           <Image

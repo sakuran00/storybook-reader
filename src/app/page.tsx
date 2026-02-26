@@ -27,7 +27,7 @@ const SPINE_COLORS = [
 ]
 
 const ROTATIONS = [
-  "rotate-0", "rotate-1",   "-rotate-1",   "rotate-2",   "-rotate-2", 
+  "rotate-0", "rotate-4",   "-rotate-4", 
 ]
 
 type FilterType = "all" | "available" | "unavailable";
@@ -37,7 +37,7 @@ export default function Home() {
 
   return (
     <div className={`mx-auto max-w-7xl px-4 py-8 pt-24 ${zenMaru.className}`}>
-      <h1 className="mb-2 text-3xl font-bold">本棚</h1>
+      <h1 className="mb-2 text-3xl font-bold mb-10">本棚</h1>
       <div 
         ref={ref}
         onMouseDown={onMouseDown}
