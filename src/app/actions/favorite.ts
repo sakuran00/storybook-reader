@@ -3,7 +3,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { prisma } from "@/db/client";
 import { revalidatePath } from "next/cache";
-import { use } from "react";
 
 //お気に入りの追加
 export async function addFavorite(bookId: string){

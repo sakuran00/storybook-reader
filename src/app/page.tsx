@@ -1,14 +1,10 @@
 "use client";
 import { BOOKS } from "@/data/books";
 import BookCard from "@/components/book/BookCard";
-import { Zen_Kaku_Gothic_New, Zen_Maru_Gothic } from "next/font/google";
+import { Zen_Maru_Gothic } from "next/font/google";
 import { useDragScroll } from "@/hooks/useDragScroll";
 
-const zenKaku = Zen_Kaku_Gothic_New({
-  weight: ["400", "500", "700"],
-  subsets: ["latin"],
-  display: "swap",
-});
+
 
 const zenMaru = Zen_Maru_Gothic({
   weight: ["400", "500", "700"],
@@ -16,28 +12,16 @@ const zenMaru = Zen_Maru_Gothic({
   display: "swap",
 });
 
-//色のリスト
-const SPINE_COLORS = [
-  "bg-red-700",
-  "bg-green-700",
-  "bg-blue-800",
-  "bg-yellow-600",
-  "bg-purple-800",
-  "bg-slate-700"
-]
-
 const ROTATIONS = [
   "rotate-0", "rotate-4",   "-rotate-4", 
 ]
-
-type FilterType = "all" | "available" | "unavailable";
 
 export default function Home() {
   const { ref, onMouseDown, onMouseLeave, onMouseUp, onMouseMove, isDragging } = useDragScroll();
 
   return (
     <div className={`mx-auto max-w-7xl px-4 py-8 pt-24 ${zenMaru.className}`}>
-      <h1 className="mb-2 text-3xl font-bold mb-10">本棚</h1>
+      <h1 className="text-3xl font-bold mb-10">本棚</h1>
       <div 
         ref={ref}
         onMouseDown={onMouseDown}
@@ -46,10 +30,10 @@ export default function Home() {
         onMouseMove={onMouseMove}
         className={`
           flex flex-row gap-8 items-end min-w-max 
-          border-b-[12px] border-amber-800/60 px-10 pb-0  /* 下のパディングを0にして、本と棚板を密着させる */
+          border-b-12px border-amber-800/60 px-10 pb-0  /* 下のパディングを0にして、本と棚板を密着させる */
 
            /* 影部分 */
-          bg-gradient-to-b from-transparent via-transparent to-black/10
+          bg-linear-to-b from-transparent via-transparent to-black/10
     
           /* その他のスタイル */
           rounded-lg cursor-grab active:cursor-grabbing select-none
@@ -77,8 +61,8 @@ export default function Home() {
       <div 
         className={`
           flex flex-row gap-8 items-end min-w-max 
-          border-b-[12px] border-amber-800/60 px-10 pb-0 
-          bg-gradient-to-b from-transparent via-transparent to-black/10
+          border-b-12px border-amber-800/60 px-10 pb-0 
+          bg-linear-to-b from-transparent via-transparent to-black/10
           rounded-lg cursor-grab active:cursor-grabbing select-none h-80
           `}>
       </div>

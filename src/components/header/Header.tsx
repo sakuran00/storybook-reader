@@ -22,7 +22,6 @@ interface HeaderProps {
 //UI構造
 export default function Header({
   title,
-  navItems = [],
   isAuthenticated,
 }: HeaderProps) {
   const router = useRouter();
