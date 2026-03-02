@@ -66,6 +66,16 @@ export default function AudioPlayer({ src, autoPlay = false }: AudioPlayerProps)
     <div 
       className="flex items-center gap-3 bg-pink-100/50 backdrop-blur-sm p-3 rounded-2xl shadow-sm border border-pink-100 max-w-sm mx-auto mt-4"
       onClick={(e) => e.stopPropagation()}
+      onMouseDown={(e) => e.stopPropagation()}
+      onMouseUp={(e) => e.stopPropagation()}
+      onTouchStart={(e) => e.stopPropagation()}
+      onTouchEnd={(e) => e.stopPropagation()}
+      onMouseMove={(e) => e.stopPropagation()}
+      onMouseLeave={(e) => e.stopPropagation()}
+      onPointerDown={(e) => e.stopPropagation()}
+      onPointerUp={(e) => e.stopPropagation()}
+      onPointerMove={(e) => e.stopPropagation()}
+      onPointerLeave={(e) => e.stopPropagation()}
     >
       <audio 
         ref={audioRef}
