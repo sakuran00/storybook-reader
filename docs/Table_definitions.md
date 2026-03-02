@@ -48,6 +48,17 @@
 | last_page_index | integer | DEFAULT 0 | 最後に読んだページ |
 | is_finished | boolean | DEFAULT false | 読了フラグ |
 | updated_at | timestamptz | DEFAULT now() | 最終アクセス日時 |
-| language |  text | DEFAULT 'en', CHECK(language IN ('ja', 'en')) | 最後に読んでた時の言語 |
+| language | enum | DEFAULT 'en', VALUES('ja', 'en') | 最後に読んでた時の言語 |
+
+**ユニーク制約:** `(user_id, book_id)`
+
+## `favorites` (お気に入り)
+| カラム名 | データ型 | 制約 | 説明 |
+| --- | --- | --- | --- |
+| id | uuid | PK, DEFAULT uuid() | 一意なID |
+| user_id | uuid | FK(users.id) | ユーザーID |
+| book_id | text | FK(books.id) | 絵本ID |
+| created_at | timestamptz | DEFAULT now() | 追加日時 |
+| profileId | uuid | FK(profiles.id) | プロフィールID (Optional) |
 
 **ユニーク制約:** `(user_id, book_id)`
