@@ -3,6 +3,7 @@
 import { useEffect, useState, forwardRef } from "react";
 import Image from "next/image";
 import { Zen_Maru_Gothic } from "next/font/google";
+import AudioPlayer from "@/components/ui/AudioPlayer";
 
 const zenMaru = Zen_Maru_Gothic({
   weight: ["400", "500", "700"],
@@ -56,10 +57,11 @@ const FlipPage = forwardRef<HTMLDivElement, FlipPageProps>(
                   {text}
                 </pre>
                 {audioUrl && (
-                  <div className="mt-3">
-                    <audio controls className="w-full">
-                      <source src={audioUrl} type="audio/mpeg" />
-                    </audio>
+                  <div className="mt-4 px-4 pb-4 w-full"> {/* 配置調整用のラッパー */}
+                    <AudioPlayer 
+                      key={audioUrl}
+                      src={audioUrl}
+                      autoPlay={false} />
                   </div>
                 )}
               </>

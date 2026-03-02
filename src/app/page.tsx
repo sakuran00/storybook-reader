@@ -1,4 +1,5 @@
 "use client";
+
 import { BOOKS } from "@/data/books";
 import BookCard from "@/components/book/BookCard";
 import { Zen_Maru_Gothic } from "next/font/google";
@@ -30,10 +31,10 @@ export default function Home() {
         onMouseMove={onMouseMove}
         className={`
           flex flex-row gap-8 items-end min-w-max 
-          border-b-12px border-amber-800/60 px-10 pb-0  /* 下のパディングを0にして、本と棚板を密着させる */
+          border-b-[12px] border-amber-800/60 px-10 pb-0  /* 下のパディングを0にして、本と棚板を密着させる */
 
            /* 影部分 */
-          bg-linear-to-b from-transparent via-transparent to-black/10
+          bg-gradient-to-b from-transparent via-transparent to-black/10
     
           /* その他のスタイル */
           rounded-lg cursor-grab active:cursor-grabbing select-none
@@ -61,8 +62,8 @@ export default function Home() {
       <div 
         className={`
           flex flex-row gap-8 items-end min-w-max 
-          border-b-12px border-amber-800/60 px-10 pb-0 
-          bg-linear-to-b from-transparent via-transparent to-black/10
+          border-b-[12px] border-amber-800/60 px-10 pb-0 
+          bg-gradient-to-b from-transparent via-transparent to-black/10
           rounded-lg cursor-grab active:cursor-grabbing select-none h-80
           `}>
       </div>

@@ -20,10 +20,7 @@ interface HeaderProps {
 }
 
 //UI構造
-export default function Header({
-  title,
-  isAuthenticated,
-}: HeaderProps) {
+export default function Header({ title, isAuthenticated }: HeaderProps) {
   const router = useRouter();
   const supabase = createClient();
 
@@ -43,7 +40,10 @@ export default function Header({
         {!isAuthenticated ? (
           <>
             <div className="flex items-center gap-3">
-              <Link href="/" className="cursor-pointer hover:opacity-70 transition-opacity">
+              <Link
+                href="/"
+                className="cursor-pointer hover:opacity-70 transition-opacity"
+              >
                 <span className="font-bold tracking-[0.36em] text-sm text-shadow-2xs">
                   {title}
                 </span>
@@ -54,24 +54,27 @@ export default function Header({
                 新規作成
               </Button>
               <Button size={"sm"} onClick={() => router.push("/auth/signin")}>
-                サインイン
+                ログイン
               </Button>
             </div>
           </>
         ) : (
           <>
             <div className="flex items-center gap-3">
-              <Link href="/" className="cursor-pointer hover:opacity-70 transition-opacity">
+              <Link
+                href="/"
+                className="cursor-pointer hover:opacity-70 transition-opacity"
+              >
                 <span className="font-semibold tracking-[0.36em]">{title}</span>
               </Link>
             </div>
 
             <div className="flex items-center gap-3">
               <nav className="font-bold text-gray-700 hover:text-gray-400 hover:cursor-pointer">
-                <Link href="/favorites">お気に入り</Link>
+                <Link href="/favorites">おきにいり</Link>
               </nav>
               <Button onClick={signoutHandler} size={"sm"}>
-                サインアウト
+                ログアウト
               </Button>
             </div>
           </>
