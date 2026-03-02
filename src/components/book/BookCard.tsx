@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -50,7 +50,6 @@ export default function BookCard({
         group
         `}
     >
-
       {coverImageUrl ? (
         <Image
           src={coverImageUrl}
@@ -109,7 +108,7 @@ export default function BookCard({
   const content = variant === "cover" ? coverContent : spineContent;
 
   if (disabled) {
-    return<div className="opacity-50 grayscale">{content}</div>;
+    return <div className="opacity-50 grayscale">{content}</div>;
   }
 
   return (

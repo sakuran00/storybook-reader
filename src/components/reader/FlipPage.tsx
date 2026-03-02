@@ -57,11 +57,14 @@ const FlipPage = forwardRef<HTMLDivElement, FlipPageProps>(
                   {text}
                 </pre>
                 {audioUrl && (
-                  <div className="mt-4 px-4 pb-4 w-full"> {/* 配置調整用のラッパー */}
-                    <AudioPlayer 
+                  <div className="mt-4 px-4 pb-4 w-full">
+                    {" "}
+                    {/* 配置調整用のラッパー */}
+                    <AudioPlayer
                       key={audioUrl}
                       src={audioUrl}
-                      autoPlay={false} />
+                      autoPlay={false}
+                    />
                   </div>
                 )}
               </>

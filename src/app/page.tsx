@@ -5,25 +5,22 @@ import BookCard from "@/components/book/BookCard";
 import { Zen_Maru_Gothic } from "next/font/google";
 import { useDragScroll } from "@/hooks/useDragScroll";
 
-
-
 const zenMaru = Zen_Maru_Gothic({
   weight: ["400", "500", "700"],
   subsets: ["latin"],
   display: "swap",
 });
 
-const ROTATIONS = [
-  "rotate-0", "rotate-4",   "-rotate-4", 
-]
+const ROTATIONS = ["rotate-0", "rotate-4", "-rotate-4"];
 
 export default function Home() {
-  const { ref, onMouseDown, onMouseLeave, onMouseUp, onMouseMove, isDragging } = useDragScroll();
+  const { ref, onMouseDown, onMouseLeave, onMouseUp, onMouseMove, isDragging } =
+    useDragScroll();
 
   return (
     <div className={`mx-auto max-w-7xl px-4 py-8 pt-24 ${zenMaru.className}`}>
       <h1 className="text-3xl font-bold mb-10">本棚</h1>
-      <div 
+      <div
         ref={ref}
         onMouseDown={onMouseDown}
         onMouseLeave={onMouseLeave}
@@ -38,7 +35,8 @@ export default function Home() {
     
           /* その他のスタイル */
           rounded-lg cursor-grab active:cursor-grabbing select-none
-          `}>
+          `}
+      >
         {BOOKS.map((book, index) => {
           //背表紙の色と傾きをランダムに決定
           const isSpine = (index + 1) % 3 === 0; //例: 3の倍数を背表紙とする
@@ -47,7 +45,7 @@ export default function Home() {
           //色と角度を順番やランダムで決める。
           const rotation = ROTATIONS[index % ROTATIONS.length];
 
-        return(
+          return (
             <BookCard
               key={book.id}
               {...book}
@@ -59,14 +57,14 @@ export default function Home() {
           );
         })}
       </div>
-      <div 
+      <div
         className={`
           flex flex-row gap-8 items-end min-w-max 
           border-b-[12px] border-amber-800/60 px-10 pb-0 
           bg-gradient-to-b from-transparent via-transparent to-black/10
           rounded-lg cursor-grab active:cursor-grabbing select-none h-80
-          `}>
-      </div>
+          `}
+      ></div>
     </div>
   );
 }

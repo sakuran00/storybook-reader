@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server"; 
+import { createClient } from "@/lib/supabase/server";
 import { prisma } from "@/db/client";
 import { BOOKS } from "@/data/books";
 import BookCard from "@/components/book/BookCard";
@@ -9,13 +9,15 @@ const zenMaru = Zen_Maru_Gothic({
   weight: ["400", "500", "700"],
   subsets: ["latin"],
   display: "swap",
-})
+});
 
-export default async function FavoritePage(){
+export default async function FavoritePage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-  if(!user){
+  if (!user) {
     redirect("/"); //ログインしていない場合はトップへ
   }
 
@@ -31,15 +33,17 @@ export default async function FavoritePage(){
     },
     // 並び順（新しい順）
     orderBy: {
-      createdAt: "desc", 
-    }
+      createdAt: "desc",
+    },
   });
 
   // お気に入りIDリスト
   const favoriteBookIds = favorites.map((f) => f.bookId);
 
   // マスタデータ(BOOKS)から該当する本だけをフィルタリング
-  const favoriteBooks = BOOKS.filter((book) => favoriteBookIds.includes(book.id));
+  const favoriteBooks = BOOKS.filter((book) =>
+    favoriteBookIds.includes(book.id),
+  );
 
   //　お気に入りの本がない場合の表示
   return (
@@ -50,29 +54,28 @@ export default async function FavoritePage(){
 
       {favoriteBooks.length === 0 ? (
         <div className="text-center py-20 bg-white/50 rounded-lg shadow-sm">
-          <p className="text-2xl font-semibold text-gray-600 mb-4">まだおきにいりのほんがありません</p>
+          <p className="text-2xl font-semibold text-gray-600 mb-4">
+            まだおきにいりのほんがありません
+          </p>
           <p className="text-gray-500 font-semibold">
             ほんだなからハートマークをおして、おきにいりについかしてみましょう
           </p>
         </div>
-      ):(
+      ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8">
           {favoriteBooks.map((book) => (
-          <div key={book.id} className="flex justify-center">
-            <BookCard
-            {...book}
-            coverImageUrl={book.cover}
-            variant="cover"
-            // 一覧ページで博多向けず、真っ直ぐ表示
-            rotation="rotate-0"
-            />
-          </div>
+            <div key={book.id} className="flex justify-center">
+              <BookCard
+                {...book}
+                coverImageUrl={book.cover}
+                variant="cover"
+                // 一覧ページで博多向けず、真っ直ぐ表示
+                rotation="rotate-0"
+              />
+            </div>
           ))}
         </div>
       )}
     </div>
-  )
-
-
-
+  );
 }

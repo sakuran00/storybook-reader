@@ -8,14 +8,17 @@ interface AudioPlayerProps {
   autoPlay?: boolean;
 }
 
-export default function AudioPlayer({ src, autoPlay = false }: AudioPlayerProps) {
+export default function AudioPlayer({
+  src,
+  autoPlay = false,
+}: AudioPlayerProps) {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
 
   //リセット
   useEffect(() => {
-    if(autoPlay && audioRef.current){
+    if (autoPlay && audioRef.current) {
       // 少し遅延させて自動再生（ページめくりの余韻のため）
       const timer = setTimeout(() => {
         audioRef.current?.play().catch(() => {
@@ -23,7 +26,7 @@ export default function AudioPlayer({ src, autoPlay = false }: AudioPlayerProps)
           console.log("Autoplay blocked");
         });
       }, 800);
-      return() => clearTimeout(timer);
+      return () => clearTimeout(timer);
     }
   }, [src, autoPlay]);
 
@@ -31,7 +34,7 @@ export default function AudioPlayer({ src, autoPlay = false }: AudioPlayerProps)
   const togglePlay = () => {
     if (!audioRef.current) return;
 
-    if(isPlaying){
+    if (isPlaying) {
       audioRef.current.pause();
     } else {
       audioRef.current.play();
@@ -40,11 +43,11 @@ export default function AudioPlayer({ src, autoPlay = false }: AudioPlayerProps)
   };
 
   const handleTimeUpdate = () => {
-    if(audioRef.current){
+    if (audioRef.current) {
       const current = audioRef.current.currentTime;
       const duration = audioRef.current.duration;
-      if (duration > 0 ){
-        setProgress((current / duration ) * 100)
+      if (duration > 0) {
+        setProgress((current / duration) * 100);
       }
     }
   };
@@ -55,15 +58,15 @@ export default function AudioPlayer({ src, autoPlay = false }: AudioPlayerProps)
   };
 
   const handleReplay = () => {
-    if(audioRef.current){
+    if (audioRef.current) {
       audioRef.current.currentTime = 0;
       audioRef.current.play();
       setIsPlaying(true);
     }
   };
 
-  return(
-    <div 
+  return (
+    <div
       className="flex items-center gap-3 bg-pink-100/50 backdrop-blur-sm p-3 rounded-2xl shadow-sm border border-pink-100 max-w-sm mx-auto mt-4"
       onClick={(e) => e.stopPropagation()}
       onMouseDown={(e) => e.stopPropagation()}
@@ -77,7 +80,7 @@ export default function AudioPlayer({ src, autoPlay = false }: AudioPlayerProps)
       onPointerMove={(e) => e.stopPropagation()}
       onPointerLeave={(e) => e.stopPropagation()}
     >
-      <audio 
+      <audio
         ref={audioRef}
         src={src}
         onTimeUpdate={handleTimeUpdate}
@@ -92,7 +95,8 @@ export default function AudioPlayer({ src, autoPlay = false }: AudioPlayerProps)
         className="flex items-center justify-center w-10 h-10 rounded-full bg-pink-400 text-white shadow hover:bg-pink-500 transition-all active:scale-95 flex-shrink-0"
         aria-label={isPlaying ? "一時停止" : "再生"}
       >
-        {isPlaying ? (<Pause className="w-5 h-5 fill-current" />
+        {isPlaying ? (
+          <Pause className="w-5 h-5 fill-current" />
         ) : (
           <Play className="w-5 h-5 fill-current ml-1" />
         )}
@@ -100,7 +104,7 @@ export default function AudioPlayer({ src, autoPlay = false }: AudioPlayerProps)
 
       {/* プログレスバー */}
       <div className="flex-1 h-2 bg-pink-100 rounded-full overflow-hidden relative">
-        <div 
+        <div
           className="absolute top-0 left-0 h-full bg-pink-400 transition-all duration-300 ease-linear rounded-full"
           style={{ width: `${progress}%` }}
         />
@@ -114,6 +118,6 @@ export default function AudioPlayer({ src, autoPlay = false }: AudioPlayerProps)
       >
         <RotateCcw className="w-5 h-5" />
       </button>
-    </div>      
+    </div>
   );
 }
