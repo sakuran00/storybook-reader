@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "check": "tsc --noEmit",
-    "format": "prettier --write \"src/**/*.{ts,tsx}\""
+    "format": "prettier --write \"src/**/*.{ts,tsx}\"",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
