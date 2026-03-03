@@ -1,5 +1,6 @@
 "use client";
 
+import { useActionState } from "react";
 import { Button } from "@/components/ui/button";
 import { Zen_Kaku_Gothic_New, Zen_Maru_Gothic } from "next/font/google";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -11,7 +12,7 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import React from "react";
-import { signup } from "@/app/auth/signup/actions";
+import { signup, SignupState } from "@/app/auth/signup/actions";
 interface SignupFormProps {
   onSubmit?: (data: { email: string; password: string }) => void;
 }
@@ -28,10 +29,14 @@ const zenMaru = Zen_Maru_Gothic({
   display: "swap",
 });
 
+const initialState: SignupState = { message: null, errors: {} };
+
 export function SignupForm({ onSubmit }: SignupFormProps): React.ReactElement {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [confirmPassword, setConfirmPassword] = React.useState("");
+
+  const [state, formAction, isPending] = useActionState(signup, initialState);
 
   return (
     <Card className={zenKaku.className}>
@@ -41,7 +46,7 @@ export function SignupForm({ onSubmit }: SignupFormProps): React.ReactElement {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <form action={signup}>
+        <form action={formAction}>
           <FieldGroup>
             <Field>
               <FieldLabel htmlFor="nickname">ニックネーム</FieldLabel>
@@ -50,8 +55,12 @@ export function SignupForm({ onSubmit }: SignupFormProps): React.ReactElement {
                 id="nickname"
                 type="text"
                 placeholder="さくら"
-                required
               />
+              {state?.errors?.nickname && (
+                <p className="text-sm text-red-500 font-bold mt-1">
+                  {state.errors.nickname[0]}
+                </p>
+              )}
             </Field>
             <Field>
               <FieldLabel htmlFor="email">メールアドレス</FieldLabel>
@@ -62,8 +71,12 @@ export function SignupForm({ onSubmit }: SignupFormProps): React.ReactElement {
                 placeholder="sakura@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                required
               />
+              {state?.errors?.email && (
+                <p className="text-sm text-red-500 font-bold mt-1">
+                  {state.errors.email[0]}
+                </p>
+              )}
             </Field>
             <Field>
               <FieldLabel htmlFor="password">パスワード</FieldLabel>
@@ -74,10 +87,14 @@ export function SignupForm({ onSubmit }: SignupFormProps): React.ReactElement {
                 placeholder="********"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                required
               />
+              {state?.errors?.password && (
+                <p className="text-sm text-red-500 font-bold mt-1">
+                  {state.errors.password[0]}
+                </p>
+              )}
               <FieldDescription className="text-sm">
-                8文字以上で、数字を含めてください。
+                6文字以上で、数字を含めてください。
               </FieldDescription>
             </Field>
             <Field>
@@ -88,7 +105,6 @@ export function SignupForm({ onSubmit }: SignupFormProps): React.ReactElement {
                 placeholder="********"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                required
               />
               <FieldDescription>
                 パスワードを確認してください。
@@ -96,7 +112,14 @@ export function SignupForm({ onSubmit }: SignupFormProps): React.ReactElement {
             </Field>
             <FieldGroup>
               <Field>
-                <Button type="submit">アカウント作成</Button>
+                <Button type="submit" disabled={isPending}>
+                  {isPending ? "登録中..." : "アカウント作成"}
+                </Button>
+                {state?.message && (
+                  <p className="text-sm text-red-500 text-center mt-2 font-bold">
+                    {state.message}
+                  </p>
+                )}
                 <FieldDescription className="text-sm text-center">
                   すでにアカウントをお持ちですか？{" "}
                   <a href="/auth/signin">サインイン</a>

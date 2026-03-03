@@ -3,27 +3,55 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { z } from "zod";
+
+const signupSchema = z.object({
+  nickname: z.string().min(1, { message: "ニックネームを入力してください"}),
+  email: z.string().email({ message: "有効なメールアドレスを入力してください" }),
+  password: z
+    .string()
+    .min(6, { message: "パスワードは6文字以上である必要があります"})
+    .regex(/\d/, { message: "パスワードには少なくとも1つの数字を含める必要があります" })
+})
+
+export type SignupState = {
+  errors?: {
+    nickname?: string[];
+    email?: string[];
+    password?: string[];   
+  };
+  message?: string | null;
+}
 
 /** サインアップ処理 */
-export async function signup(formData: FormData) {
+export async function signup(prevState: SignupState, formData: FormData): Promise<SignupState> {
   const supabase = await createClient();
 
-  const name = formData.get("name") as string;
-  const email = formData.get("email") as string;
-  const password = formData.get("password") as string;
-
-  const { error } = await supabase.auth.signUp({
-    email: email,
-    password: password,
-    options: {
-      data: { nickname: name },
-    },
+  // zodでバリデーションを行う
+  const validateFields = signupSchema.safeParse({
+    nickname: formData.get("nickname"),
+    email: formData.get("email"),
+    password: formData.get("password")
   });
-  console.error(error);
+
+  // バリデーションエラーがある場合はエラーメッセージを返す
+  if(!validateFields.success){
+    return{
+      errors: validateFields.error.flatten().fieldErrors,
+      message:"入力内容にエラーがあります"
+    }
+  }
+
+  //　成功ならsupabaseへ登録
+  const { nickname, email, password } = validateFields.data;
+  const { error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: { data: { nickname}}
+  });
 
   if (error) {
-    console.error("Signup Error:", error.message);
-    redirect("/error");
+    return{ message: "登録に失敗しました。もう一度お試しください。" }
   }
 
   revalidatePath("/", "layout");
