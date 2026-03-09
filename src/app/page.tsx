@@ -2,7 +2,7 @@
 
 import { BOOKS } from "@/data/books";
 import BookCard from "@/components/book/BookCard";
-import { Zen_Maru_Gothic } from "next/font/google";
+import { Zen_Maru_Gothic, Zen_Kaku_Gothic_Antique } from "next/font/google";
 import { useDragScroll } from "@/hooks/useDragScroll";
 
 const zenMaru = Zen_Maru_Gothic({
@@ -11,7 +11,13 @@ const zenMaru = Zen_Maru_Gothic({
   display: "swap",
 });
 
-const ROTATIONS = ["rotate-0", "rotate-4", "-rotate-4"];
+const zenKaku = Zen_Kaku_Gothic_Antique({
+  weight: ["400", "500", "700"],
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const ROTATIONS = ["rotate-0", "rotate-5", "-rotate-5"];
 
 export default function Home() {
   const { ref, onMouseDown, onMouseLeave, onMouseUp, onMouseMove, isDragging } =
@@ -19,7 +25,7 @@ export default function Home() {
 
   return (
     <div className={`mx-auto max-w-7xl px-4 py-8 pt-24 ${zenMaru.className}`}>
-      <h1 className="text-3xl font-bold mb-10">本棚</h1>
+      <h1 className="text-3xl font-bold mb-10">よみたいほんをえらんでね</h1>
       <div
         ref={ref}
         onMouseDown={onMouseDown}
@@ -39,7 +45,7 @@ export default function Home() {
       >
         {BOOKS.map((book, index) => {
           //背表紙の色と傾きをランダムに決定
-          const isSpine = (index + 1) % 3 === 0; //例: 3の倍数を背表紙とする
+          const isSpine = (index + 1) % 3 === 0; //3の倍数を背表紙とする
           const isCover = !isSpine; //それ以外は表紙とする
 
           //色と角度を順番やランダムで決める。

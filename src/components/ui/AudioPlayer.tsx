@@ -8,83 +8,135 @@ interface AudioPlayerProps {
   autoPlay?: boolean;
 }
 
+// 秒数を0:00形式に変換する関数
+const formatTime = (time: number) => {
+  if (isNaN(time)) return "0:00";
+  const minutes = Math.floor(time / 60);
+  const seconds = Math.floor(time % 60);
+  return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+};
+
 export default function AudioPlayer({
   src,
   autoPlay = false,
 }: AudioPlayerProps) {
   const audioRef = useRef<HTMLAudioElement>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [progress, setProgress] = useState(0);
+  const progressBarRef = useRef<HTMLDivElement>(null);
 
-  //リセット
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [progress, setProgress] = useState(0); // 0〜100の割合で管理
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+
+  // srcが変わるたびに再生状態をリセットして、autoPlayがtrueなら自動で再生する
   useEffect(() => {
-    if (autoPlay && audioRef.current) {
-      // 少し遅延させて自動再生（ページめくりの余韻のため）
-      const timer = setTimeout(() => {
-        audioRef.current?.play().catch(() => {
-          // 自動再生がブラウザにブロックされた場合は何もしない
-          console.log("Autoplay blocked");
-        });
-      }, 800);
-      return () => clearTimeout(timer);
+    if (!audioRef.current) return;
+
+    if (autoPlay) {
+      audioRef.current.play().catch((err) => {
+        console.warn("自動再生はブロックされました;", err);
+        setIsPlaying(false);
+      });
+    } else {
+      audioRef.current.pause();
     }
   }, [src, autoPlay]);
 
-  //再生・一時停止の切り替え
+  // マウスやタッチでのドラッグ操作のイベントリスナー
+  useEffect(() => {
+    if (!isDragging) return;
+
+    const handlePointerMove = (e: PointerEvent) => {
+      if (!progressBarRef.current || !audioRef.current) return;
+      const rect = progressBarRef.current.getBoundingClientRect();
+      //バーをはみ出しても0~1の間に収める
+      const x = Math.max(0, Math.min(e.clientX - rect.left, rect.width));
+      const percentage = x / rect.width;
+
+      setProgress(percentage * 100);
+      setCurrentTime(percentage * duration);
+    };
+
+    const handlePointerUp = (e: PointerEvent) => {
+      if (!progressBarRef.current || !audioRef.current) return;
+
+      const rect = progressBarRef.current.getBoundingClientRect();
+      const x = Math.max(0, Math.min(e.clientX - rect.left, rect.width));
+      const percentage = x / rect.width;
+
+      audioRef.current.currentTime = percentage * duration;
+      setIsDragging(false);
+    };
+
+    //window全体でイベントを検知させる（バーからマウスがはみ出しても大丈夫なように）
+    window.addEventListener("pointermove", handlePointerMove);
+    window.addEventListener("pointerup", handlePointerUp);
+
+    return () => {
+      window.removeEventListener("pointermove", handlePointerMove);
+      window.removeEventListener("pointerup", handlePointerUp);
+    };
+  }, [isDragging, duration]);
+
+  // 再生・一時停止の切り替え（直接Stateをいじらずaudio要素を操作する）
   const togglePlay = () => {
     if (!audioRef.current) return;
-
     if (isPlaying) {
       audioRef.current.pause();
     } else {
-      audioRef.current.play();
+      audioRef.current.play().catch(console.error);
     }
-    setIsPlaying(!isPlaying);
   };
 
   const handleTimeUpdate = () => {
-    if (audioRef.current) {
-      const current = audioRef.current.currentTime;
-      const duration = audioRef.current.duration;
-      if (duration > 0) {
-        setProgress((current / duration) * 100);
-      }
+    const audio = audioRef.current;
+    // ドラッグ中は、再生によるプログレスバーの更新を止める（つまみのがたつき防止）
+    if (audio && audio.duration > 0 && !isDragging) {
+      setProgress((audio.currentTime / audio.duration) * 100);
+      setCurrentTime(audio.currentTime);
     }
   };
 
-  const handleEnded = () => {
-    setIsPlaying(false);
-    setProgress(100);
+  const handleLoadedMetadata = () => {
+    if (audioRef.current) {
+      setDuration(audioRef.current.duration);
+    }
   };
 
-  const handleReplay = () => {
-    if (audioRef.current) {
-      audioRef.current.currentTime = 0;
-      audioRef.current.play();
-      setIsPlaying(true);
-    }
+  // プログレスバーをクリック・タッチしたときの処理
+  const handlePointerDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+    setIsDragging(true);
+
+    if (!progressBarRef.current || !audioRef.current) return;
+    const rect = progressBarRef.current.getBoundingClientRect();
+    const x = Math.max(0, Math.min(e.clientX - rect.left, rect.width));
+    const percentage = x / rect.width;
+
+    const newTime = percentage * duration;
+
+    setProgress(percentage * 100);
+    setCurrentTime(newTime);
+
+    audioRef.current.currentTime = newTime;
   };
 
   return (
     <div
-      className="flex items-center gap-3 bg-pink-100/50 backdrop-blur-sm p-3 rounded-2xl shadow-sm border border-pink-100 max-w-sm mx-auto mt-4"
+      className="flex items-center w-full gap-4 max-w-md mx-auto mt-6 px-6 py-3 rounded-full bg-white/40 dark:bg-black/40 backdrop-blur-xl border border-white/40 dark:border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.1)] transition-all duration-300 hover:bg-white/50 dark:hover:bg-black/50"
       onClick={(e) => e.stopPropagation()}
-      onMouseDown={(e) => e.stopPropagation()}
-      onMouseUp={(e) => e.stopPropagation()}
-      onTouchStart={(e) => e.stopPropagation()}
-      onTouchEnd={(e) => e.stopPropagation()}
-      onMouseMove={(e) => e.stopPropagation()}
-      onMouseLeave={(e) => e.stopPropagation()}
-      onPointerDown={(e) => e.stopPropagation()}
-      onPointerUp={(e) => e.stopPropagation()}
-      onPointerMove={(e) => e.stopPropagation()}
-      onPointerLeave={(e) => e.stopPropagation()}
     >
       <audio
         ref={audioRef}
         src={src}
         onTimeUpdate={handleTimeUpdate}
-        onEnded={handleEnded}
+        onLoadedMetadata={handleLoadedMetadata}
+        onEnded={() => {
+          setIsPlaying(false);
+          setProgress(100);
+        }}
+        // audio要素のイベントをトリガーにStateを更新する
         onPlay={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}
       />
@@ -92,7 +144,7 @@ export default function AudioPlayer({
       {/* 再生/一時停止ボタン */}
       <button
         onClick={togglePlay}
-        className="flex items-center justify-center w-10 h-10 rounded-full bg-pink-400 text-white shadow hover:bg-pink-500 transition-all active:scale-95 flex-shrink-0"
+        className="flex items-center justify-center w-12 h-12 rounded-full bg-slate-800 text-white dark:bg-white dark:text-slate-800 shadow-md hover:opacity-70 hover:shadow-lg transition-all active:scale-95 flex-shrink-0 cursor-pointer"
         aria-label={isPlaying ? "一時停止" : "再生"}
       >
         {isPlaying ? (
@@ -102,18 +154,54 @@ export default function AudioPlayer({
         )}
       </button>
 
-      {/* プログレスバー */}
-      <div className="flex-1 h-2 bg-pink-100 rounded-full overflow-hidden relative">
+      {/* シークバーと時間のコンテナ */}
+      <div className="flex-1 flex flex-col justify-center relative touch-none py-1">
+        {/* プログレスバー (ドラッグ可能)*/}
         <div
-          className="absolute top-0 left-0 h-full bg-pink-400 transition-all duration-300 ease-linear rounded-full"
-          style={{ width: `${progress}%` }}
-        />
+          ref={progressBarRef}
+          className="w-full h-2 bg-slate-300/50 dark:bg-slate-700/50 rounded-full relative cursor-pointer flex items-center group touch-none"
+          onPointerDown={handlePointerDown}
+        >
+          {/* 伸びるバーの部分 */}
+          <div
+            className="
+          absolute left-0 h-full bg-slate-700 dark:bg-slate-300 rounded-full 
+          opacity-50 group-hover:opacity-100
+          transition-all transform pointer-events-none duration-200 
+          "
+            style={{ width: `${progress}%` }}
+          />
+          {/* つまみの部分 */}
+          <div
+            className="
+        absolute w-3 h-3 bg-slate-700 dark:bg-slate-300 rounded-full shadow-md 
+        opacity-0 scale-75 group-hover:opacity-100 group-hover:scale-[1.3]
+        transition-all transform -translate-x-1/2 pointer-events-none
+        duration-300 ease-out
+        "
+            style={{
+              left: `${progress}%`,
+              transitionProperty: isDragging ? "none" : "all",
+            }}
+          />
+        </div>
+
+        {/* 時間表示（現在時間/全体時間） */}
+        <div className="flex justify-between text-[11px] tracking-widest text-slate-600 dark:text-slate-400 font-medium mt-1.5 px-0.5">
+          <span>{formatTime(currentTime)}</span>
+          <span>{formatTime(duration)}</span>
+        </div>
       </div>
 
       {/* リプレイボタン */}
       <button
-        onClick={handleReplay}
-        className="p-2 text-pink-300 hover:text-pink-500 transition-colors"
+        onClick={() => {
+          if (audioRef.current) {
+            audioRef.current.currentTime = 0;
+            audioRef.current.play();
+          }
+        }}
+        className="p-2 text-slate-500 hover:text-slate-800 transition-opacity duration-70 cursor-pointer"
         aria-label="最初から再生"
       >
         <RotateCcw className="w-5 h-5" />

@@ -46,7 +46,7 @@ export default function BookCard({
     <div
       className={`
         relative aspect-[3/4] w-48 shadow-md transition-transform 
-        duration-300 hover:-translate-y-2 hover:shadow-xl
+        duration-300 hover:-translate-y-5 hover:shadow-xl/30 hover:scale-110
         group
         `}
     >
@@ -80,7 +80,7 @@ export default function BookCard({
     <div
       className={`
       relative h-64 w-12 rounded-sm shadow-md transition-transform duration-300
-      hover:-translate-y-4 hover:shadow-xl hover:rotate-0 
+      hover:-translate-y-4 hover:shadow-xl/30 hover:scale-110 hover:rotate-0 
       border border-gray-100 bg-white 
       ${rotation}
       `}

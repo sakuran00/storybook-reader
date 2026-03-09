@@ -6,40 +6,47 @@ import { createClient } from "@/lib/supabase/server";
 import { z } from "zod";
 
 const signupSchema = z.object({
-  nickname: z.string().min(1, { message: "ニックネームを入力してください"}),
-  email: z.string().email({ message: "有効なメールアドレスを入力してください" }),
+  nickname: z.string().min(1, { message: "ニックネームを入力してください" }),
+  email: z
+    .string()
+    .email({ message: "有効なメールアドレスを入力してください" }),
   password: z
     .string()
-    .min(6, { message: "パスワードは6文字以上である必要があります"})
-    .regex(/\d/, { message: "パスワードには少なくとも1つの数字を含める必要があります" })
-})
+    .min(6, { message: "パスワードは6文字以上である必要があります" })
+    .regex(/\d/, {
+      message: "パスワードには少なくとも1つの数字を含める必要があります",
+    }),
+});
 
 export type SignupState = {
   errors?: {
     nickname?: string[];
     email?: string[];
-    password?: string[];   
+    password?: string[];
   };
   message?: string | null;
-}
+};
 
 /** サインアップ処理 */
-export async function signup(prevState: SignupState, formData: FormData): Promise<SignupState> {
+export async function signup(
+  prevState: SignupState,
+  formData: FormData,
+): Promise<SignupState> {
   const supabase = await createClient();
 
   // zodでバリデーションを行う
   const validateFields = signupSchema.safeParse({
     nickname: formData.get("nickname"),
     email: formData.get("email"),
-    password: formData.get("password")
+    password: formData.get("password"),
   });
 
   // バリデーションエラーがある場合はエラーメッセージを返す
-  if(!validateFields.success){
-    return{
+  if (!validateFields.success) {
+    return {
       errors: validateFields.error.flatten().fieldErrors,
-      message:"入力内容にエラーがあります"
-    }
+      message: "入力内容にエラーがあります",
+    };
   }
 
   //　成功ならsupabaseへ登録
@@ -47,11 +54,11 @@ export async function signup(prevState: SignupState, formData: FormData): Promis
   const { error } = await supabase.auth.signUp({
     email,
     password,
-    options: { data: { nickname}}
+    options: { data: { nickname } },
   });
 
   if (error) {
-    return{ message: "登録に失敗しました。もう一度お試しください。" }
+    return { message: "登録に失敗しました。もう一度お試しください。" };
   }
 
   revalidatePath("/", "layout");

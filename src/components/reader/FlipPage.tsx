@@ -1,9 +1,11 @@
 "use client";
 
 import { useEffect, useState, forwardRef } from "react";
-import Image from "next/image";
 import { Zen_Maru_Gothic } from "next/font/google";
-import AudioPlayer from "@/components/ui/AudioPlayer";
+import Image from "next/image";
+import Link from "next/link";
+import { Button } from "../ui/button";
+
 
 const zenMaru = Zen_Maru_Gothic({
   weight: ["400", "500", "700"],
@@ -14,11 +16,11 @@ const zenMaru = Zen_Maru_Gothic({
 export interface FlipPageProps {
   imageSrc: string;
   textUrl?: string;
-  audioUrl?: string;
+  isLastPage?: boolean;
 }
 
 const FlipPage = forwardRef<HTMLDivElement, FlipPageProps>(
-  ({ imageSrc, textUrl, audioUrl }, ref) => {
+  ({ imageSrc, textUrl, isLastPage }, ref) => {
     const [text, setText] = useState<string>("");
     const [loading, setLoading] = useState(!!textUrl);
 
@@ -32,7 +34,7 @@ const FlipPage = forwardRef<HTMLDivElement, FlipPageProps>(
     }, [textUrl]);
 
     return (
-      <div ref={ref} className="flip-page">
+      <div ref={ref} className="flip-page relative">
         {/* 画像（上） */}
         <div className="flip-page-image">
           <Image
@@ -50,26 +52,27 @@ const FlipPage = forwardRef<HTMLDivElement, FlipPageProps>(
             {loading ? (
               <p className="text-gray-500 text-sm">読み込み中...</p>
             ) : (
-              <>
+              <div className="relative mt-120 ml-5 mr-5 flex flex-col items-center">
                 <pre
-                  className={`absolute mt-156 ml-5 w-[480px] whitespace-pre-wrap text-center text-gray-800 ${zenMaru.className}`}
+                  className={`whitespace-pre-wrap text-center text-2xl text-gray-800 font-bold bg-white/50 backdrop-blur-sm p-4 rounded-xl ${zenMaru.className}`}
                 >
                   {text}
                 </pre>
-                {audioUrl && (
-                  <div className="mt-4 px-4 pb-4 w-full">
-                    {" "}
-                    {/* 配置調整用のラッパー */}
-                    <AudioPlayer
-                      key={audioUrl}
-                      src={audioUrl}
-                      autoPlay={false}
-                    />
-                  </div>
-                )}
-              </>
+              </div>
             )}
           </div>
+        )}
+
+        {/* 最終ページだけ表示するボタン */}
+        {isLastPage && (
+        <div className="absolute top-[60%] left-0 right-0 flex justify-center z-50">
+          <Button
+            onClick={() => window.location.reload()}
+            className="px-8 py-6 bg-white/90 text-slate-700 border-2 border-slate-500 rounded-full font-bold shadow-xl hover:bg-slate-50 hover:scale-105 transition-all text-md"
+          >
+          最初から読む
+          </Button>
+        </div>
         )}
       </div>
     );
