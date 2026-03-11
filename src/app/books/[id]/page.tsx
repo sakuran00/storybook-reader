@@ -1,11 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { BOOKS } from "@/data/books";
 import BookFlipReader from "@/components/reader/BookFlipReader";
-import { useMemo, useState, use } from "react";
+import { BOOKS } from "@/data/books";
+import { useMemo, useState, use, useEffect } from "react";
 import { Zen_Maru_Gothic } from "next/font/google";
 import { ArrowLeft } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
+import { motion } from "framer-motion";
 
 const zenMaru = Zen_Maru_Gothic({
   weight: ["400", "500", "700"],
@@ -21,12 +23,26 @@ export default function BookDetail({
   const { id } = use(params);
   const book = useMemo(() => BOOKS.find((b) => b.id === id), [id]);
   const [lang, setLang] = useState<"ja" | "en">("ja");
-  const [currentPage, setCurrentPage] = useState(0);
+
+  // ログイン状態を管理するstate追加
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+
+  // ページを開いた時にログイン状態をチェック
+  useEffect(() => {
+    const checkUser = async () => {
+      const supabase = createClient();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      setIsAuthenticated(!!user); // userがいればtrue、いなければfalse
+    };
+    checkUser();
+  }, []);
 
   if (!book) {
     return (
       <div className="mx-auto w-[85%] px-4 py-12 space-y-8">
-        <Link href="/" className="text-sum text-blue-600">
+        <Link href="/" className="text-sum text-slate-800 shadow-sm">
           本棚に戻る
         </Link>
         <p className="mt-4 text-gray-800">えほんが見つかりませんでした</p>
@@ -35,54 +51,104 @@ export default function BookDetail({
   }
 
   return (
-    <div className={`min-h-screen pt-8 pb-16 ${zenMaru.className}`}>
-      <div className="mx-auto max-w-5xl px-4 space-y-8">
+    <div
+      className={`min-h-[100dvh] flex flex-col relative overflow-hidden ${zenMaru.className}`}
+      style={{ backgroundImage: "url('bg2.jpg')"}}
+    >
+    {/* ページ遷移 最初は真っ白（または背景色）で、ゆっくり透明になって消える */}
+      <motion.div
+        initial={{ opacity: 0.5 }}
+        animate={{ opacity: 0 }}
+        transition={{ duration: 0, ease: "easeOut" }}
+        className="absolute inset-0 z-50 pointer-events-none"
+        style={{ backgroundImage: "url('bg2.jpg')"}}
+      />
 
-        {/* ナビゲーション{本棚に戻る} */}
-        <div className="flex items-center">
+    {/* コンテンツ本体（少ししたからスッと上がってくる） */}
+    <motion.div
+      initial={{ 
+        opacity: 0,
+        y: -15,
+        z: -30,
+        scale: 0.96,
+        filter: "blur(10px)"
+      }}
+      animate={{ 
+        opacity: 1,
+        y: 0,
+        z: 0,
+        scale: 1,
+        filter: "blur(0px)" 
+      }}
+      transition={{ 
+        duration: 1.5,
+        ease: [0.5, 0.8, 1, 1] }}
+      className="flex-1 flex flex-col z-20"
+      style={{ backgroundImage: "url('bg2.jpg')"}}
+    >
+
+      {/* タイトル・ナビゲーション（元のまま） */}
+      <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] items-center mt-6">
+        {/* 左側:本棚に戻る */}
+        <div className="flex items-center justify-start ml-15">
           <Link
-          href="/"
-          className="group flex items-center w-fit text-md font-medium text-slate-500 hover:text-slate-800 transition-colors"
+            href="/"
+            className="group flex items-center w-fit text-md font-medium text-slate-600 hover:text-slate-800 transition-colors"
           >
-            <ArrowLeft className="w-4 h-4 mr-1.5 transition-transform group-hover:-translate-x-1"/>
+            <ArrowLeft className="w-4 h-4 mr-1.5 transition-transform group-hover:-translate-x-1" />
             本棚に戻る
           </Link>
         </div>
 
-        {/* ヘッダー＆言語切り替え */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 border-b border-slate-200/80 pb-6">
-          <div className="space-y-1.5">
-            <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight">
-              {book.title}
-              </h1>
-          </div>
+        {/* 中央；タイトル */}
+        <div className="text-center">
+          <h1 className="text-xl sm:text-2xl lg:text-3xl text-shadow-sm font-extrabold text-slate-800 tracking-tight">
+            {book.title}
+          </h1>
+        </div>
 
         {/* ios風のトグルスイッチ型言語ボタン */}
-        <div className="bg-slate-200/50 p-1 rounded-full flex items-center w-fit">
-        <button
-          onClick={() => setLang("ja")}
-          className={`px-6 py-1.5 rounded-full text-sm font-medium transition-all duration-300 ease-out cursor-pointer ${
-            lang === "ja"
-              ? "bg-white text-slate-800 shadow-sm"
-              : "text-slate-500 hover:text-slate-700"
-          }`}
-        >日本語
-        </button>
-        <button
-          onClick={() => setLang("en")}
-          className={`px-6 py-1.5 rounded-full text-sm font-medium transition-all duration-300 ease-out cursor-pointer ${
-            lang === "en"
-              ? "bg-white text-slate-800 shadow-sm"
-              : "text-slate-500 hover:text-slate-700"
-          }`}
-        >English
-        </button>
+        <div className="flex items-center justify-start auto md:justify-end mr-15">
+          <div className="bg-slate-200/50 p-1 rounded-full flex items-center w-fit">
+            <button
+              onClick={() => setLang("ja")}
+              className={`px-6 py-1.5 rounded-full text-sm font-medium transition-all duration-300 ease-out cursor-pointer ${
+                lang === "ja"
+                  ? "bg-white text-slate-800 shadow-sm"
+                  : "text-slate-500 hover:text-slate-800 hover:shadow-sm"
+              }`}
+            >
+              日本語
+            </button>
+            <button
+              onClick={() => setLang("en")}
+              className={`px-6 py-1.5 rounded-full text-sm font-medium transition-all duration-300 ease-out cursor-pointer ${
+                lang === "en"
+                  ? "bg-white text-slate-800 shadow-sm"
+                  : "text-slate-500 hover:text-slate-800 hover:shadow-sm"
+              }`}
+            >
+              English
+            </button>
+          </div>
+        </div>
       </div>
-    </div>
 
-  {/* {FlipBook} */}
-    <BookFlipReader key={lang} book={book} lang={lang} />
-    </div>
+      {/* {FlipBook} */}
+      {/* isAuthenticatedが確認できるまでローディング　またはそのまま渡す */}
+      <div className="w-full flex justify-center mt-3">
+        <div className="w-full max-w-4xl h-[60vh] sm:h-[70vh] md:h-[80vh]">
+          {isAuthenticated !== null && (
+            <BookFlipReader
+              key={lang}
+              book={book}
+              lang={lang}
+              isAuthenticated={isAuthenticated}
+            />
+          )}
+        </div>
+      </div>
+    </motion.div>
   </div>
   );
 }

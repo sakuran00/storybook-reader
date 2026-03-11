@@ -6,7 +6,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "../ui/button";
 
-
 const zenMaru = Zen_Maru_Gothic({
   weight: ["400", "500", "700"],
   subsets: ["latin"],
@@ -65,14 +64,14 @@ const FlipPage = forwardRef<HTMLDivElement, FlipPageProps>(
 
         {/* 最終ページだけ表示するボタン */}
         {isLastPage && (
-        <div className="absolute top-[60%] left-0 right-0 flex justify-center z-50">
-          <Button
-            onClick={() => window.location.reload()}
-            className="px-8 py-6 bg-white/90 text-slate-700 border-2 border-slate-500 rounded-full font-bold shadow-xl hover:bg-slate-50 hover:scale-105 transition-all text-md"
-          >
-          最初から読む
-          </Button>
-        </div>
+          <div className="absolute top-[60%] left-0 right-0 flex justify-center z-50">
+            <Button
+              onClick={() => window.location.reload()}
+              className="px-8 py-6 bg-white/90 text-slate-700 border-2 border-slate-500 rounded-full font-bold shadow-xl hover:bg-slate-50 hover:scale-105 transition-all text-md"
+            >
+              最初から読む
+            </Button>
+          </div>
         )}
       </div>
     );

@@ -34,7 +34,7 @@ export default function Header({ title, isAuthenticated }: HeaderProps) {
 
   return (
     <header
-      className={`mx-auto pl-4 sticky top-0 z-30 border-gray-200 ${zenMaru.className}`}
+      className={`mx-auto pl-4 sticky top-0 z-30 border-gray-200 text-shadow-sm ${zenMaru.className}`}
     >
       <div className="flex items-center justify-between px-5 py-3 text-[11px] uppercase tracking-[0.18em] text-gray-800 sm:px-8 sm:text-sm">
         {!isAuthenticated ? (
