@@ -15,7 +15,6 @@
 
 ## 画面キャプチャ
 
-![トップ画面](./public/capture1.gif)
 ![リーダー画面](./public/capture2.gif)
 
 ## 要件定義
@@ -93,7 +92,6 @@ python scripts/generate_audio.py
 ```
 
 ## 今後実装予定の機能
-
 - ダークモード表示切り替え
 - 読書履歴（前回どこまで読んだかの記録・再開機能）
 - UI/UXの更新
@@ -101,3 +99,8 @@ python scripts/generate_audio.py
 - 絵本のアニメーション
 - AIの組み込み（キャラクターとお話できる）
 
+## 設計
+- デザインカンプ
+- ER図
+- テーブル定義書
+- シーケンス図
