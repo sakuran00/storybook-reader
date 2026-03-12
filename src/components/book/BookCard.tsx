@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion";
 import { Zen_Maru_Gothic } from "next/font/google";
 import FavoriteButton from "./FavoriteButton";
 
@@ -38,13 +38,12 @@ export default function BookCard({
   variant = "cover",
   rotation = "rotate-0",
 }: BookCardProps) {
-
   const router = useRouter();
-  const [isTransitioning, setIsTransitioning] = useState(false)
-  
-  const handleBookClick=(e: React.MouseEvent) => {
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
+  const handleBookClick = (e: React.MouseEvent) => {
     //ドラッグ中はクリックイベントを無視
-    if(isDragging){
+    if (isDragging) {
       e.preventDefault();
       return;
     }
@@ -58,7 +57,7 @@ export default function BookCard({
     setTimeout(() => {
       router.push(`/books/${id}`);
     }, 800);
-  } ;
+  };
 
   //表紙モードのコンテンツ
   const coverContent = (
@@ -67,7 +66,7 @@ export default function BookCard({
         relative aspect-[3/4] w-48 shadow-md transition-transform 
         duration-300 group
         ${!isTransitioning ? "hover:-translate-y-5 hover:shadow-xl/30 hover:scale-110" : "scale-110 -translate-y-5"}
-        `} 
+        `}
     >
       {coverImageUrl ? (
         <Image
@@ -131,35 +130,35 @@ export default function BookCard({
   }
 
   return (
-  <>
-    <Link
-      href={`/books/${id}`}
-      className="block outline-none select-none appearance-none touch-none focus:outline-none focus-visible:outline-none"
-      style={{ WebkitTapHighlightColor: "transparent" }}
-      draggable={false}
-      onClick={handleBookClick}
-    >
-      {content}
-    </Link>
+    <>
+      <Link
+        href={`/books/${id}`}
+        className="block outline-none select-none appearance-none touch-none focus:outline-none focus-visible:outline-none"
+        style={{ WebkitTapHighlightColor: "transparent" }}
+        draggable={false}
+        onClick={handleBookClick}
+      >
+        {content}
+      </Link>
 
-    {/* フェードアウト演出 */}
-    <AnimatePresence>
-      {isTransitioning && (
-        <motion.div
-          className="fixed inset-0 z-[9999]"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, ease: "easeInOut" }}
-        > 
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ 
-            backgroundImage: "url('/bg2.jpg')"
-          }}
-        />
-        </motion.div>
-      )}
-    </AnimatePresence>
-  </>
+      {/* フェードアウト演出 */}
+      <AnimatePresence>
+        {isTransitioning && (
+          <motion.div
+            className="fixed inset-0 z-[9999]"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.2, ease: "easeInOut" }}
+          >
+            <div
+              className="absolute inset-0 bg-cover bg-center"
+              style={{
+                backgroundImage: "url('/bg2.jpg')",
+              }}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }

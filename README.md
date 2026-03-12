@@ -8,7 +8,7 @@
 
 ## デモURL・デモアカウント
 
-- **デモURL**: [storybook-reader-9def.vercel.app](https://storybook-reader-demo.vercel.app) 
+- **デモURL**: [https://storybook-reader.vercel.app/]) 
 - **デモアカウント**:
   - **Email**: ` test@example.com`
   - **Password**: `pass1234`

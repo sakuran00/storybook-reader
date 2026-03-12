@@ -137,14 +137,14 @@ export default function BookFlipReader({
           showPageCorners={true}
           disableFlipByClick={false}
         >
-        {book.pages?.map((page, i) => {
-          const isCoverJa = i === 0 && lang === "ja";
-          const currentTextUrl = isCoverJa
-            ? undefined
-            : lang === "ja"
+          {book.pages?.map((page, i) => {
+            const isCoverJa = i === 0 && lang === "ja";
+            const currentTextUrl = isCoverJa
               ? undefined
-              : page.textEn;
-          const isLastPage = i === (book.pages?.length || 0) - 1;
+              : lang === "ja"
+                ? undefined
+                : page.textEn;
+            const isLastPage = i === (book.pages?.length || 0) - 1;
 
             return (
               <FlipPageElement
@@ -165,11 +165,9 @@ export default function BookFlipReader({
               src={currentAudioUrl}
               autoPlay={true} //ページをめくったら自動で鳴らす
             />
+          </div>
+        )}
       </div>
-      )}
-
-
     </div>
-  </div>
   );
 }

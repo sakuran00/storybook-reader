@@ -28,14 +28,14 @@ const containerVariants: Variants = {
     transition: {
       duration: 1.5,
       ease: "easeOut",
-      staggerChildren: 0.5
-    }
-  }
-}
+      staggerChildren: 0.5,
+    },
+  },
+};
 
 const itemVariants: Variants = {
-  hidden: { opacity: 0, y:-30 },
-  show: { opacity: 1, y: 0, transition: { duration: 1.5, ease: "easeOut" }}
+  hidden: { opacity: 0, y: -30 },
+  show: { opacity: 1, y: 0, transition: { duration: 1.5, ease: "easeOut" } },
 };
 
 export default function Home() {
@@ -45,11 +45,11 @@ export default function Home() {
   return (
     <div className={`mx-auto max-w-7xl px-4 py-8 pt-24 ${zenMaru.className}`}>
       <motion.h1
-      //タイトルも少し上からふわっと出したい場合はここにも設定
-      initial={{ opacity: 0, y:-30}}
-      animate={{ opacity: 1, y:0 }}
-      transition={{ duration: 1.0, ease: "easeOut"}}
-      className="text-3xl font-bold mb-10 text-slate-800 text-shadow-md"
+        //タイトルも少し上からふわっと出したい場合はここにも設定
+        initial={{ opacity: 0, y: -30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1.0, ease: "easeOut" }}
+        className="text-3xl font-bold mb-10 text-slate-800 text-shadow-md"
       >
         よみたいほんをえらんでね
       </motion.h1>
@@ -59,8 +59,6 @@ export default function Home() {
         variants={containerVariants}
         initial="hidden"
         animate="show"
-
-
         ref={ref}
         onMouseDown={onMouseDown}
         onMouseLeave={onMouseLeave}
@@ -77,7 +75,6 @@ export default function Home() {
           rounded-lg cursor-grab active:cursor-grabbing select-none
           `}
       >
-
         {BOOKS.map((book, index) => {
           //背表紙の色と傾きをランダムに決定
           const isSpine = (index + 1) % 3 === 0; //3の倍数を背表紙とする
@@ -88,23 +85,27 @@ export default function Home() {
 
           return (
             // 子供要素をmotion.divで絵囲み、variants="item"を適用
-          <motion.div key={book.id} variants={itemVariants} className="origin-bottom"> 
-            <BookCard
+            <motion.div
               key={book.id}
-              {...book}
-              coverImageUrl={book.cover}
-              isDragging={isDragging} //ドラッグ中の誤クリック防止用に渡す
-              variant={isCover ? "cover" : "spine"} //偶数番目を表紙、奇数番目を背表紙とする
-              rotation={rotation}
-            />
-          </motion.div>
+              variants={itemVariants}
+              className="origin-bottom"
+            >
+              <BookCard
+                key={book.id}
+                {...book}
+                coverImageUrl={book.cover}
+                isDragging={isDragging} //ドラッグ中の誤クリック防止用に渡す
+                variant={isCover ? "cover" : "spine"} //偶数番目を表紙、奇数番目を背表紙とする
+                rotation={rotation}
+              />
+            </motion.div>
           );
         })}
       </motion.div>
 
-        <motion.div
-        initial={{ opacity:0 }}
-        animate={{ opacity:1 }}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
         transition={{ duration: 1.0, delay: 1.5, ease: "easeOut" }}
         className={`
           flex flex-row gap-8 items-end min-w-max 
@@ -112,7 +113,7 @@ export default function Home() {
           bg-gradient-to-b from-transparent via-transparent to-black/10
           rounded-lg cursor-grab active:cursor-grabbing select-none h-80
           `}
-        ></motion.div>
-  </div>
+      ></motion.div>
+    </div>
   );
 }
