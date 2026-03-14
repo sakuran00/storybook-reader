@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, forwardRef } from "react";
+import { useEffect, useState, forwardRef, useRef } from "react";
 import { Zen_Maru_Gothic } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
@@ -15,13 +15,28 @@ const zenMaru = Zen_Maru_Gothic({
 export interface FlipPageProps {
   imageSrc: string;
   textUrl?: string;
+  videoSrc?: string;
+  posterSrc?: string;
   isLastPage?: boolean;
 }
 
 const FlipPage = forwardRef<HTMLDivElement, FlipPageProps>(
-  ({ imageSrc, textUrl, isLastPage }, ref) => {
+  ({ imageSrc, textUrl, videoSrc, posterSrc, isLastPage }, ref) => {
     const [text, setText] = useState<string>("");
     const [loading, setLoading] = useState(!!textUrl);
+    const videoRef = useRef<HTMLVideoElement>(null);
+
+    const handlePlay = () => {
+      if (videoRef.current){
+        videoRef.current.play();
+      }
+    }
+
+    const handleEnded = () => {
+      if (videoRef.current) {
+        videoRef.current.pause();
+      }
+    };
 
     useEffect(() => {
       if (!textUrl) return;
@@ -35,15 +50,31 @@ const FlipPage = forwardRef<HTMLDivElement, FlipPageProps>(
     return (
       <div ref={ref} className="flip-page relative">
         {/* 画像（上） */}
-        <div className="flip-page-image">
+        {videoSrc ? (
+          <video
+          ref={videoRef}
+          src={videoSrc}
+          poster={posterSrc}
+          style={{ width: "100%", height: "100%", objectFit: "contain" }}
+          muted
+          playsInline
+          controls={false}
+          onMouseEnter={handlePlay}
+          onMouseLeave={handleEnded}
+          />
+        ):(
+          <div className="flip-page-image">
           <Image
             src={imageSrc}
+            style={{ width: "100%", height: "100%", objectFit: "contain" }}
             alt="Story page"
             fill
             className="object-contain"
             sizes="50vw"
           />
         </div>
+        )}
+        
 
         {/* テキストエリア（textUrlがある場合のみ表示） */}
         {textUrl && (
@@ -51,7 +82,7 @@ const FlipPage = forwardRef<HTMLDivElement, FlipPageProps>(
             {loading ? (
               <p className="text-gray-500 text-sm">読み込み中...</p>
             ) : (
-              <div className="relative mt-120 ml-5 mr-5 flex flex-col items-center">
+              <div className="relative mt-110 ml-5 mr-5 flex flex-col items-center">
                 <pre
                   className={`whitespace-pre-wrap text-center text-2xl text-gray-800 font-bold bg-white/50 backdrop-blur-sm p-4 rounded-xl ${zenMaru.className}`}
                 >
@@ -73,6 +104,9 @@ const FlipPage = forwardRef<HTMLDivElement, FlipPageProps>(
             </Button>
           </div>
         )}
+
+        {/* 動画（videoSrcがある場合のみ表示） */}
+
       </div>
     );
   },

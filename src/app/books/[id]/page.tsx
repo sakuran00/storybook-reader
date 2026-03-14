@@ -42,7 +42,7 @@ export default function BookDetail({
   if (!book) {
     return (
       <div className="mx-auto w-[85%] px-4 py-12 space-y-8">
-        <Link href="/" className="text-sum text-slate-800 shadow-sm">
+        <Link href="/" className="text-sm text-slate-800 shadow-sm">
           本棚に戻る
         </Link>
         <p className="mt-4 text-gray-800">えほんが見つかりませんでした</p>

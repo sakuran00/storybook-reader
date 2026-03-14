@@ -151,6 +151,8 @@ export default function BookFlipReader({
                 key={`${i}-${lang}`}
                 imageSrc={page.image}
                 textUrl={currentTextUrl}
+                videoSrc={page.movie}
+                posterSrc={page.image}
                 isLastPage={isLastPage}
               />
             );
