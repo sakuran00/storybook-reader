@@ -3,8 +3,8 @@
 import { useEffect, useState, forwardRef, useRef } from "react";
 import { Zen_Maru_Gothic } from "next/font/google";
 import Image from "next/image";
-import Link from "next/link";
 import { Button } from "../ui/button";
+
 
 const zenMaru = Zen_Maru_Gothic({
   weight: ["400", "500", "700"],
@@ -25,15 +25,21 @@ const FlipPage = forwardRef<HTMLDivElement, FlipPageProps>(
     const [text, setText] = useState<string>("");
     const [loading, setLoading] = useState(!!textUrl);
     const videoRef = useRef<HTMLVideoElement>(null);
+    const playPromiseRef = useRef<Promise<void> | null>(null);
 
     const handlePlay = () => {
       if (videoRef.current){
-        videoRef.current.play();
+        playPromiseRef.current = videoRef.current.play().catch(() => {})
       }
-    }
+    };
 
     const handleEnded = () => {
-      if (videoRef.current) {
+      if (playPromiseRef.current) {
+        playPromiseRef.current.then(() => {
+          videoRef.current?.pause();
+        });
+        playPromiseRef.current = null;
+      } else if (videoRef.current) {
         videoRef.current.pause();
       }
     };
@@ -104,9 +110,6 @@ const FlipPage = forwardRef<HTMLDivElement, FlipPageProps>(
             </Button>
           </div>
         )}
-
-        {/* 動画（videoSrcがある場合のみ表示） */}
-
       </div>
     );
   },
