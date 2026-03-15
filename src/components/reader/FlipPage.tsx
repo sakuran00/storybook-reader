@@ -61,6 +61,7 @@ const FlipPage = forwardRef<HTMLDivElement, FlipPageProps>(
           ref={videoRef}
           src={videoSrc}
           poster={posterSrc}
+          preload="none"
           style={{ width: "100%", height: "100%", objectFit: "contain" }}
           muted
           playsInline
