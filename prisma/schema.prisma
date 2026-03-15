@@ -81,6 +81,7 @@ model Page {
   textEnUrl  String? @map("text_en_url")
   audioJaUrl String? @map("audio_ja_url")
   audioEnUrl String? @map("audio_en_url")
+  videoUrl   String? @map("video_url")
 
   //リレーション Page:Book = N:1
   book Book @relation(fields: [bookId], references: [id], onDelete: Cascade)

@@ -9,6 +9,8 @@ const prisma = new PrismaClient({ adapter });
 
 async function main() {
   console.log("Start seeding...");
+  await prisma.page.deleteMany({});
+  await prisma.book.deleteMany({});
 
   for (const book of BOOKS) {
     const existingBook = await prisma.book.findUnique({
@@ -33,6 +35,7 @@ async function main() {
               textEnUrl: page.textEn,
               audioJaUrl: page.audioJa,
               audioEnUrl: page.audioEn,
+              videoUrl: page.movie,
             })) || [],
           },
         },
