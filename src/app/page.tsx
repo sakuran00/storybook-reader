@@ -4,7 +4,7 @@ import { BOOKS } from "@/data/books";
 import BookCard from "@/components/book/BookCard";
 import { useDragScroll } from "@/hooks/useDragScroll";
 import { motion, Variants } from "framer-motion";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Search } from "lucide-react";
 
 const ROTATIONS = ["rotate-0", "rotate-5", "-rotate-5"];
@@ -35,6 +35,19 @@ export default function Home() {
 
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
+  const [ splashDone, setSplashDone ] = useState(
+    () => typeof window !== "undefined" && !!sessionStorage.getItem("splashDone")
+  );
+
+  
+  useEffect(() => {
+    const handler = () => {
+      sessionStorage.setItem("splashDone", "true");
+      setSplashDone(true);
+    };
+    window.addEventListener("splashDone", handler);
+    return () => window.removeEventListener("splashDone", handler);
+  }, []);
 
   // 検索・フィルタリング
   const filteredBooks = useMemo(() => {
@@ -58,7 +71,7 @@ export default function Home() {
         initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1.0, ease: "easeOut" }}
-        className="text-3xl mb-6 text-slate-800 text-shadow-md"
+        className="text-3xl mb-10 text-slate-800 text-shadow-md"
       >
         <span className="text-amber-700/50 select-none mr-2">✦</span>
         よみたいほんをえらんでね
@@ -80,7 +93,7 @@ export default function Home() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="タイトル・著者で検索"
-            className="pl-9 pr-4 py-2 rounded-full border border-amber-200 bg-white/80 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-300 shadow-sm w-56"
+            className="pl-9 pr-4 py-2 rounded-full border border-slate-200 bg-white/80 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-300 shadow-sm w-56"
           />
         </div>
 
@@ -100,8 +113,8 @@ export default function Home() {
                 px-3 py-1.5 rounded-full border transition-colors
                 ${
                   statusFilter === value
-                    ? "bg-amber-700/80 text-white border-amber-700"
-                    : "bg-white/70 text-slate-600 border-amber-200 hover:bg-amber-50"
+                    ? "bg-slate-700/80 text-white border-slate-700"
+                    : "bg-white/70 text-slate-600 border-slate-200 hover:bg-slate-50"
                 }
               `}
             >
@@ -117,7 +130,7 @@ export default function Home() {
           //親要素にvariantsを設定して、初期状態(hidden)と目標状態(show)をしてい
           variants={containerVariants}
           initial="hidden"
-          animate="show"
+          animate={ splashDone ? "show" : "hidden"}
           ref={ref}
           onMouseDown={onMouseDown}
           onMouseLeave={onMouseLeave}
@@ -125,7 +138,7 @@ export default function Home() {
           onMouseMove={onMouseMove}
           className={`
             flex flex-row gap-8 items-end min-w-max
-            border-b-[12px] border-amber-800/60 px-10 pb-0 
+            border-b-[12px] border-amber-800/60 px-10 pb-0 mt-15
             bg-gradient-to-b from-transparent via-transparent to-black/10
             rounded-lg cursor-grab active:cursor-grabbing select-none
             `}

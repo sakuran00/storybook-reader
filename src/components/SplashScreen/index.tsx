@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 
 export default function SplashScreen(){
@@ -13,23 +13,45 @@ export default function SplashScreen(){
     return false; // ２回目以降→非表示
   });
 
+  const [fading, setFading] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  // 再生速度を設定
   useEffect(() => {
-    const timer = setTimeout(() => setVisible(false), 5000);
-    return() => clearTimeout(timer);
-  }, []);
+    if(visible && videoRef.current){
+      videoRef.current.playbackRate = 1.25;
+    }
+  }, [visible])
+
+  const handleEnded = () => {
+    setFading(true);
+    setTimeout(() => {
+      setVisible(false);
+      window.dispatchEvent(new CustomEvent("splashDone"));
+    }, 1500);
+  };
 
   if(!visible) return null;
 
   return(
-    <div className="fixed inset-0 z-[9999] bg-[#f4f0e8] flex items-center justify-center">
+    <div className="fixed inset-0 z-[9999] bg-white flex items-center justify-center">
       <video 
+        ref={videoRef}
         src="/opening.mp4"
         autoPlay
         muted
         playsInline
-        width="100%"
-        className="w-full h-full object-contain"
+        onEnded={handleEnded}
+        style={{ width: "70vw", height: "70vh", objectFit: "contain" }}
         />
-    </div>
-  )
+      <div
+        className="absolute inset-0 bg-white pointer-events-none"
+        style={{
+          opacity: fading ? 1 : 0,
+          transition: "opacity 1.5s ease-out",
+        }}
+      />
+
+      </div>
+    );
 }
