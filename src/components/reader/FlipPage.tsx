@@ -1,16 +1,8 @@
 "use client";
 
 import { useEffect, useState, forwardRef, useRef } from "react";
-import { Zen_Maru_Gothic } from "next/font/google";
 import Image from "next/image";
 import { Button } from "../ui/button";
-
-
-const zenMaru = Zen_Maru_Gothic({
-  weight: ["400", "500", "700"],
-  subsets: ["latin"],
-  display: "swap",
-});
 
 export interface FlipPageProps {
   imageSrc: string;
@@ -85,13 +77,13 @@ const FlipPage = forwardRef<HTMLDivElement, FlipPageProps>(
 
         {/* テキストエリア（textUrlがある場合のみ表示） */}
         {textUrl && (
-          <div className={`flip-page-text ${zenMaru.className}`}>
+          <div className={`flip-page-text font-klee`}>
             {loading ? (
               <p className="text-gray-500 text-sm">読み込み中...</p>
             ) : (
               <div className="relative mt-110 ml-5 mr-5 flex flex-col items-center">
                 <pre
-                  className={`whitespace-pre-wrap text-center text-2xl text-gray-800 font-bold bg-white/50 backdrop-blur-sm p-4 rounded-xl ${zenMaru.className}`}
+                  className={`whitespace-pre-wrap text-center text-2xl text-gray-800 font-bold bg-white/50 backdrop-blur-sm p-4 rounded-xl font-klee`}
                 >
                   {text}
                 </pre>

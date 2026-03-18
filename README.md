@@ -100,7 +100,11 @@ python scripts/generate_audio.py
 - AIの組み込み（キャラクターとお話できる）
 
 ## 設計
-- デザインカンプ
-- ER図
-- テーブル定義書
-- シーケンス図
+
+| ドキュメント | リンク |
+|---|---|
+| デザインカンプ (Figma) | [Figma リンク](https://www.figma.com/design/CX6ZaSOSm1myihNTEVXZ4L/Story-Bookreader?node-id=0-1&t=15P18GrKwrqtWkL2-1) |
+| ER図 | [docs/ER_diagram.md](./docs/ER_diagram.md) |
+| テーブル定義書 | [docs/Table_definitions.md](./docs/Table_definitions.md) |
+| シーケンス図 | [docs/Sequence_diagram.md](./docs/Sequence_diagram.md) |
+| DFD | [docs/DFD.md](./docs/DFD.md) |

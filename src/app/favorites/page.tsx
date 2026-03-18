@@ -2,14 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { prisma } from "@/db/client";
 import { BOOKS } from "@/data/books";
 import BookCard from "@/components/book/BookCard";
-import { Zen_Maru_Gothic } from "next/font/google";
 import { redirect } from "next/navigation";
-
-const zenMaru = Zen_Maru_Gothic({
-  weight: ["400", "500", "700"],
-  subsets: ["latin"],
-  display: "swap",
-});
 
 export default async function FavoritePage() {
   const supabase = await createClient();
@@ -47,7 +40,7 @@ export default async function FavoritePage() {
 
   //　お気に入りの本がない場合の表示
   return (
-    <div className={`mx-auto max-w-7xl px-4 py-8 pt-24 ${zenMaru.className}`}>
+    <div className={`mx-auto max-w-7xl px-4 py-8 pt-24 font-semibold font-klee`}>
       <h1 className="text-3xl font-bold mb-10 text-amber-900 drop-shadow-sm">
         おきにいりのほん ({favoriteBooks.length}さつ)
       </h1>

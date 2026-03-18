@@ -4,15 +4,8 @@ import { useRef, useState, useCallback, ComponentType, useEffect } from "react";
 import HTMLFlipBook from "react-pageflip";
 import FlipPage, { type FlipPageProps } from "./FlipPage";
 import { Book } from "@/data/books";
-import { Zen_Maru_Gothic } from "next/font/google";
 import AudioPlayer from "@/components/ui/AudioPlayer";
 import { SigninForm } from "@/components/signin";
-
-const zenMaru = Zen_Maru_Gothic({
-  weight: ["400", "500", "700"],
-  subsets: ["latin"],
-  display: "swap",
-});
 
 // FlipPageの型を調整（ESLint対策でanyを使わない）
 const FlipPageElement = FlipPage as unknown as ComponentType<FlipPageProps>;
@@ -74,7 +67,7 @@ export default function BookFlipReader({
   const currentAudioUrl = getAudioUrl();
 
   return (
-    <div className={`items-center relative ${zenMaru.className}`}>
+    <div className={`items-center relative font-klee font-semibold`}>
       {/* showloginModalがtrueの時のみログインモーダル表示 */}
       {showLoginModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/80 backdrop-blur-sm animate-in fade-in duration-1000">
@@ -106,7 +99,7 @@ export default function BookFlipReader({
         </div>
       )}
 
-      <div className="mx-auto rounded-md overflow-hidden ring-slate-900/10">
+      <div className="mx-auto rounded-md overflow-hidden ring-slate-900/10 ">
         <div className="text-center text-sm -mt-1 text-gray-600">
           {currentPage + 1} / {totalPages}
         </div>

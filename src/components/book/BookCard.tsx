@@ -5,14 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Zen_Maru_Gothic } from "next/font/google";
 import FavoriteButton from "./FavoriteButton";
-
-const zenMaru = Zen_Maru_Gothic({
-  weight: ["400", "500", "700"],
-  subsets: ["latin"],
-  display: "swap",
-});
 
 interface BookCardProps {
   id: string;
@@ -78,7 +71,7 @@ export default function BookCard({
         />
       ) : (
         <div
-          className={`flex h-full items-center justify-center text-gray-200 ${zenMaru.className}`}
+          className={`flex h-full items-center justify-center text-gray-200 font-klee font-semibold`}
         >
           No Image
         </div>
@@ -106,7 +99,7 @@ export default function BookCard({
       {/* タイトルと著者を縦書きで表示 */}
       <div className="flex-1 flex items-center justify-center py-4">
         <h3
-          className={`text-sm font-bold tracking-widest text-slate-800 ${zenMaru.className}`}
+          className={`text-sm tracking-widest text-slate-800 font-klee font-semibold`}
           style={{ writingMode: "vertical-rl" }}
         >
           {title}

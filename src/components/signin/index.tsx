@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Zen_Kaku_Gothic_New, Zen_Maru_Gothic } from "next/font/google";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Field,
@@ -16,21 +15,10 @@ import { createClient } from "@/lib/supabase/client";
 
 interface SigninFormProps {
   onSubmit?: (data: { email: string; password: string }) => void;
+  error?: string;
 }
 
-const zenKaku = Zen_Kaku_Gothic_New({
-  weight: ["400", "500", "700"],
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const zenMaru = Zen_Maru_Gothic({
-  weight: ["400", "500", "700"],
-  subsets: ["latin"],
-  display: "swap",
-});
-
-export function SigninForm({ onSubmit }: SigninFormProps): React.ReactElement {
+export function SigninForm({ onSubmit, error }: SigninFormProps): React.ReactElement {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
@@ -45,13 +33,18 @@ export function SigninForm({ onSubmit }: SigninFormProps): React.ReactElement {
   };
 
   return (
-    <Card className={zenKaku.className}>
+    <Card className="font-zen-maru-gothic font-bold">
       <CardHeader>
-        <CardTitle className="flex justify-center text-2xl font-bold ">
+        <CardTitle className="flex justify-center text-2xl">
           サインイン
         </CardTitle>
       </CardHeader>
       <CardContent>
+        {error && (
+          <div className="mb-4 rounded-md bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700">
+            {error}
+          </div>
+        )}
         <form action={signin}>
           <FieldGroup>
             <Field>
@@ -79,7 +72,7 @@ export function SigninForm({ onSubmit }: SigninFormProps): React.ReactElement {
             </Field>
             <FieldGroup>
               <Field>
-                <Button type="submit" className="hover:cursor-pointer hover:">
+                <Button type="submit" className="hover:cursor-pointer ">
                   サインイン
                 </Button>
                 <Button

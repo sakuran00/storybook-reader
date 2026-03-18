@@ -4,16 +4,9 @@ import Link from "next/link";
 import BookFlipReader from "@/components/reader/BookFlipReader";
 import { BOOKS } from "@/data/books";
 import { useMemo, useState, use, useEffect } from "react";
-import { Zen_Maru_Gothic } from "next/font/google";
 import { ArrowLeft } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { motion } from "framer-motion";
-
-const zenMaru = Zen_Maru_Gothic({
-  weight: ["400", "500", "700"],
-  subsets: ["latin"],
-  display: "swap",
-});
 
 export default function BookDetail({
   params,
@@ -52,7 +45,7 @@ export default function BookDetail({
 
   return (
     <div
-      className={`min-h-[100dvh] flex flex-col relative overflow-hidden ${zenMaru.className}`}
+      className="min-h-[100dvh] flex flex-col relative overflow-hidden"
       style={{ backgroundImage: "url('bg2.jpg')" }}
     >
       {/* ページ遷移 最初は真っ白（または背景色）で、ゆっくり透明になって消える */}
@@ -82,9 +75,9 @@ export default function BookDetail({
         className="flex-1 flex flex-col z-20"
       >
         {/* タイトル・ナビゲーション（元のまま） */}
-        <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] items-center mt-6">
+        <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] items-center mt-6 font-klee font-semibold">
           {/* 左側:本棚に戻る */}
-          <div className="flex items-center justify-start ml-15">
+          <div className="flex items-center justify-start ml-15 font-bold font-zen-maru-gothic">
             <Link
               href="/"
               className="group flex items-center w-fit text-md font-medium text-slate-600 hover:text-slate-800 transition-colors"
@@ -96,13 +89,15 @@ export default function BookDetail({
 
           {/* 中央；タイトル */}
           <div className="text-center">
-            <h1 className="text-xl sm:text-2xl lg:text-3xl text-shadow-sm font-extrabold text-slate-800 tracking-tight">
+            <h1 className="text-xl sm:text-2xl lg:text-3xl text-shadow-sm text-slate-800 tracking-tight">
+              <span className="text-amber-700/50 select-none mr-2">✦</span>
               {book.title}
+              <span className="text-amber-700/50 select-none ml-2">✦</span>
             </h1>
           </div>
 
           {/* ios風のトグルスイッチ型言語ボタン */}
-          <div className="flex items-center justify-start auto md:justify-end mr-15">
+          <div className="flex items-center justify-start auto md:justify-end mr-15 font-bold font-zen-maru-gothic">
             <div className="bg-slate-200/50 p-1 rounded-full flex items-center w-fit">
               <button
                 onClick={() => setLang("ja")}

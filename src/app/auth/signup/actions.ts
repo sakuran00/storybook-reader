@@ -58,6 +58,16 @@ export async function signup(
   });
 
   if (error) {
+    if (
+      error.message.toLowerCase().includes("already registered") ||
+      error.message.toLowerCase().includes("already exists") ||
+      error.message.toLowerCase().includes("email already")
+    ) {
+      return {
+        message:
+          "このメールアドレスはすでに登録されています。サインインしてください。",
+      };
+    }
     return { message: "登録に失敗しました。もう一度お試しください。" };
   }
 

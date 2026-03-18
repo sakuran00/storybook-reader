@@ -7,6 +7,7 @@ import {
   removeFavorite,
   getFavoriteStatus,
 } from "@/app/actions/favorite";
+import { useToast } from "@/components/ui/Toaster";
 
 interface FavoriteButtonProps {
   bookId: string;
@@ -15,6 +16,7 @@ interface FavoriteButtonProps {
 export default function FavoriteButton({ bookId }: FavoriteButtonProps) {
   const [isFavorite, setIsFavorite] = useState(false); // ハートが赤いかどうか
   const [isLoading, setIsLoading] = useState(true); //初期状態の確認が終わるまでローディング表示をするための状態
+  const { toast } = useToast();
 
   // 初期状態の確認
   useEffect(() => {
@@ -46,15 +48,26 @@ export default function FavoriteButton({ bookId }: FavoriteButtonProps) {
     try {
       if (newStatus) {
         // お気に入りに追加する処理を呼び出す
-        await addFavorite(bookId);
+        const result = await addFavorite(bookId);
+        if (result.success) {
+          toast("お気に入りに追加しました", "success");
+        } else {
+          throw new Error(result.error);
+        }
       } else {
         // お気に入りから削除する処理を呼び出す
-        await removeFavorite(bookId);
+        const result = await removeFavorite(bookId);
+        if (result.success) {
+          toast("お気に入りから削除しました", "success");
+        } else {
+          throw new Error(result.error);
+        }
       }
     } catch (error) {
       // サーバー通信に失敗した場合
       console.error("Failed to toggle favorite:", error);
       setIsFavorite(!newStatus); // エラーが発生した場合、状態を元に戻す
+      toast("操作に失敗しました。もう一度お試しください。", "error");
     }
   };
 

@@ -17,7 +17,10 @@ export async function signin(formData: FormData) {
   console.error(error);
 
   if (error) {
-    redirect("/error");
+    redirect(
+      "/auth/signin?error=" +
+        encodeURIComponent("メールアドレスまたはパスワードが正しくありません")
+    );
   }
 
   revalidatePath("/", "layout");

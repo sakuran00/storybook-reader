@@ -12,7 +12,7 @@ vi.mock('next/navigation', () => ({
 
 // 2. next/font/google のモック (フォント読み込みエラーを防ぐ)
 vi.mock('next/font/google', () => ({
-  Zen_Maru_Gothic: () => ({
+  Klee_One: () => ({
     className: 'mocked-font-class',
   }),
 }));

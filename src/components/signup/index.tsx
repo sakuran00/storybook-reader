@@ -2,7 +2,6 @@
 
 import { useActionState } from "react";
 import { Button } from "@/components/ui/button";
-import { Zen_Kaku_Gothic_New, Zen_Maru_Gothic } from "next/font/google";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Field,
@@ -17,18 +16,6 @@ interface SignupFormProps {
   onSubmit?: (data: { email: string; password: string }) => void;
 }
 
-const zenKaku = Zen_Kaku_Gothic_New({
-  weight: ["400", "500", "700"],
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const zenMaru = Zen_Maru_Gothic({
-  weight: ["400", "500", "700"],
-  subsets: ["latin"],
-  display: "swap",
-});
-
 const initialState: SignupState = { message: null, errors: {} };
 
 export function SignupForm({ onSubmit }: SignupFormProps): React.ReactElement {
@@ -39,13 +26,18 @@ export function SignupForm({ onSubmit }: SignupFormProps): React.ReactElement {
   const [state, formAction, isPending] = useActionState(signup, initialState);
 
   return (
-    <Card className={zenKaku.className}>
+    <Card className="font-zen-maru-gothic font-bold">
       <CardHeader>
-        <CardTitle className="flex justify-center text-2xl font-bold">
-          アカウント作成
+        <CardTitle className="flex justify-center text-2xl">
+          サインアップ
         </CardTitle>
       </CardHeader>
       <CardContent>
+        {state?.message && (
+          <div className="mb-4 rounded-md bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700">
+            {state.message}
+          </div>
+        )}
         <form action={formAction}>
           <FieldGroup>
             <Field>
@@ -112,14 +104,9 @@ export function SignupForm({ onSubmit }: SignupFormProps): React.ReactElement {
             </Field>
             <FieldGroup>
               <Field>
-                <Button type="submit" disabled={isPending}>
-                  {isPending ? "登録中..." : "アカウント作成"}
+                <Button type="submit" disabled={isPending} className="hover:cursor-pointer hover:bg-slate-800/70">
+                  {isPending ? "登録中..." : "登録"}
                 </Button>
-                {state?.message && (
-                  <p className="text-sm text-red-500 text-center mt-2 font-bold">
-                    {state.message}
-                  </p>
-                )}
                 <FieldDescription className="text-sm text-center">
                   すでにアカウントをお持ちですか？{" "}
                   <a href="/auth/signin">サインイン</a>
