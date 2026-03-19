@@ -31,7 +31,7 @@ export default async function FavoritePage() {
   });
 
   // お気に入りIDリスト
-  const favoriteBookIds = favorites.map((f) => f.bookId);
+  const favoriteBookIds = favorites.map((f: { bookId: string }) => f.bookId);
 
   // マスタデータ(BOOKS)から該当する本だけをフィルタリング
   const favoriteBooks = BOOKS.filter((book) =>
