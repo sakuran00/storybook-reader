@@ -35,8 +35,8 @@ export async function updateSession(request: NextRequest) {
 
   // 公開するパス（未ログインでもアクセス可能なパス）
   const isPublicRoute =
-    request.nextUrl.pathname === "/" || //トップページ（本棚）
-    request.nextUrl.pathname.startsWith("/books/princess-adventure") || //冒険の書
+    request.nextUrl.pathname === "/" || // トップページ（本棚）
+    request.nextUrl.pathname.startsWith("/books/princess-adventure") || // 冒険の書
     request.nextUrl.pathname.startsWith("/auth") ||
     request.nextUrl.pathname.startsWith("/signin") ||
     request.nextUrl.pathname.startsWith("/signup");

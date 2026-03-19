@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    //このコードを使ってセッション確立
+    // このコードを使ってセッション確立
     const supabase = await createClient();
 
     const { error: exchangeError } =

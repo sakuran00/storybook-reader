@@ -50,7 +50,7 @@ export default function AudioPlayer({
     const handlePointerMove = (e: PointerEvent) => {
       if (!progressBarRef.current || !audioRef.current) return;
       const rect = progressBarRef.current.getBoundingClientRect();
-      //バーをはみ出しても0~1の間に収める
+      // バーをはみ出しても0~1の間に収める
       const x = Math.max(0, Math.min(e.clientX - rect.left, rect.width));
       const percentage = x / rect.width;
 
@@ -69,7 +69,7 @@ export default function AudioPlayer({
       setIsDragging(false);
     };
 
-    //window全体でイベントを検知させる（バーからマウスがはみ出しても大丈夫なように）
+    // window全体でイベントを検知させる（バーからマウスがはみ出しても大丈夫なように）
     window.addEventListener("pointermove", handlePointerMove);
     window.addEventListener("pointerup", handlePointerUp);
 

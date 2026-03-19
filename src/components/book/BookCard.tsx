@@ -17,7 +17,7 @@ interface BookCardProps {
   isDragging?: boolean; // *ドラッグ中の誤クリック防止用
 
   // デザイン用
-  variant?: "cover" | "spine"; //表紙（cover）か背表紙（spine）か
+  variant?: "cover" | "spine"; // 表紙（cover）か背表紙（spine）か
   rotation?: string; // 傾きのクラス（例: rotate-1, -rotate-2)
 }
 
@@ -35,24 +35,24 @@ export default function BookCard({
   const [isTransitioning, setIsTransitioning] = useState(false);
 
   const handleBookClick = (e: React.MouseEvent) => {
-    //ドラッグ中はクリックイベントを無視
+    // ドラッグ中はクリックイベントを無視
     if (isDragging) {
       e.preventDefault();
       return;
     }
-    //Linkの遷移を一旦止めて、アニメーションを走らせるためのstateをtrueにする
+    // Linkの遷移を一旦止めて、アニメーションを走らせるためのstateをtrueにする
     e.preventDefault();
 
-    //ズームアニメーション開始
+    // ズームアニメーション開始
     setIsTransitioning(true);
 
-    //0.8秒後（アニメーション完了のタイミング）で遷移
+    // 0.8秒後（アニメーション完了のタイミング）で遷移
     setTimeout(() => {
       router.push(`/books/${id}`);
     }, 800);
   };
 
-  //表紙モードのコンテンツ
+  // 表紙モードのコンテンツ
   const coverContent = (
     <div
       className={`
@@ -86,7 +86,7 @@ export default function BookCard({
     </div>
   );
 
-  //背表紙モードのコンテンツ
+  // 背表紙モードのコンテンツ
   const spineContent = (
     <div
       className={`

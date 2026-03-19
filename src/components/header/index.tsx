@@ -7,18 +7,18 @@ import Link from "next/link";
 import Image from "next/image";
 import { Span } from "next/dist/trace";
 
-//受け取るProps
+// 受け取るProps
 interface HeaderProps {
-  navItems?: { label: string; href: string }[]; //ナビゲーション項目
-  isAuthenticated: boolean; //認証状態
+  navItems?: { label: string; href: string }[]; // ナビゲーション項目
+  isAuthenticated: boolean; // 認証状態
 }
 
-//UI構造
+// UI構造
 export default function Header({ isAuthenticated }: HeaderProps) {
   const router = useRouter();
   const supabase = createClient();
 
-  //サインアウト処理
+  // サインアウト処理
   const signoutHandler = async () => {
     const { error } = await supabase.auth.signOut();
     if (error) console.log(error);

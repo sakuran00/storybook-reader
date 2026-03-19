@@ -11,7 +11,7 @@ export default async function FavoritePage() {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect("/"); //ログインしていない場合はトップへ
+    redirect("/"); // ログインしていない場合はトップへ
   }
 
   // DBからお気に入りデータを取得（BookのリレーションはPrismaレベルで設定しているため、includeでBookの情報も一緒に取得できる）
@@ -38,7 +38,7 @@ export default async function FavoritePage() {
     favoriteBookIds.includes(book.id),
   );
 
-  //　お気に入りの本がない場合の表示
+  // お気に入りの本がない場合の表示
   return (
     <div className={`mx-auto max-w-7xl px-4 py-8 pt-24 font-semibold font-klee`}>
       <h1 className="text-3xl font-bold mb-10 text-amber-900 drop-shadow-sm">
@@ -62,7 +62,7 @@ export default async function FavoritePage() {
                 {...book}
                 coverImageUrl={book.cover}
                 variant="cover"
-                // 一覧ページで博多向けず、真っ直ぐ表示
+                // 一覧ページでは傾けず、真っ直ぐ表示
                 rotation="rotate-0"
               />
             </div>

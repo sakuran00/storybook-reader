@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react";
 
 
 export default function SplashScreen(){
-  //セッションストレージを利用して、ユーザーがすでにスプラッシュスクリーンを見たかどうかを判定
+  // セッションストレージを利用して、ユーザーがすでにスプラッシュスクリーンを見たかどうかを判定
   const[ visible, setVisible ] = useState(() => {
     if(!sessionStorage.getItem("splashShown")){
       sessionStorage.setItem("splashShown", "true");

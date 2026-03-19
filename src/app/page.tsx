@@ -9,7 +9,7 @@ import { Search } from "lucide-react";
 
 const ROTATIONS = ["rotate-0", "rotate-5", "-rotate-5"];
 
-//　親と子のアニメーション設定（variant）を定義
+// 親と子のアニメーション設定（variant）を定義
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
   show: {
@@ -67,7 +67,7 @@ export default function Home() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 pt-24 font-klee font-semibold">
       <motion.h1
-        //タイトルも少し上からふわっと出したい場合はここにも設定
+        // タイトルも少し上からふわっと出したい場合はここにも設定
         initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1.0, ease: "easeOut" }}
@@ -127,7 +127,7 @@ export default function Home() {
       {/* 本棚 */}
       {filteredBooks.length > 0 ? (
         <motion.div
-          //親要素にvariantsを設定して、初期状態(hidden)と目標状態(show)をしてい
+          // 親要素にvariantsを設定して、初期状態(hidden)と目標状態(show)をしてい
           variants={containerVariants}
           initial="hidden"
           animate={ splashDone ? "show" : "hidden"}
@@ -144,11 +144,11 @@ export default function Home() {
             `}
         >
           {filteredBooks.map((book, index) => {
-            //背表紙の色と傾きをランダムに決定
-            const isSpine = (index + 1) % 3 === 0; //3の倍数を背表紙とする
-            const isCover = !isSpine; //それ以外は表紙とする
+            // 背表紙の色と傾きをランダムに決定
+            const isSpine = (index + 1) % 3 === 0; // 3の倍数を背表紙とする
+            const isCover = !isSpine; // それ以外は表紙とする
 
-            //色と角度を順番やランダムで決める。
+            // 色と角度を順番やランダムで決める。
             const rotation = ROTATIONS[index % ROTATIONS.length];
 
             return (
@@ -162,8 +162,8 @@ export default function Home() {
                   key={book.id}
                   {...book}
                   coverImageUrl={book.cover}
-                  isDragging={isDragging} //ドラッグ中の誤クリック防止用に渡す
-                  variant={isCover ? "cover" : "spine"} //偶数番目を表紙、奇数番目を背表紙とする
+                  isDragging={isDragging} // ドラッグ中の誤クリック防止用に渡す
+                  variant={isCover ? "cover" : "spine"} // 偶数番目を表紙、奇数番目を背表紙とする
                   rotation={rotation}
                 />
               </motion.div>

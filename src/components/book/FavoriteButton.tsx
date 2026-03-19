@@ -15,7 +15,7 @@ interface FavoriteButtonProps {
 
 export default function FavoriteButton({ bookId }: FavoriteButtonProps) {
   const [isFavorite, setIsFavorite] = useState(false); // ハートが赤いかどうか
-  const [isLoading, setIsLoading] = useState(true); //初期状態の確認が終わるまでローディング表示をするための状態
+  const [isLoading, setIsLoading] = useState(true); // 初期状態の確認が終わるまでローディング表示をするための状態
   const { toast } = useToast();
 
   // 初期状態の確認

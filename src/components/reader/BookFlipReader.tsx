@@ -25,7 +25,7 @@ export default function BookFlipReader({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const flipBookRef = useRef<any>(null);
   const [currentPage, setCurrentPage] = useState(0);
-  const [showLoginModal, setShowLoginModal] = useState(false); //モーダル表示用のstate
+  const [showLoginModal, setShowLoginModal] = useState(false); // モーダル表示用のstate
 
   const totalPages = book.pages?.length || 0;
 
@@ -47,12 +47,12 @@ export default function BookFlipReader({
     setCurrentPage(e.data);
   }, []);
 
-  //開いたページの音声URLを取得
+  // 開いたページの音声URLを取得
   const getAudioUrl = () => {
     if (!book.pages) return undefined;
 
     const pageData = book.pages[currentPage];
-    //見開き両ページを確認
+    // 見開き両ページを確認
     const nextPageData = book.pages[currentPage + 1];
 
     if (pageData && (pageData.audioJa || pageData.audioEn)) {
@@ -158,7 +158,7 @@ export default function BookFlipReader({
           <div className="flex flex-col items-center -mt-6 z-10 relative space-y-3">
             <AudioPlayer
               src={currentAudioUrl}
-              autoPlay={true} //ページをめくったら自動で鳴らす
+              autoPlay={true} // ページをめくったら自動で鳴らす
             />
           </div>
         )}

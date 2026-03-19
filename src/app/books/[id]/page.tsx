@@ -87,7 +87,7 @@ export default function BookDetail({
             </Link>
           </div>
 
-          {/* 中央；タイトル */}
+          {/* 中央:タイトル */}
           <div className="text-center">
             <h1 className="text-xl sm:text-2xl lg:text-3xl text-shadow-sm text-slate-800 tracking-tight">
               <span className="text-amber-700/50 select-none mr-2">✦</span>

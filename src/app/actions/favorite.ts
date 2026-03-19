@@ -4,7 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { prisma } from "@/db/client";
 import { revalidatePath } from "next/cache";
 
-//お気に入りの追加
+// お気に入りの追加
 export async function addFavorite(bookId: string) {
   const supabase = await createClient();
   const {
@@ -23,9 +23,9 @@ export async function addFavorite(bookId: string) {
       },
     });
 
-    //revalidatePath:お気に入り追加後, 次にアクセスされたら新しい情報を使って再生成するための関数
-    revalidatePath("/"); //本棚ページのキャッシュを更新
-    revalidatePath("/favorites"); //お気に入りページのキャッシュを更新
+    // revalidatePath:お気に入り追加後, 次にアクセスされたら新しい情報を使って再生成するための関数
+    revalidatePath("/"); // 本棚ページのキャッシュを更新
+    revalidatePath("/favorites"); // お気に入りページのキャッシュを更新
     return { success: true };
   } catch (error) {
     console.error("Failed to add favorite:", error);
@@ -33,7 +33,7 @@ export async function addFavorite(bookId: string) {
   }
 }
 
-//お気に入りの削除
+// お気に入りの削除
 export async function removeFavorite(bookId: string) {
   const supabase = await createClient();
   const {
@@ -45,12 +45,12 @@ export async function removeFavorite(bookId: string) {
   }
 
   try {
-    //複合ユニーク制約:複数のカラムの組み合わせが、テーブル内で一意であることを保証する制約
+    // 複合ユニーク制約:複数のカラムの組み合わせが、テーブル内で一意であることを保証する制約
     // id（主キー）がわからなくても、userIdとbookIdの組み合わせで削除対象を一意に特定できる
     await prisma.favorite.delete({
       where: {
         userId_bookId: {
-          //Prismaが自動生成する複合ユニーク制約の名前は、通常「カラム名1_カラム名2」の形式
+          // Prismaが自動生成する複合ユニーク制約の名前は、通常「カラム名1_カラム名2」の形式
           userId: user.id,
           bookId: bookId,
         },
@@ -74,7 +74,7 @@ export async function getFavoriteStatus(bookId: string) {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    return false; //ログインしていなければ「お気に入りしていない」とみなす
+    return false; // ログインしていなければ「お気に入りしていない」とみなす
   }
 
   const favorite = await prisma.favorite.findUnique({
@@ -86,5 +86,5 @@ export async function getFavoriteStatus(bookId: string) {
     },
   });
 
-  return !!favorite; //favoriteが存在すればtrue、存在しなければfalseを返す
+  return !!favorite; // favoriteが存在すればtrue、存在しなければfalseを返す
 }

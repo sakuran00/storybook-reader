@@ -12,7 +12,7 @@ export function useDragScroll() {
   const onMouseDown = (e: ReactMouseEvent<HTMLDivElement>) => {
     if (!ref.current) return;
     setIsDragging(true);
-    //コンテナの左端を基準としたクリック位置のX座標を保存
+    // コンテナの左端を基準としたクリック位置のX座標を保存
     setStartX(e.pageX - ref.current.offsetLeft);
     // クリックした瞬間のスクロール位置を保存
     setScrollLeft(ref.current.scrollLeft);
@@ -31,13 +31,13 @@ export function useDragScroll() {
   // マウスを動かしている時
   const onMouseMove = (e: ReactMouseEvent<HTMLDivElement>) => {
     if (!isDragging || !ref.current) return;
-    e.preventDefault(); //テキスト選択などのデフォルトの挙動を防ぐ
+    e.preventDefault(); // テキスト選択などのデフォルトの挙動を防ぐ
 
     // 現在のマウスのX座標
     const x = e.pageX - ref.current.offsetLeft;
-    //　クリックした位置からの移動距離を計算（*1.5はスクロール速度の調整用）
+    // クリックした位置からの移動距離を計算（*1.5はスクロール速度の調整用）
     const walk = (x - startX) * 1.5;
-    //　実際のスクロール位置を更新
+    // 実際のスクロール位置を更新
     ref.current.scrollLeft = scrollLeft - walk;
   };
 

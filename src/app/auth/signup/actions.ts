@@ -49,7 +49,7 @@ export async function signup(
     };
   }
 
-  //　成功ならsupabaseへ登録
+  // 成功ならsupabaseへ登録
   const { nickname, email, password } = validateFields.data;
   const { error } = await supabase.auth.signUp({
     email,
