@@ -20,8 +20,8 @@ const FlipPage = forwardRef<HTMLDivElement, FlipPageProps>(
     const playPromiseRef = useRef<Promise<void> | null>(null);
 
     const handlePlay = () => {
-      if (videoRef.current){
-        playPromiseRef.current = videoRef.current.play().catch(() => {})
+      if (videoRef.current) {
+        playPromiseRef.current = videoRef.current.play().catch(() => {});
       }
     };
 
@@ -50,30 +50,29 @@ const FlipPage = forwardRef<HTMLDivElement, FlipPageProps>(
         {/* 画像（上） */}
         {videoSrc ? (
           <video
-          ref={videoRef}
-          src={videoSrc}
-          poster={posterSrc}
-          preload="none"
-          style={{ width: "100%", height: "100%", objectFit: "contain" }}
-          muted
-          playsInline
-          controls={false}
-          onMouseEnter={handlePlay}
-          onMouseLeave={handleEnded}
-          />
-        ):(
-          <div className="flip-page-image">
-          <Image
-            src={imageSrc}
+            ref={videoRef}
+            src={videoSrc}
+            poster={posterSrc}
+            preload="none"
             style={{ width: "100%", height: "100%", objectFit: "contain" }}
-            alt="Story page"
-            fill
-            className="object-contain"
-            sizes="50vw"
+            muted
+            playsInline
+            controls={false}
+            onMouseEnter={handlePlay}
+            onMouseLeave={handleEnded}
           />
-        </div>
+        ) : (
+          <div className="flip-page-image">
+            <Image
+              src={imageSrc}
+              style={{ width: "100%", height: "100%", objectFit: "contain" }}
+              alt="Story page"
+              fill
+              className="object-contain"
+              sizes="50vw"
+            />
+          </div>
         )}
-        
 
         {/* テキストエリア（textUrlがある場合のみ表示） */}
         {textUrl && (

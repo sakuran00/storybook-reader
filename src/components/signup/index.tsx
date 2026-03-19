@@ -12,13 +12,9 @@ import {
 import { Input } from "@/components/ui/input";
 import React from "react";
 import { signup, SignupState } from "@/app/auth/signup/actions";
-interface SignupFormProps {
-  onSubmit?: (data: { email: string; password: string }) => void;
-}
-
 const initialState: SignupState = { message: null, errors: {} };
 
-export function SignupForm({ onSubmit }: SignupFormProps): React.ReactElement {
+export function SignupForm(): React.ReactElement {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [confirmPassword, setConfirmPassword] = React.useState("");
@@ -104,7 +100,11 @@ export function SignupForm({ onSubmit }: SignupFormProps): React.ReactElement {
             </Field>
             <FieldGroup>
               <Field>
-                <Button type="submit" disabled={isPending} className="hover:cursor-pointer hover:bg-slate-800/70">
+                <Button
+                  type="submit"
+                  disabled={isPending}
+                  className="hover:cursor-pointer hover:bg-slate-800/70"
+                >
                   {isPending ? "登録中..." : "登録"}
                 </Button>
                 <FieldDescription className="text-sm text-center">

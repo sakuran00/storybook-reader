@@ -27,9 +27,7 @@ export default function Error({
     <div className="flex min-h-screen flex-col items-center justify-center gap-6 bg-[#f5f0e8] px-4 font-klee font-semibold text-slate-700">
       <span className="text-6xl select-none">📖</span>
 
-      <h1 className="text-2xl text-amber-900">
-        おっと、なにかがおかしいよ
-      </h1>
+      <h1 className="text-2xl text-amber-900">おっと、なにかがおかしいよ</h1>
 
       <p className="text-sm text-slate-500 text-center max-w-xs leading-relaxed">
         予期しないエラーが発生しました。

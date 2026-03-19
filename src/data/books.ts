@@ -31,7 +31,8 @@ export const BOOKS: Book[] = [
       },
       {
         image: "/pages/adventure/adventure_page1-1.png",
-        movie: "https://luqxulvnmkwmqpiskdvn.supabase.co/storage/v1/object/public/mp4/adventure/adventure_page1.mp4",
+        movie:
+          "https://luqxulvnmkwmqpiskdvn.supabase.co/storage/v1/object/public/mp4/adventure/adventure_page1.mp4",
       },
       {
         image: "/pages/adventure/adventure_page1-2.png",
@@ -42,7 +43,8 @@ export const BOOKS: Book[] = [
       },
       {
         image: "/pages/adventure/adventure_page2-1.png",
-        movie: "https://luqxulvnmkwmqpiskdvn.supabase.co/storage/v1/object/public/mp4/adventure/adventure_page2.mp4",
+        movie:
+          "https://luqxulvnmkwmqpiskdvn.supabase.co/storage/v1/object/public/mp4/adventure/adventure_page2.mp4",
       },
       {
         image: "/pages/adventure/adventure_page2-2.png",
@@ -53,7 +55,8 @@ export const BOOKS: Book[] = [
       },
       {
         image: "/pages/adventure/adventure_page3-1.png",
-        movie: "https://luqxulvnmkwmqpiskdvn.supabase.co/storage/v1/object/public/mp4/adventure/adventure_page3.mp4",
+        movie:
+          "https://luqxulvnmkwmqpiskdvn.supabase.co/storage/v1/object/public/mp4/adventure/adventure_page3.mp4",
       },
       {
         image: "/pages/adventure/adventure_page3-2.png",
@@ -64,7 +67,8 @@ export const BOOKS: Book[] = [
       },
       {
         image: "/pages/adventure/adventure_page4-1.png",
-        movie: "https://luqxulvnmkwmqpiskdvn.supabase.co/storage/v1/object/public/mp4/adventure/adventure_page4.mp4",
+        movie:
+          "https://luqxulvnmkwmqpiskdvn.supabase.co/storage/v1/object/public/mp4/adventure/adventure_page4.mp4",
       },
       {
         image: "/pages/adventure/adventure_page4-2.png",
@@ -75,7 +79,8 @@ export const BOOKS: Book[] = [
       },
       {
         image: "/pages/adventure/adventure_page5-1.png",
-        movie: "https://luqxulvnmkwmqpiskdvn.supabase.co/storage/v1/object/public/mp4/adventure/adventure_page5.mp4",
+        movie:
+          "https://luqxulvnmkwmqpiskdvn.supabase.co/storage/v1/object/public/mp4/adventure/adventure_page5.mp4",
       },
       {
         image: "/pages/adventure/adventure_page5-2.png",
@@ -86,7 +91,8 @@ export const BOOKS: Book[] = [
       },
       {
         image: "/pages/adventure/adventure_page6-1.png",
-        movie: "https://luqxulvnmkwmqpiskdvn.supabase.co/storage/v1/object/public/mp4/adventure/adventure_page6.mp4",
+        movie:
+          "https://luqxulvnmkwmqpiskdvn.supabase.co/storage/v1/object/public/mp4/adventure/adventure_page6.mp4",
       },
       {
         image: "/pages/adventure/adventure_page6-2.png",
@@ -97,7 +103,8 @@ export const BOOKS: Book[] = [
       },
       {
         image: "/pages/adventure/adventure_page7-1.png",
-        movie: "https://luqxulvnmkwmqpiskdvn.supabase.co/storage/v1/object/public/mp4/adventure/adventure_page7.mp4",
+        movie:
+          "https://luqxulvnmkwmqpiskdvn.supabase.co/storage/v1/object/public/mp4/adventure/adventure_page7.mp4",
       },
       {
         image: "/pages/adventure/adventure_page7-2.png",
@@ -108,7 +115,8 @@ export const BOOKS: Book[] = [
       },
       {
         image: "/pages/adventure/adventure_page8-1.png",
-        movie: "https://luqxulvnmkwmqpiskdvn.supabase.co/storage/v1/object/public/mp4/adventure/adventure_page8.mp4",
+        movie:
+          "https://luqxulvnmkwmqpiskdvn.supabase.co/storage/v1/object/public/mp4/adventure/adventure_page8.mp4",
       },
       {
         image: "/pages/adventure/adventure_page8-2.png",
@@ -119,7 +127,8 @@ export const BOOKS: Book[] = [
       },
       {
         image: "/pages/adventure/adventure_page9-1.png",
-        movie: "https://luqxulvnmkwmqpiskdvn.supabase.co/storage/v1/object/public/mp4/adventure/adventure_page9.mp4",
+        movie:
+          "https://luqxulvnmkwmqpiskdvn.supabase.co/storage/v1/object/public/mp4/adventure/adventure_page9.mp4",
       },
       {
         image: "/pages/adventure/adventure_page9-2.png",
@@ -130,7 +139,8 @@ export const BOOKS: Book[] = [
       },
       {
         image: "/pages/adventure/adventure_page10-1.png",
-        movie: "https://luqxulvnmkwmqpiskdvn.supabase.co/storage/v1/object/public/mp4/adventure/adventure_page10.mp4",
+        movie:
+          "https://luqxulvnmkwmqpiskdvn.supabase.co/storage/v1/object/public/mp4/adventure/adventure_page10.mp4",
       },
       {
         image: "/pages/adventure/adventure_page10-2.png",
@@ -156,7 +166,8 @@ export const BOOKS: Book[] = [
       },
       {
         image: "/pages/magicForest/magicForest_page1-1.png",
-        movie: "https://luqxulvnmkwmqpiskdvn.supabase.co/storage/v1/object/public/mp4/magicForest/magicForest_page1.mp4",
+        movie:
+          "https://luqxulvnmkwmqpiskdvn.supabase.co/storage/v1/object/public/mp4/magicForest/magicForest_page1.mp4",
       },
       {
         image: "/pages/magicForest/magicForest_page1-2.png",
@@ -167,7 +178,8 @@ export const BOOKS: Book[] = [
       },
       {
         image: "/pages/magicForest/magicForest_page2-1.png",
-        movie: "https://luqxulvnmkwmqpiskdvn.supabase.co/storage/v1/object/public/mp4/magicForest/magicForest_page2.mp4",
+        movie:
+          "https://luqxulvnmkwmqpiskdvn.supabase.co/storage/v1/object/public/mp4/magicForest/magicForest_page2.mp4",
       },
       {
         image: "/pages/magicForest/magicForest_page2-2.png",
@@ -178,7 +190,8 @@ export const BOOKS: Book[] = [
       },
       {
         image: "/pages/magicForest/magicForest_page3-1.png",
-        movie: "https://luqxulvnmkwmqpiskdvn.supabase.co/storage/v1/object/public/mp4/magicForest/magicForest_page3.mp4",
+        movie:
+          "https://luqxulvnmkwmqpiskdvn.supabase.co/storage/v1/object/public/mp4/magicForest/magicForest_page3.mp4",
       },
       {
         image: "/pages/magicForest/magicForest_page3-2.png",
@@ -189,7 +202,8 @@ export const BOOKS: Book[] = [
       },
       {
         image: "/pages/magicForest/magicForest_page4-1.png",
-        movie: "https://luqxulvnmkwmqpiskdvn.supabase.co/storage/v1/object/public/mp4/magicForest/magicForest_page4.mp4",
+        movie:
+          "https://luqxulvnmkwmqpiskdvn.supabase.co/storage/v1/object/public/mp4/magicForest/magicForest_page4.mp4",
       },
       {
         image: "/pages/magicForest/magicForest_page4-2.png",
@@ -200,7 +214,8 @@ export const BOOKS: Book[] = [
       },
       {
         image: "/pages/magicForest/magicForest_page5-1.png",
-        movie: "https://luqxulvnmkwmqpiskdvn.supabase.co/storage/v1/object/public/mp4/magicForest/magicForest_page5.mp4",
+        movie:
+          "https://luqxulvnmkwmqpiskdvn.supabase.co/storage/v1/object/public/mp4/magicForest/magicForest_page5.mp4",
       },
       {
         image: "/pages/magicForest/magicForest_page5-2.png",
@@ -211,7 +226,8 @@ export const BOOKS: Book[] = [
       },
       {
         image: "/pages/magicForest/magicForest_page6-1.png",
-        movie: "https://luqxulvnmkwmqpiskdvn.supabase.co/storage/v1/object/public/mp4/magicForest/magicForest_page6.mp4",
+        movie:
+          "https://luqxulvnmkwmqpiskdvn.supabase.co/storage/v1/object/public/mp4/magicForest/magicForest_page6.mp4",
       },
       {
         image: "/pages/magicForest/magicForest_page6-2.png",
@@ -222,7 +238,8 @@ export const BOOKS: Book[] = [
       },
       {
         image: "/pages/magicForest/magicForest_page7-1.png",
-        movie: "https://luqxulvnmkwmqpiskdvn.supabase.co/storage/v1/object/public/mp4/magicForest/magicForest_page7.mp4",
+        movie:
+          "https://luqxulvnmkwmqpiskdvn.supabase.co/storage/v1/object/public/mp4/magicForest/magicForest_page7.mp4",
       },
       {
         image: "/pages/magicForest/magicForest_page7-2.png",
@@ -233,7 +250,8 @@ export const BOOKS: Book[] = [
       },
       {
         image: "/pages/magicForest/magicForest_page8-1.png",
-        movie: "https://luqxulvnmkwmqpiskdvn.supabase.co/storage/v1/object/public/mp4/magicForest/magicForest_page8.mp4",
+        movie:
+          "https://luqxulvnmkwmqpiskdvn.supabase.co/storage/v1/object/public/mp4/magicForest/magicForest_page8.mp4",
       },
       {
         image: "/pages/magicForest/magicForest_page8-2.png",
@@ -244,7 +262,8 @@ export const BOOKS: Book[] = [
       },
       {
         image: "/pages/magicForest/magicForest_page9-1.png",
-        movie: "https://luqxulvnmkwmqpiskdvn.supabase.co/storage/v1/object/public/mp4/magicForest/magicForest_page9.mp4",
+        movie:
+          "https://luqxulvnmkwmqpiskdvn.supabase.co/storage/v1/object/public/mp4/magicForest/magicForest_page9.mp4",
       },
       {
         image: "/pages/magicForest/magicForest_page9-2.png",
@@ -255,7 +274,8 @@ export const BOOKS: Book[] = [
       },
       {
         image: "/pages/magicForest/magicForest_page10-1.png",
-        movie: "https://luqxulvnmkwmqpiskdvn.supabase.co/storage/v1/object/public/mp4/magicForest/magicForest_page10.mp4",
+        movie:
+          "https://luqxulvnmkwmqpiskdvn.supabase.co/storage/v1/object/public/mp4/magicForest/magicForest_page10.mp4",
       },
       {
         image: "/pages/magicForest/magicForest_page10-2.png",

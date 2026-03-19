@@ -35,11 +35,11 @@ export default function Home() {
 
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
-  const [ splashDone, setSplashDone ] = useState(
-    () => typeof window !== "undefined" && !!sessionStorage.getItem("splashDone")
+  const [splashDone, setSplashDone] = useState(
+    () =>
+      typeof window !== "undefined" && !!sessionStorage.getItem("splashDone"),
   );
 
-  
   useEffect(() => {
     const handler = () => {
       sessionStorage.setItem("splashDone", "true");
@@ -130,7 +130,7 @@ export default function Home() {
           // 親要素にvariantsを設定して、初期状態(hidden)と目標状態(show)をしてい
           variants={containerVariants}
           initial="hidden"
-          animate={ splashDone ? "show" : "hidden"}
+          animate={splashDone ? "show" : "hidden"}
           ref={ref}
           onMouseDown={onMouseDown}
           onMouseLeave={onMouseLeave}
@@ -152,7 +152,7 @@ export default function Home() {
             const rotation = ROTATIONS[index % ROTATIONS.length];
 
             return (
-              // 子供要素をmotion.divで絵囲み、variants="item"を適用
+              // 子供要素をmotion.divで囲み、variants="item"を適用
               <motion.div
                 key={book.id}
                 variants={itemVariants}

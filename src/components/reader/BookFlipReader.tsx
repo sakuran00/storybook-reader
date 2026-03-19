@@ -68,7 +68,7 @@ export default function BookFlipReader({
 
   return (
     <div className={`items-center relative font-klee font-semibold`}>
-      {/* showloginModalがtrueの時のみログインモーダル表示 */}
+      {/* showLoginModalがtrueの時のみログインモーダル表示 */}
       {showLoginModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/80 backdrop-blur-sm animate-in fade-in duration-1000">
           <div className="relative w-full max-w-md p-4 animate-in slide-in-from-bottom-10 fade-in duration-700 delay-300 fill-mode-both">

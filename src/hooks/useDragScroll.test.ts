@@ -1,19 +1,22 @@
-import { renderHook, act } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
-import { useDragScroll } from './useDragScroll';
+import { renderHook, act } from "@testing-library/react";
+import { describe, it, expect } from "vitest";
+import { useDragScroll } from "./useDragScroll";
 
-describe('useDragScroll', () => {
-  it('初期状態では isDragging が false であること', () => {
+describe("useDragScroll", () => {
+  it("初期状態では isDragging が false であること", () => {
     const { result } = renderHook(() => useDragScroll());
     expect(result.current.isDragging).toBe(false);
   });
 
-  it('onMouseDown が呼ばれると isDragging が true になること', () => {
+  it("onMouseDown が呼ばれると isDragging が true になること", () => {
     const { result } = renderHook(() => useDragScroll());
 
     // ダミーの要素とイベントを作成
     const mockRefInfo = { offsetLeft: 0, scrollLeft: 0 } as HTMLDivElement;
-    Object.defineProperty(result.current.ref, 'current', { value: mockRefInfo, writable: true });
+    Object.defineProperty(result.current.ref, "current", {
+      value: mockRefInfo,
+      writable: true,
+    });
 
     const mockEvent = {
       pageX: 100,
@@ -26,15 +29,20 @@ describe('useDragScroll', () => {
     expect(result.current.isDragging).toBe(true);
   });
 
-  it('onMouseUp または onMouseLeave が呼ばれると isDragging が false に戻ること', () => {
+  it("onMouseUp または onMouseLeave が呼ばれると isDragging が false に戻ること", () => {
     const { result } = renderHook(() => useDragScroll());
 
     const mockRefInfo = { offsetLeft: 0, scrollLeft: 0 } as HTMLDivElement;
-    Object.defineProperty(result.current.ref, 'current', { value: mockRefInfo, writable: true });
+    Object.defineProperty(result.current.ref, "current", {
+      value: mockRefInfo,
+      writable: true,
+    });
 
     // 一旦ドラッグ状態にする
     act(() => {
-      result.current.onMouseDown({ pageX: 100 } as React.MouseEvent<HTMLDivElement>);
+      result.current.onMouseDown({
+        pageX: 100,
+      } as React.MouseEvent<HTMLDivElement>);
     });
     expect(result.current.isDragging).toBe(true);
 
@@ -46,9 +54,11 @@ describe('useDragScroll', () => {
 
     // もう一度ドラッグ状態にする
     act(() => {
-      result.current.onMouseDown({ pageX: 100 } as React.MouseEvent<HTMLDivElement>);
+      result.current.onMouseDown({
+        pageX: 100,
+      } as React.MouseEvent<HTMLDivElement>);
     });
-    
+
     // MouseLeaveで解除されるか
     act(() => {
       result.current.onMouseLeave();
@@ -56,21 +66,26 @@ describe('useDragScroll', () => {
     expect(result.current.isDragging).toBe(false);
   });
 
-  it('ドラッグ中にスクロール量が正しく計算されること', () => {
+  it("ドラッグ中にスクロール量が正しく計算されること", () => {
     const { result } = renderHook(() => useDragScroll());
 
     const mockRefInfo = { offsetLeft: 0, scrollLeft: 100 } as HTMLDivElement;
     // ref にダミー要素をマウント
-    Object.defineProperty(result.current.ref, 'current', { value: mockRefInfo, writable: true });
+    Object.defineProperty(result.current.ref, "current", {
+      value: mockRefInfo,
+      writable: true,
+    });
 
     // X: 100の位置でクリック（ドラッグ開始）
     act(() => {
-      result.current.onMouseDown({ pageX: 100 } as React.MouseEvent<HTMLDivElement>);
+      result.current.onMouseDown({
+        pageX: 100,
+      } as React.MouseEvent<HTMLDivElement>);
     });
 
     // X: 50の位置にマウスを移動させる（左に50px移動した）
     const mockMoveEvent = {
-      pageX: 50, 
+      pageX: 50,
       preventDefault: () => {}, // イベントのデフォルト挙動防止のモック
     } as React.MouseEvent<HTMLDivElement>;
 

@@ -14,11 +14,10 @@ import { signin } from "@/app/auth/signin/actions";
 import { createClient } from "@/lib/supabase/client";
 
 interface SigninFormProps {
-  onSubmit?: (data: { email: string; password: string }) => void;
   error?: string;
 }
 
-export function SigninForm({ onSubmit, error }: SigninFormProps): React.ReactElement {
+export function SigninForm({ error }: SigninFormProps): React.ReactElement {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 

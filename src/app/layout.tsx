@@ -28,8 +28,6 @@ const zenMaruGothic = Zen_Maru_Gothic({
   display: "swap",
 });
 
-
-
 export const metadata: Metadata = {
   title: "Storybook Reader",
   description: "絵本読み聞かせアプリ",
@@ -51,7 +49,7 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${kleeOne.variable} ${zenMaruGothic.variable} antialiased`}
       >
         <ToastProvider>
-          <SplashScreenWrapper/>
+          <SplashScreenWrapper />
           <Header isAuthenticated={!!user} />
           {children}
         </ToastProvider>

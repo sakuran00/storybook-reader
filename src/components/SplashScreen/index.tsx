@@ -2,11 +2,10 @@
 
 import { useEffect, useState, useRef } from "react";
 
-
-export default function SplashScreen(){
+export default function SplashScreen() {
   // セッションストレージを利用して、ユーザーがすでにスプラッシュスクリーンを見たかどうかを判定
-  const[ visible, setVisible ] = useState(() => {
-    if(!sessionStorage.getItem("splashShown")){
+  const [visible, setVisible] = useState(() => {
+    if (!sessionStorage.getItem("splashShown")) {
       sessionStorage.setItem("splashShown", "true");
       return true; // 初めて→表示
     }
@@ -18,10 +17,10 @@ export default function SplashScreen(){
 
   // 再生速度を設定
   useEffect(() => {
-    if(visible && videoRef.current){
+    if (visible && videoRef.current) {
       videoRef.current.playbackRate = 1.25;
     }
-  }, [visible])
+  }, [visible]);
 
   const handleEnded = () => {
     setFading(true);
@@ -31,11 +30,11 @@ export default function SplashScreen(){
     }, 1500);
   };
 
-  if(!visible) return null;
+  if (!visible) return null;
 
-  return(
+  return (
     <div className="fixed inset-0 z-[9999] bg-white flex items-center justify-center">
-      <video 
+      <video
         ref={videoRef}
         src="/opening.mp4"
         autoPlay
@@ -43,7 +42,7 @@ export default function SplashScreen(){
         playsInline
         onEnded={handleEnded}
         style={{ width: "70vw", height: "70vh", objectFit: "contain" }}
-        />
+      />
       <div
         className="absolute inset-0 bg-white pointer-events-none"
         style={{
@@ -51,7 +50,6 @@ export default function SplashScreen(){
           transition: "opacity 1.5s ease-out",
         }}
       />
-
-      </div>
-    );
+    </div>
+  );
 }

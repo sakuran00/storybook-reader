@@ -19,7 +19,7 @@ export async function signin(formData: FormData) {
   if (error) {
     redirect(
       "/auth/signin?error=" +
-        encodeURIComponent("メールアドレスまたはパスワードが正しくありません")
+        encodeURIComponent("メールアドレスまたはパスワードが正しくありません"),
     );
   }
 
