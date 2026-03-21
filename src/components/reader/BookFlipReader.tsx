@@ -70,9 +70,10 @@ export default function BookFlipReader({
     <div className={`items-center relative font-klee font-semibold`}>
       {/* showLoginModalがtrueの時のみログインモーダル表示 */}
       {showLoginModal && (
-        <LoginModal onClose={() => setShowLoginModal(false)}
+        <LoginModal
+          onClose={() => setShowLoginModal(false)}
           title="最後まで読んでくれてありがとう！"
-          description="他の本も読みたくなったらログインしてね" 
+          description="他の本も読みたくなったらログインしてね"
         />
       )}
 

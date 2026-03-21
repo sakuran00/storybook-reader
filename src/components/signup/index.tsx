@@ -31,7 +31,10 @@ export function SignupForm(): React.ReactElement {
 
   const [state, formAction, isPending] = useActionState(signup, initialState);
 
-  const validateField = (name: keyof typeof signupSchema.shape, value: string) => {
+  const validateField = (
+    name: keyof typeof signupSchema.shape,
+    value: string,
+  ) => {
     const result = signupSchema.shape[name].safeParse(value);
     setLocalErrors((prev) => ({
       ...prev,
@@ -93,7 +96,10 @@ export function SignupForm(): React.ReactElement {
                 type="text"
                 placeholder="sakura@example.com"
                 value={email}
-                onChange={(e) => { setEmail(e.target.value); validateField("email", e.target.value); }}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  validateField("email", e.target.value);
+                }}
               />
               {errors.email && (
                 <p className="text-sm text-red-500 font-bold mt-1">
@@ -109,7 +115,10 @@ export function SignupForm(): React.ReactElement {
                 type="password"
                 placeholder="********"
                 value={password}
-                onChange={(e) => { setPassword(e.target.value); validateField("password", e.target.value); }}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  validateField("password", e.target.value);
+                }}
               />
               {errors.password && (
                 <p className="text-sm text-red-500 font-bold mt-1">
@@ -127,7 +136,10 @@ export function SignupForm(): React.ReactElement {
                 type="password"
                 placeholder="********"
                 value={confirmPassword}
-                onChange={(e) => { setConfirmPassword(e.target.value); validateConfirmPassword(e.target.value); }}
+                onChange={(e) => {
+                  setConfirmPassword(e.target.value);
+                  validateConfirmPassword(e.target.value);
+                }}
               />
               {errors.confirmPassword && (
                 <p className="text-sm text-red-500 font-bold mt-1">

@@ -8,7 +8,6 @@ import { useState, useMemo, useEffect } from "react";
 import { Search } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-
 const ROTATIONS = ["rotate-0", "rotate-5", "-rotate-5"];
 
 // 親と子のアニメーション設定（variant）を定義
@@ -109,16 +108,14 @@ export default function Home() {
               { value: "favorite", label: "❤︎" },
             ] as { value: StatusFilter; label: string }[]
           ).map(({ value, label }) => (
-            <button 
+            <button
               key={value}
               onClick={() => {
-                if(value === "favorite"){
+                if (value === "favorite") {
                   router.push("/favorites"); // お気に入りページへ遷移
-                } 
-                else {
-                setStatusFilter(value)
+                } else {
+                  setStatusFilter(value);
                 }
-
               }}
               className={`
                 px-3 py-1.5 rounded-full border hover:shadow-lg transition-all cursor-pointer

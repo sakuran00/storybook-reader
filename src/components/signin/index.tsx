@@ -71,9 +71,7 @@ export function SigninForm({ error }: SigninFormProps): React.ReactElement {
             </Field>
             <FieldGroup>
               <Field>
-                <Button type="submit">
-                  サインイン
-                </Button>
+                <Button type="submit">サインイン</Button>
                 <Button
                   variant="outline"
                   type="button"

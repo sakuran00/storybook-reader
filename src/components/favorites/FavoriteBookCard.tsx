@@ -4,19 +4,18 @@ import { motion } from "framer-motion";
 import { Book } from "@/data/books";
 import BookCard from "../book/BookCard";
 
-
-interface booksProps{
+interface booksProps {
   books: Book[];
 }
 
-export default function FavoriteBookCard({ books }:booksProps){
-  return(
+export default function FavoriteBookCard({ books }: booksProps) {
+  return (
     <motion.div
       initial={{ opacity: 0, y: -30 }}
-      animate={{ opacity: 1, y: 0}}
-      transition={{duration: 1.5, ease: "easeOut" }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 1.5, ease: "easeOut" }}
       className="mx-auto max-w-7xl px-4 py-8 pt-24 font-semibold font-klee"
-    >   
+    >
       {books.length === 0 ? (
         <div className="text-center py-20 bg-white/50 rounded-lg shadow-sm">
           <p className="text-2xl font-semibold text-gray-600 mb-4">
@@ -42,5 +41,5 @@ export default function FavoriteBookCard({ books }:booksProps){
         </div>
       )}
     </motion.div>
-  )
+  );
 }

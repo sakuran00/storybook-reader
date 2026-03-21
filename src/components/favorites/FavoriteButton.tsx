@@ -11,7 +11,6 @@ import { useToast } from "@/components/ui/Toaster";
 import { createClient } from "@/lib/supabase/client";
 import LoginModal from "../ui/LoginModal";
 
-
 interface FavoriteButtonProps {
   bookId: string;
 }
@@ -50,8 +49,10 @@ export default function FavoriteButton({ bookId }: FavoriteButtonProps) {
     setIsFavorite(newStatus);
 
     const supabase = createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    if(!user){
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) {
       setShowLoginModal(true); // ログインしていない場合はモーダルを表示する
       setIsFavorite(!newStatus); // ログインしていない場合は状態を元に戻す
       return; // 以降の処理は行わない
@@ -89,27 +90,27 @@ export default function FavoriteButton({ bookId }: FavoriteButtonProps) {
 
   // お気に入りの状態に応じて、ハートの色を変える
   return (
-  <>
-    {showLoginModal && (
-      <LoginModal
-        onClose={() => setShowLoginModal(false)}
-        title="ログインしておきにいりしてみよう！"  
-      />
-    )}
-      
-    <button
-      onClick={handleToggleFavorite}
-      className="p-2 rounded-full hover:bg-black/10 transition-colors"
-      aria-label={isFavorite ? "お気に入りから削除" : "お気に入りに追加"}
-    >
-      <Heart
-        className={`w-6 h-6 transition-colors cursor-pointer drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)] ${
-          isFavorite
-            ? "fill-red-500 text-red-500"
-            : "fill-gray-200 text-gray-300"
-        }`}
-      />
-    </button>
-  </>
+    <>
+      {showLoginModal && (
+        <LoginModal
+          onClose={() => setShowLoginModal(false)}
+          title="ログインしておきにいりしてみよう！"
+        />
+      )}
+
+      <button
+        onClick={handleToggleFavorite}
+        className="p-2 rounded-full hover:bg-black/10 transition-colors"
+        aria-label={isFavorite ? "お気に入りから削除" : "お気に入りに追加"}
+      >
+        <Heart
+          className={`w-6 h-6 transition-colors cursor-pointer drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)] ${
+            isFavorite
+              ? "fill-red-500 text-red-500"
+              : "fill-gray-200 text-gray-300"
+          }`}
+        />
+      </button>
+    </>
   );
 }

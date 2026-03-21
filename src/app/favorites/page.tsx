@@ -44,8 +44,8 @@ export default async function FavoritePage() {
     <div
       className={`mx-auto max-w-7xl px-4 py-8 pt-24 font-semibold font-klee`}
     >
-      < FavoriteTitles count={favoriteBooks.length} />
-      < FavoriteBookCard books={favoriteBooks} />
+      <FavoriteTitles count={favoriteBooks.length} />
+      <FavoriteBookCard books={favoriteBooks} />
     </div>
   );
 }
