@@ -9,7 +9,7 @@ interface countProps {
 export default function FavoriteTitles({ count }: countProps) {
   return (
     <motion.h1
-      className="text-3xl font-bold mb-10 text-amber-950 drop-shadow-sm"
+      className="text-3xl font-bold mb-5 text-amber-950 text-shadow-md"
       initial={{ opacity: 0, y: -30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 1.0, ease: "easeOut" }}

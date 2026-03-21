@@ -27,14 +27,14 @@ export default function Error({
 
   return (
     <div className="flex flex-col items-center justify-center gap-6.5 mt-30 px-4 font-klee font-semibold text-amber-950">
-      <Image src="/book.png" alt="Book" width={150} height={150} />
+      <Image src="/book.png" alt="Book" width={200} height={150} />
 
       <h1 className="text-3xl">なにかがおかしいよ。おうちのひとをよんでね。</h1>
 
       <p className="text-sm text-amber-950/70 text-center max-w-xs leading-relaxed">
         予期しないエラーが発生しました。
         <br />
-        もう一度試すか、ホームへ戻ってみてください。
+        もう一度試すか、ホーム画面へお戻りください。
       </p>
 
       {/* 開発時のみエラーメッセージを表示 */}

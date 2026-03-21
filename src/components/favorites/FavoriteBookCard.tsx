@@ -13,7 +13,7 @@ export default function FavoriteBookCard({ books }: booksProps) {
     <motion.div
       initial={{ opacity: 0, y: -30 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 1.5, ease: "easeOut" }}
+      transition={{ duration: 1.5, ease: "easeInOut" }}
       className="mx-auto max-w-7xl px-4 py-8 pt-24 font-semibold font-klee"
     >
       {books.length === 0 ? (

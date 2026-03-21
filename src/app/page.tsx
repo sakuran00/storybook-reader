@@ -37,10 +37,13 @@ export default function Home() {
 
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
-  const [splashDone, setSplashDone] = useState(
-    () =>
-      typeof window !== "undefined" && !!sessionStorage.getItem("splashDone"),
-  );
+  const [splashDone, setSplashDone] = useState(false);
+
+  useEffect(() => {
+    if (sessionStorage.getItem("splashDone"))
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setSplashDone(true);
+  }, []);
 
   useEffect(() => {
     const handler = () => {
@@ -67,13 +70,13 @@ export default function Home() {
   }, [searchQuery, statusFilter]);
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 pt-24 font-klee font-semibold">
+    <div className="mx-auto max-w-8xl px-4 py-8 pt-15 font-klee font-semibold">
       <motion.h1
         // タイトルも少し上からふわっと出したい場合はここにも設定
         initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1.0, ease: "easeOut" }}
-        className="text-3xl mb-10 text-amber-950 text-shadow-md"
+        className="text-3xl mb-10 ml-30 text-amber-950 text-shadow-md"
       >
         <span className="text-amber-700/50 select-none mr-2">✦</span>
         よみたいほんをえらんでね
@@ -85,7 +88,7 @@ export default function Home() {
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: "easeOut", delay: 0.3 }}
-        className="flex flex-wrap items-center gap-3 mb-8"
+        className="flex flex-wrap items-center gap-3 mb-40 ml-30"
       >
         {/* 検索ボックス */}
         <div className="relative">
@@ -134,50 +137,63 @@ export default function Home() {
 
       {/* 本棚 */}
       {filteredBooks.length > 0 ? (
-        <motion.div
-          // 親要素にvariantsを設定して、初期状態(hidden)と目標状態(show)をしてい
-          variants={containerVariants}
-          initial="hidden"
-          animate={splashDone ? "show" : "hidden"}
-          ref={ref}
-          onMouseDown={onMouseDown}
-          onMouseLeave={onMouseLeave}
-          onMouseUp={onMouseUp}
-          onMouseMove={onMouseMove}
-          className={`
-            flex flex-row gap-8 items-end min-w-max
-            border-b-[12px] border-amber-800/60 px-10 pb-0 mt-15
-            bg-gradient-to-b from-transparent via-transparent to-black/10
-            rounded-lg cursor-grab active:cursor-grabbing select-none
-            `}
-        >
-          {filteredBooks.map((book, index) => {
-            // 背表紙の色と傾きをランダムに決定
-            const isSpine = (index + 1) % 3 === 0; // 3の倍数を背表紙とする
-            const isCover = !isSpine; // それ以外は表紙とする
+        <div className="relative">
+          <motion.div
+            // 親要素にvariantsを設定して、初期状態(hidden)と目標状態(show)を指定
+            className="relative z-10 flex flex-row ml-30 w-full gap-8 items-end min-w-max cursor-grab active:cursor-grabbing select-none"
+            variants={containerVariants}
+            initial="hidden"
+            animate={splashDone ? "show" : "hidden"}
+            ref={ref}
+            onMouseDown={onMouseDown}
+            onMouseLeave={onMouseLeave}
+            onMouseUp={onMouseUp}
+            onMouseMove={onMouseMove}
+          >
+            {filteredBooks.map((book, index) => {
+              // 背表紙の色と傾きをランダムに決定
+              const isSpine = (index + 1) % 3 === 0; // 3の倍数を背表紙とする
+              const isCover = !isSpine; // それ以外は表紙とする
 
-            // 色と角度を順番やランダムで決める。
-            const rotation = ROTATIONS[index % ROTATIONS.length];
+              // 色と角度を順番やランダムで決める。
+              const rotation = ROTATIONS[index % ROTATIONS.length];
 
-            return (
-              // 子供要素をmotion.divで囲み、variants="item"を適用
-              <motion.div
-                key={book.id}
-                variants={itemVariants}
-                className="origin-bottom"
-              >
-                <BookCard
+              return (
+                <motion.div
+                  // 子供要素をmotion.divで囲み、variants="item"を適用
                   key={book.id}
-                  {...book}
-                  coverImageUrl={book.cover}
-                  isDragging={isDragging} // ドラッグ中の誤クリック防止用に渡す
-                  variant={isCover ? "cover" : "spine"} // 偶数番目を表紙、奇数番目を背表紙とする
-                  rotation={rotation}
-                />
-              </motion.div>
-            );
-          })}
-        </motion.div>
+                  variants={itemVariants}
+                  className="origin-bottom"
+                >
+                  <BookCard
+                    key={book.id}
+                    {...book}
+                    coverImageUrl={book.cover}
+                    isDragging={isDragging} // ドラッグ中の誤クリック防止用に渡す
+                    variant={isCover ? "cover" : "spine"} // 偶数番目を表紙、奇数番目を背表紙とする
+                    rotation={rotation}
+                  />
+                </motion.div>
+              );
+            })}
+          </motion.div>
+
+          {/* 本棚画像（本の下に1つだけ） */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, ease: "easeIn" }}
+            className="w-full h-100 mt-[-150] opacity-90 "
+            style={{
+              backgroundImage: "url('/bookshelf.png')",
+              backgroundSize: "100% 100%",
+              backgroundPosition: "top",
+              backgroundRepeat: "no-repeat",
+              filter:
+                "drop-shadow(0 -12px 20px rgba(0, 0, 0, 0.35)) drop-shadow(-8px 0 12px rgba(0, 0, 0, 0.10)) drop-shadow(8px 0 12px rgba(0, 0, 0, 0.10))",
+            }}
+          />
+        </div>
       ) : (
         <motion.p
           initial={{ opacity: 0 }}

@@ -14,13 +14,17 @@ export async function signin(formData: FormData) {
   };
 
   const { error } = await supabase.auth.signInWithPassword(data);
-  console.error(error);
 
   if (error) {
-    redirect(
-      "/auth/error?error=signin_failed" +
-        encodeURIComponent("メールアドレスまたはパスワードが正しくありません"),
-    );
+    console.error(error);
+    if (error.code === "invalid_credentials")
+      redirect(
+        "/auth/signin?error=" +
+          encodeURIComponent(
+            "メールアドレスまたはパスワードが正しくありません",
+          ),
+      );
+    throw new Error(`認証エラー: ${error.message}`);
   }
 
   revalidatePath("/", "layout");
