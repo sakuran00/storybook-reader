@@ -18,7 +18,7 @@ export async function signin(formData: FormData) {
 
   if (error) {
     redirect(
-      "/auth/signin?error=" +
+      "/auth/error?error=signin_failed" +
         encodeURIComponent("メールアドレスまたはパスワードが正しくありません"),
     );
   }

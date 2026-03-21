@@ -12,14 +12,48 @@ import {
 import { Input } from "@/components/ui/input";
 import React from "react";
 import { signup, SignupState } from "@/app/auth/signup/actions";
+import { signupSchema } from "@/app/auth/signup/schema";
+
 const initialState: SignupState = { message: null, errors: {} };
+
+type LocalErrors = {
+  nickname?: string;
+  email?: string;
+  password?: string;
+  confirmPassword?: string;
+};
 
 export function SignupForm(): React.ReactElement {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [confirmPassword, setConfirmPassword] = React.useState("");
+  const [localErrors, setLocalErrors] = React.useState<LocalErrors>({});
 
   const [state, formAction, isPending] = useActionState(signup, initialState);
+
+  const validateField = (name: keyof typeof signupSchema.shape, value: string) => {
+    const result = signupSchema.shape[name].safeParse(value);
+    setLocalErrors((prev) => ({
+      ...prev,
+      [name]: result.success ? undefined : result.error.issues[0].message,
+    }));
+  };
+
+  const validateConfirmPassword = (value: string) => {
+    setLocalErrors((prev) => ({
+      ...prev,
+      confirmPassword:
+        value === password ? undefined : "パスワードが一致しません",
+    }));
+  };
+
+  // サーバーエラーを優先、なければローカルエラーを表示
+  const errors = {
+    nickname: state?.errors?.nickname?.[0] ?? localErrors.nickname,
+    email: state?.errors?.email?.[0] ?? localErrors.email,
+    password: state?.errors?.password?.[0] ?? localErrors.password,
+    confirmPassword: localErrors.confirmPassword,
+  };
 
   return (
     <Card className="font-zen-maru-gothic font-bold">
@@ -34,7 +68,7 @@ export function SignupForm(): React.ReactElement {
             {state.message}
           </div>
         )}
-        <form action={formAction}>
+        <form action={formAction} noValidate>
           <FieldGroup>
             <Field>
               <FieldLabel htmlFor="nickname">ニックネーム</FieldLabel>
@@ -43,10 +77,11 @@ export function SignupForm(): React.ReactElement {
                 id="nickname"
                 type="text"
                 placeholder="さくら"
+                onChange={(e) => validateField("nickname", e.target.value)}
               />
-              {state?.errors?.nickname && (
+              {errors.nickname && (
                 <p className="text-sm text-red-500 font-bold mt-1">
-                  {state.errors.nickname[0]}
+                  {errors.nickname}
                 </p>
               )}
             </Field>
@@ -55,14 +90,14 @@ export function SignupForm(): React.ReactElement {
               <Input
                 name="email"
                 id="email"
-                type="email"
+                type="text"
                 placeholder="sakura@example.com"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => { setEmail(e.target.value); validateField("email", e.target.value); }}
               />
-              {state?.errors?.email && (
+              {errors.email && (
                 <p className="text-sm text-red-500 font-bold mt-1">
-                  {state.errors.email[0]}
+                  {errors.email}
                 </p>
               )}
             </Field>
@@ -74,15 +109,15 @@ export function SignupForm(): React.ReactElement {
                 type="password"
                 placeholder="********"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => { setPassword(e.target.value); validateField("password", e.target.value); }}
               />
-              {state?.errors?.password && (
+              {errors.password && (
                 <p className="text-sm text-red-500 font-bold mt-1">
-                  {state.errors.password[0]}
+                  {errors.password}
                 </p>
               )}
               <FieldDescription className="text-sm">
-                6文字以上で、数字を含めてください。
+                6文字以上で入力してください。
               </FieldDescription>
             </Field>
             <Field>
@@ -92,8 +127,13 @@ export function SignupForm(): React.ReactElement {
                 type="password"
                 placeholder="********"
                 value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                onChange={(e) => { setConfirmPassword(e.target.value); validateConfirmPassword(e.target.value); }}
               />
+              {errors.confirmPassword && (
+                <p className="text-sm text-red-500 font-bold mt-1">
+                  {errors.confirmPassword}
+                </p>
+              )}
               <FieldDescription>
                 パスワードを確認してください。
               </FieldDescription>

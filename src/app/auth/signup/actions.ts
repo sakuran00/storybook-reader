@@ -3,20 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { z } from "zod";
-
-const signupSchema = z.object({
-  nickname: z.string().min(1, { message: "ニックネームを入力してください" }),
-  email: z
-    .string()
-    .email({ message: "有効なメールアドレスを入力してください" }),
-  password: z
-    .string()
-    .min(6, { message: "パスワードは6文字以上である必要があります" })
-    .regex(/\d/, {
-      message: "パスワードには少なくとも1つの数字を含める必要があります",
-    }),
-});
+import { signupSchema } from "./schema";
 
 export type SignupState = {
   errors?: {
@@ -68,9 +55,11 @@ export async function signup(
           "このメールアドレスはすでに登録されています。サインインしてください。",
       };
     }
-    return { message: "登録に失敗しました。もう一度お試しください。" };
+    return { message: `登録に失敗しました。(${error.message})` };
   }
 
   revalidatePath("/", "layout");
-  redirect("/auth/signup/before-confirm");
+  redirect("/");
+  // メール認証の実装が完了したら、以下のようにメール送信後のメッセージを返すようにする
+  // redirect("/auth/signup/before-confirm")
 }

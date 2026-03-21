@@ -6,6 +6,7 @@ import FlipPage, { type FlipPageProps } from "./FlipPage";
 import { Book } from "@/data/books";
 import AudioPlayer from "@/components/ui/AudioPlayer";
 import { SigninForm } from "@/components/signin";
+import LoginModal from "../ui/LoginModal";
 
 // FlipPageの型を調整（ESLint対策でanyを使わない）
 const FlipPageElement = FlipPage as unknown as ComponentType<FlipPageProps>;
@@ -70,33 +71,10 @@ export default function BookFlipReader({
     <div className={`items-center relative font-klee font-semibold`}>
       {/* showLoginModalがtrueの時のみログインモーダル表示 */}
       {showLoginModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/80 backdrop-blur-sm animate-in fade-in duration-1000">
-          <div className="relative w-full max-w-md p-4 animate-in slide-in-from-bottom-10 fade-in duration-700 delay-300 fill-mode-both">
-            {/* メッセージ */}
-            <div className="mb-4 text-center">
-              <h2 className="text-2xl font-bold text-slate-800">
-                最後まで読んでくれてありがとう！
-              </h2>
-              <p className="text-slate-600 mt-2">
-                他の本もよみたくなったらログインしてね
-              </p>
-            </div>
-
-            {/* サインインフォーム */}
-            <div className="shadow-2xl rounded-xl overflow-hidden border border-slate-100">
-              <SigninForm />
-            </div>
-
-            <div className="text-center mt-4">
-              <button
-                onClick={() => setShowLoginModal(false)}
-                className="text-sm text-slate-500 hover:text-slate-800 underline underline-offset-4 transition-colors"
-              >
-                今はいい
-              </button>
-            </div>
-          </div>
-        </div>
+        <LoginModal onClose={() => setShowLoginModal(false)}
+          title="最後まで読んでくれてありがとう！"
+          description="他の本も読みたくなったらログインしてね" 
+        />
       )}
 
       <div className="mx-auto rounded-md overflow-hidden ring-slate-900/10 ">

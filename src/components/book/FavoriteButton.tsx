@@ -8,6 +8,10 @@ import {
   getFavoriteStatus,
 } from "@/app/actions/favorite";
 import { useToast } from "@/components/ui/Toaster";
+import { redirect } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
+import LoginModal from "../ui/LoginModal";
+
 
 interface FavoriteButtonProps {
   bookId: string;
@@ -16,6 +20,7 @@ interface FavoriteButtonProps {
 export default function FavoriteButton({ bookId }: FavoriteButtonProps) {
   const [isFavorite, setIsFavorite] = useState(false); // ハートが赤いかどうか
   const [isLoading, setIsLoading] = useState(true); // 初期状態の確認が終わるまでローディング表示をするための状態
+  const [showLoginModal, setShowLoginModal] = useState(false); // ログイン状態を管理するstate
   const { toast } = useToast();
 
   // 初期状態の確認
@@ -45,6 +50,14 @@ export default function FavoriteButton({ bookId }: FavoriteButtonProps) {
     const newStatus = !isFavorite;
     setIsFavorite(newStatus);
 
+    const supabase = createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if(!user){
+      setShowLoginModal(true); // ログインしていない場合はモーダルを表示する
+      setIsFavorite(!newStatus); // ログインしていない場合は状態を元に戻す
+      return; // 以降の処理は行わない
+    }
+
     try {
       if (newStatus) {
         // お気に入りに追加する処理を呼び出す
@@ -67,7 +80,9 @@ export default function FavoriteButton({ bookId }: FavoriteButtonProps) {
       // サーバー通信に失敗した場合
       console.error("Failed to toggle favorite:", error);
       setIsFavorite(!newStatus); // エラーが発生した場合、状態を元に戻す
-      toast("操作に失敗しました。もう一度お試しください。", "error");
+      redirect("/favorite/error?error=toggle_failed" + 
+        encodeURIComponent("お気に入りの更新に失敗しました。")
+      );
     }
   };
 
@@ -77,6 +92,14 @@ export default function FavoriteButton({ bookId }: FavoriteButtonProps) {
 
   // お気に入りの状態に応じて、ハートの色を変える
   return (
+  <>
+    {showLoginModal && (
+      <LoginModal
+        onClose={() => setShowLoginModal(false)}
+        title="ログインしておきにいりしてみよう！"  
+      />
+    )}
+      
     <button
       onClick={handleToggleFavorite}
       className="p-2 rounded-full hover:bg-black/10 transition-colors"
@@ -90,5 +113,6 @@ export default function FavoriteButton({ bookId }: FavoriteButtonProps) {
         }`}
       />
     </button>
+  </>
   );
 }

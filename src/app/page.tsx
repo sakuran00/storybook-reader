@@ -103,7 +103,7 @@ export default function Home() {
             [
               { value: "all", label: "すべて" },
               { value: "available", label: "よめる" },
-              { value: "unavailable", label: "もうすぐ" },
+              { value: "favorite", label: "❤︎" },
             ] as { value: StatusFilter; label: string }[]
           ).map(({ value, label }) => (
             <button
