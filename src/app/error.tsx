@@ -8,6 +8,8 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 export default function Error({
   error,
@@ -24,12 +26,12 @@ export default function Error({
   }, [error]);
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center gap-6 bg-[#f5f0e8] px-4 font-klee font-semibold text-slate-700">
-      <span className="text-6xl select-none">📖</span>
+    <div className="flex flex-col items-center justify-center gap-6.5 mt-30 px-4 font-klee font-semibold text-amber-950">
+      <Image src="/book.png" alt="Book" width={150} height={150} />
 
-      <h1 className="text-2xl text-amber-900">おっと、なにかがおかしいよ</h1>
+      <h1 className="text-3xl">なにかがおかしいよ。おうちのひとをよんでね。</h1>
 
-      <p className="text-sm text-slate-500 text-center max-w-xs leading-relaxed">
+      <p className="text-sm text-amber-950/70 text-center max-w-xs leading-relaxed">
         予期しないエラーが発生しました。
         <br />
         もう一度試すか、ホームへ戻ってみてください。
@@ -44,18 +46,21 @@ export default function Error({
       )}
 
       <div className="flex gap-3">
-        <button
+        <Button
           onClick={reset}
-          className="rounded-full border border-amber-300 bg-white px-5 py-2 text-sm text-amber-800 hover:bg-amber-50 transition-colors"
+          variant={"outline"}
+          size="lg"
+          className="rounded-full font-semibold bg-slate-50 text-slate-800 hover:bg-slate-800 hover:text-white px-5 py-2 mr-10"
         >
           もう一度試す
-        </button>
-        <button
+        </Button>
+        <Button
           onClick={() => router.push("/")}
-          className="rounded-full bg-amber-700/80 px-5 py-2 text-sm text-white hover:bg-amber-800 transition-colors"
+          size="lg"
+          className="rounded-full font-semibold px-5 py-2"
         >
           ホームへ戻る
-        </button>
+        </Button>
       </div>
     </div>
   );

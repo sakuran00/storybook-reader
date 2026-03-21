@@ -71,7 +71,7 @@ export function SigninForm({ error }: SigninFormProps): React.ReactElement {
             </Field>
             <FieldGroup>
               <Field>
-                <Button type="submit" className="hover:cursor-pointer ">
+                <Button type="submit">
                   サインイン
                 </Button>
                 <Button

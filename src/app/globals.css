@@ -9,8 +9,8 @@ body {
 }
 
 body {
-  /* public 配下はルート参照になるので /bg2.jpg にする */
-  background-image: url("/bg2.jpg");
+  /* public 配下はルート参照になるので /bg.jpg にする */
+  background-image: url("/bg.jpg");
   background-size: cover;
   background-attachment: fixed;
   background-position: center;

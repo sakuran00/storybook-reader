@@ -6,6 +6,8 @@ import { useDragScroll } from "@/hooks/useDragScroll";
 import { motion, Variants } from "framer-motion";
 import { useState, useMemo, useEffect } from "react";
 import { Search } from "lucide-react";
+import { useRouter } from "next/navigation";
+
 
 const ROTATIONS = ["rotate-0", "rotate-5", "-rotate-5"];
 
@@ -27,9 +29,10 @@ const itemVariants: Variants = {
   show: { opacity: 1, y: 0, transition: { duration: 1.5, ease: "easeOut" } },
 };
 
-type StatusFilter = "all" | "available" | "unavailable";
+type StatusFilter = "all" | "available" | "favorite";
 
 export default function Home() {
+  const router = useRouter();
   const { ref, onMouseDown, onMouseLeave, onMouseUp, onMouseMove, isDragging } =
     useDragScroll();
 
@@ -71,7 +74,7 @@ export default function Home() {
         initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1.0, ease: "easeOut" }}
-        className="text-3xl mb-10 text-slate-800 text-shadow-md"
+        className="text-3xl mb-10 text-amber-950 text-shadow-md"
       >
         <span className="text-amber-700/50 select-none mr-2">✦</span>
         よみたいほんをえらんでね
@@ -92,7 +95,7 @@ export default function Home() {
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="タイトル・著者で検索"
+            placeholder="なまえ・さくしゃでさがす"
             className="pl-9 pr-4 py-2 rounded-full border border-slate-200 bg-white/80 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-300 shadow-sm w-56"
           />
         </div>
@@ -106,15 +109,23 @@ export default function Home() {
               { value: "favorite", label: "❤︎" },
             ] as { value: StatusFilter; label: string }[]
           ).map(({ value, label }) => (
-            <button
+            <button 
               key={value}
-              onClick={() => setStatusFilter(value)}
+              onClick={() => {
+                if(value === "favorite"){
+                  router.push("/favorites"); // お気に入りページへ遷移
+                } 
+                else {
+                setStatusFilter(value)
+                }
+
+              }}
               className={`
-                px-3 py-1.5 rounded-full border transition-colors
+                px-3 py-1.5 rounded-full border hover:shadow-lg transition-all cursor-pointer
                 ${
                   statusFilter === value
-                    ? "bg-slate-700/80 text-white border-slate-700"
-                    : "bg-white/70 text-slate-600 border-slate-200 hover:bg-slate-50"
+                    ? "bg-slate-700/80 text-white"
+                    : "bg-white/70 text-slate-600 border-slate-200 hover:bg-slate-200/60"
                 }
               `}
             >
@@ -156,7 +167,7 @@ export default function Home() {
               <motion.div
                 key={book.id}
                 variants={itemVariants}
-                className="origin-bottom "
+                className="origin-bottom"
               >
                 <BookCard
                   key={book.id}

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import FavoriteButton from "./FavoriteButton";
+import FavoriteButton from "../favorites/FavoriteButton";
 
 interface BookCardProps {
   id: string;
@@ -146,7 +146,7 @@ export default function BookCard({
             <div
               className="absolute inset-0 bg-cover bg-center"
               style={{
-                backgroundImage: "url('/bg2.jpg')",
+                backgroundImage: "url('/bg.jpg')",
               }}
             />
           </motion.div>

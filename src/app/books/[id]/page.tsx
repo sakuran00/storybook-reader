@@ -46,7 +46,7 @@ export default function BookDetail({
   return (
     <div
       className="min-h-[100dvh] flex flex-col relative overflow-hidden"
-      style={{ backgroundImage: "url('bg2.jpg')" }}
+      style={{ backgroundImage: "url('bg.jpg')" }}
     >
       {/* ページ遷移 最初は真っ白（または背景色）で、ゆっくり透明になって消える */}
       <motion.div
@@ -145,7 +145,7 @@ export default function BookDetail({
           ease: [0.5, 0.8, 1, 1],
         }}
         className="flex-1 flex flex-col z-20"
-        style={{ backgroundImage: "url('bg2.jpg')" }}
+        style={{ backgroundImage: "url('bg.jpg')" }}
       >
         <div className="w-full flex justify-center mt-3">
           <div className="w-full max-w-4xl h-[60vh] sm:h-[70vh] md:h-[80vh]">

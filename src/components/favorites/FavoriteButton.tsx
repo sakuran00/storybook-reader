@@ -8,7 +8,6 @@ import {
   getFavoriteStatus,
 } from "@/app/actions/favorite";
 import { useToast } from "@/components/ui/Toaster";
-import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import LoginModal from "../ui/LoginModal";
 
@@ -80,9 +79,7 @@ export default function FavoriteButton({ bookId }: FavoriteButtonProps) {
       // サーバー通信に失敗した場合
       console.error("Failed to toggle favorite:", error);
       setIsFavorite(!newStatus); // エラーが発生した場合、状態を元に戻す
-      redirect("/favorite/error?error=toggle_failed" + 
-        encodeURIComponent("お気に入りの更新に失敗しました。")
-      );
+      toast("お気に入りの更新に失敗しました", "error");
     }
   };
 

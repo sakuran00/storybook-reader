@@ -1,8 +1,9 @@
 import { createClient } from "@/lib/supabase/server";
 import { prisma } from "@/db/client";
 import { BOOKS } from "@/data/books";
-import BookCard from "@/components/book/BookCard";
 import { redirect } from "next/navigation";
+import FavoriteTitles from "@/components/favorites/FavoriteTitles";
+import FavoriteBookCard from "@/components/favorites/FavoriteBookCard";
 
 export default async function FavoritePage() {
   const supabase = await createClient();
@@ -43,34 +44,8 @@ export default async function FavoritePage() {
     <div
       className={`mx-auto max-w-7xl px-4 py-8 pt-24 font-semibold font-klee`}
     >
-      <h1 className="text-3xl font-bold mb-10 text-amber-900 drop-shadow-sm">
-        おきにいりのほん ({favoriteBooks.length}さつ)
-      </h1>
-
-      {favoriteBooks.length === 0 ? (
-        <div className="text-center py-20 bg-white/50 rounded-lg shadow-sm">
-          <p className="text-2xl font-semibold text-gray-600 mb-4">
-            まだおきにいりのほんがありません
-          </p>
-          <p className="text-gray-500 font-semibold">
-            ほんだなからハートマークをおして、おきにいりについかしてみましょう
-          </p>
-        </div>
-      ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8">
-          {favoriteBooks.map((book) => (
-            <div key={book.id} className="flex justify-center">
-              <BookCard
-                {...book}
-                coverImageUrl={book.cover}
-                variant="cover"
-                // 一覧ページでは傾けず、真っ直ぐ表示
-                rotation="rotate-0"
-              />
-            </div>
-          ))}
-        </div>
-      )}
+      < FavoriteTitles count={favoriteBooks.length} />
+      < FavoriteBookCard books={favoriteBooks} />
     </div>
   );
 }

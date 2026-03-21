@@ -143,7 +143,7 @@ export function SignupForm(): React.ReactElement {
                 <Button
                   type="submit"
                   disabled={isPending}
-                  className="hover:cursor-pointer hover:bg-slate-800/70"
+                  className="hover:bg-slate-800/70"
                 >
                   {isPending ? "登録中..." : "登録"}
                 </Button>
