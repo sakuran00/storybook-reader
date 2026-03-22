@@ -42,6 +42,8 @@ export default function Header({ isAuthenticated }: HeaderProps) {
                     src="/logo.png"
                     alt="Storybook Reader"
                     fill
+                    loading="eager"
+                    sizes="(max-width: 640px) 200px, 320px"
                     className="object-contain"
                   />
                 </div>
@@ -76,6 +78,8 @@ export default function Header({ isAuthenticated }: HeaderProps) {
                     src="/logo.png"
                     alt="Storybook Reader"
                     fill
+                    loading="eager"
+                    sizes="(max-width: 640px) 200px, 320px"
                     className="object-contain"
                   />
                 </div>

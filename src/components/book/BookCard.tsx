@@ -66,6 +66,7 @@ export default function BookCard({
           src={coverImageUrl}
           alt={title}
           fill
+          sizes="192px"
           className="object-cover rounded-sm pointer-events-none select-none"
           draggable={false} // 画像のドラッグを無効化
         />

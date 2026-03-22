@@ -37,22 +37,20 @@ export default function Home() {
 
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
-  const [splashDone, setSplashDone] = useState(false);
+  const [splashDone, setSplashDone] = useState(() => {
+    if(typeof window === "undefined") return false;
+    return sessionStorage.getItem("splashDone") === "true";
+  })
 
-  useEffect(() => {
-    if (sessionStorage.getItem("splashDone"))
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setSplashDone(true);
-  }, []);
-
-  useEffect(() => {
+  useEffect(() => { 
+    // スプラッシュ終了イベント後に表示
     const handler = () => {
       sessionStorage.setItem("splashDone", "true");
       setSplashDone(true);
     };
     window.addEventListener("splashDone", handler);
     return () => window.removeEventListener("splashDone", handler);
-  }, []);
+    }, []);
 
   // 検索・フィルタリング
   const filteredBooks = useMemo(() => {

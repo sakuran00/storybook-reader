@@ -21,14 +21,16 @@ export function SigninForm({ error }: SigninFormProps): React.ReactElement {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
-  const googleSigninHandler = () => {
+  const googleSigninHandler = async () => {
     const supabase = createClient();
-    supabase.auth.signInWithOAuth({
+    const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
         redirectTo: `${window.location.origin}/auth/callback`,
+        skipBrowserRedirect: false,
       },
     });
+    if (error) console.error("Google サインインエラー:", error);
   };
 
   return (

@@ -25,8 +25,9 @@ export default function SplashScreen() {
   const handleEnded = () => {
     setFading(true);
     setTimeout(() => {
+      sessionStorage.setItem("splashDone", "true");
+      window.dispatchEvent(new CustomEvent("splashDone"))
       setVisible(false);
-      window.dispatchEvent(new CustomEvent("splashDone"));
     }, 1500);
   };
 
