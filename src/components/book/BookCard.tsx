@@ -6,12 +6,15 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import FavoriteButton from "../favorites/FavoriteButton";
+import { createClient } from "@/lib/supabase/client";
+import LoginModal from "../ui/LoginModal";
 
 interface BookCardProps {
   id: string;
   title: string;
   subtitle: string;
   author?: string;
+  requiresAuth?:boolean;
   coverImageUrl: string;
   disabled?: boolean;
   isDragging?: boolean; // *ドラッグ中の誤クリック防止用
@@ -25,6 +28,7 @@ export default function BookCard({
   id,
   title,
   subtitle,
+  requiresAuth,
   coverImageUrl,
   disabled = false,
   isDragging = false,
@@ -33,8 +37,9 @@ export default function BookCard({
 }: BookCardProps) {
   const router = useRouter();
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
 
-  const handleBookClick = (e: React.MouseEvent) => {
+  const handleBookClick = async (e: React.MouseEvent) => {
     // ドラッグ中はクリックイベントを無視
     if (isDragging) {
       e.preventDefault();
@@ -42,6 +47,15 @@ export default function BookCard({
     }
     // Linkの遷移を一旦止めて、アニメーションを走らせるためのstateをtrueにする
     e.preventDefault();
+
+    if(requiresAuth){
+      const supabase = createClient();
+      const { data: { user } } =await supabase.auth.getUser();
+      if(!user){
+        setShowLoginModal(true)
+        return;
+      }
+    }
 
     // ズームアニメーション開始
     setIsTransitioning(true);
@@ -125,6 +139,14 @@ export default function BookCard({
 
   return (
     <>
+      {/*ログインしていないユーザーがFavoriteボタンを押した場合、の時のみログインモーダル表示 */}
+      {showLoginModal && (
+        <LoginModal
+          onClose={() => setShowLoginModal(false)}
+          title="あそんでくれてありがとう！"
+          description="ログインして、ほかのほんもよんでみよう"
+        />
+      )}
       <Link
         href={`/books/${id}`}
         className="block outline-none select-none appearance-none touch-none focus:outline-none focus-visible:outline-none"

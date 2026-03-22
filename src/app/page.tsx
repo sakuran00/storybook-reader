@@ -7,6 +7,8 @@ import { motion, Variants } from "framer-motion";
 import { useState, useMemo, useEffect } from "react";
 import { Search } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
+import LoginModal from "@/components/ui/LoginModal";
 
 const ROTATIONS = ["rotate-0", "rotate-5", "-rotate-5"];
 
@@ -37,6 +39,7 @@ export default function Home() {
 
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
+  const [showLoginModal, setShowLoginModal] = useState(false);
   const [splashDone, setSplashDone] = useState(() => {
     if(typeof window === "undefined") return false;
     return sessionStorage.getItem("splashDone") === "true";
@@ -69,6 +72,14 @@ export default function Home() {
 
   return (
     <div className="mx-auto max-w-8xl px-4 py-8 pt-15 font-klee font-semibold">
+      {/*ログインしていないユーザーがFavoriteボタンを押した場合、の時のみログインモーダル表示 */}
+      {showLoginModal && (
+        <LoginModal
+          onClose={() => setShowLoginModal(false)}
+          title="あそんでくれてありがとう！"
+          description="ログインして、おきにいりのほんをみつけよう"
+        />
+      )}
       <motion.h1
         // タイトルも少し上からふわっと出したい場合はここにも設定
         initial={{ opacity: 0, y: -30 }}
@@ -111,9 +122,13 @@ export default function Home() {
           ).map(({ value, label }) => (
             <button
               key={value}
-              onClick={() => {
+              onClick={async () => {
                 if (value === "favorite") {
-                  router.push("/favorites"); // お気に入りページへ遷移
+                  const supabase = createClient();
+                  const { data : { user } } = await supabase.auth.getUser();
+                  if(!user){
+                    setShowLoginModal(true);
+                  } 
                 } else {
                   setStatusFilter(value);
                 }

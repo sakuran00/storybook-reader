@@ -5,6 +5,7 @@ export interface Book {
   status: "available" | "unavailable";
   author: string;
   cover: string;
+  requiresAuth?:boolean;
   pages?: {
     image: string;
     textJa?: string;
@@ -158,6 +159,7 @@ export const BOOKS: Book[] = [
     status: "available",
     author: "saku",
     cover: "/covers/もりのゆうきなおひめさま.png",
+    requiresAuth: true,
     pages: [
       {
         image: "/pages/magicForest/magicForest_cover.png",
