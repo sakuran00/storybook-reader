@@ -15,13 +15,6 @@ export default function SplashScreen() {
   const [fading, setFading] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  // 再生速度を設定
-  useEffect(() => {
-    if (visible && videoRef.current) {
-      videoRef.current.playbackRate = 1.25;
-    }
-  }, [visible]);
-
   const handleEnded = () => {
     setFading(true);
     setTimeout(() => {
@@ -30,6 +23,16 @@ export default function SplashScreen() {
       setVisible(false);
     }, 1500);
   };
+
+  // 再生速度を設定
+  useEffect(() => {
+    if (visible && videoRef.current) {
+      videoRef.current.playbackRate = 1.25;
+      videoRef.current.play().catch(() => {
+        handleEnded();
+      });
+    }
+  }, [visible]);
 
   if (!visible) return null;
 
