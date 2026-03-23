@@ -59,7 +59,7 @@ export default function Header({ isAuthenticated }: HeaderProps) {
               </Button>
               <Button
                 size="lg"
-                className="rounded-full border border-gray-800 bg-slate-50 text-slate-800 hover:bg-slate-800 hover:text-white mr-20"
+                className="rounded-full border border-gray-800 bg-slate-50 text-slate-800 hover:bg-slate-800 hover:text-white mr-2 sm:mr-20"
                 onClick={() => router.push("/auth/signin")}
               >
                 ログイン
@@ -89,7 +89,7 @@ export default function Header({ isAuthenticated }: HeaderProps) {
             <div className="flex items-center gap-3">
               <Button
                 size={"lg"}
-                className="font-semibold rounded-full border border-amber-950/60 bg-slate-50 text-amber-950 hover:bg-amber-950/60 hover:text-white hover:shadow-md transition mr-20"
+                className="font-semibold rounded-full border border-amber-950/60 bg-slate-50 text-amber-950 hover:bg-amber-950/60 hover:text-white hover:shadow-md transition mr-2 sm:mr-20"
                 onClick={signoutHandler}
               >
                 ログアウト

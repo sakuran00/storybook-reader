@@ -85,7 +85,7 @@ export default function Home() {
         initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1.0, ease: "easeOut" }}
-        className="text-3xl mb-10 ml-30 text-amber-950 text-shadow-md"
+        className="text-xl sm:text-3xl mb-6 sm:mb-10 ml-4 sm:ml-30 text-amber-950 text-shadow-md"
       >
         <span className="text-amber-700/50 select-none mr-2">✦</span>
         よみたいほんをえらんでね
@@ -97,7 +97,7 @@ export default function Home() {
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: "easeOut", delay: 0.3 }}
-        className="flex flex-wrap items-center gap-3 mb-40 ml-30"
+        className="flex flex-wrap items-center gap-3 mb-8 sm:mb-40 ml-4 sm:ml-30"
       >
         {/* 検索ボックス */}
         <div className="relative">
@@ -107,7 +107,7 @@ export default function Home() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="なまえ・さくしゃでさがす"
-            className="pl-9 pr-4 py-2 rounded-full border border-slate-200 bg-white/80 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-300 shadow-sm w-56"
+            className="pl-9 pr-4 py-2 rounded-full border border-slate-200 bg-white/80 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-300 shadow-sm w-44 sm:w-56"
           />
         </div>
 
@@ -153,7 +153,7 @@ export default function Home() {
         <div className="relative">
           <motion.div
             // 親要素にvariantsを設定して、初期状態(hidden)と目標状態(show)を指定
-            className="relative z-10 flex flex-row ml-30 w-full gap-8 items-end min-w-max cursor-grab active:cursor-grabbing select-none"
+            className="relative z-10 flex flex-row ml-4 sm:ml-30 w-full gap-4 sm:gap-8 items-end min-w-max cursor-grab active:cursor-grabbing select-none"
             variants={containerVariants}
             initial="hidden"
             animate={splashDone ? "show" : "hidden"}

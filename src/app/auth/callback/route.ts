@@ -52,7 +52,7 @@ export async function GET(request: NextRequest) {
     const updateData: Prisma.ProfileUpdateInput = {
       ...(nickName !== undefined ? { nickName } : {}),
     };
-
+    
     await prisma.user.upsert({
       where: { id: user.id },
       create: { id: user.id, email: user.email },
