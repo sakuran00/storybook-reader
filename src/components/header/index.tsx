@@ -27,9 +27,9 @@ export default function Header({ isAuthenticated }: HeaderProps) {
 
   return (
     <header
-      className={`mx-auto pl-4 sticky top-0 z-30 text-shadow-sm backdrop-blur-sm bg-white/20 border-b border-white/20 font-zen-maru-gothic font-bold`}
+      className={`mx-auto sticky top-0 z-30 text-shadow-sm backdrop-blur-sm bg-white/20 border-b border-white/20 font-zen-maru-gothic font-bold`}
     >
-      <div className="flex items-center justify-between px-5 py-3 text-[11px] uppercase tracking-[0.18em] text-gray-800 sm:px-8 sm:text-sm">
+      <div className="flex items-center justify-between py-3 text-[11px] uppercase tracking-[0.18em] text-gray-800 sm:px-8 sm:text-sm">
         {!isAuthenticated ? (
           <>
             <div className="flex items-center gap-3">
@@ -37,7 +37,7 @@ export default function Header({ isAuthenticated }: HeaderProps) {
                 href="/"
                 className="cursor-pointer hover:opacity-70 transition-opacity"
               >
-                <div className="relative w-50 h-10 sm:w-80 sm:h-20 opacity-90">
+                <div className="relative w-40 h-10 sm:w-80 sm:h-20 opacity-90">
                   <Image
                     src="/logo.png"
                     alt="Storybook Reader"
@@ -52,14 +52,14 @@ export default function Header({ isAuthenticated }: HeaderProps) {
             <div className="flex gap-3">
               <Button
                 size="lg"
-                className="rounded-full hover:bg-slate-800/60 mr-2"
+                className="rounded-full hover:bg-slate-800/60 mr-2 h-8 px-3 sm:h-10 sm:px-6"
                 onClick={() => router.push("/auth/signup")}
               >
                 新規作成
               </Button>
               <Button
                 size="lg"
-                className="rounded-full border border-gray-800 bg-slate-50 text-slate-800 hover:bg-slate-800 hover:text-white mr-2 sm:mr-20"
+                className="rounded-full border border-gray-800 bg-slate-50 text-slate-800 hover:bg-slate-800 hover:text-white mr-2 sm:mr-20 h-8 px-3 sm:h-10 sm:px-6"
                 onClick={() => router.push("/auth/signin")}
               >
                 ログイン

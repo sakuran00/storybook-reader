@@ -72,24 +72,24 @@ export default function BookDetail({
           duration: 1.5,
           ease: [0.5, 0.8, 1, 1],
         }}
-        className="flex-1 flex flex-col z-20"
+        className="sm:flex-1 flex flex-col z-20"
       >
         {/* タイトル・ナビゲーション */}
-        <div className="mt-6 font-klee font-semibold overflow-hidden">
+        <div className="mt-6 font-klee font-semibold">
 
           {/* モバイル: 本棚に戻る + 言語トグルを同じ行に */}
-          <div className="flex items-center justify-between px-3 md:hidden font-bold font-zen-maru-gothic mb-2 gap-2">
+          <div className="flex items-center justify-between px-4 md:hidden font-bold font-zen-maru-gothic mb-2">
             <Link
               href="/"
-              className="group flex items-center w-fit text-sm font-medium text-slate-600 hover:text-slate-800 transition-colors whitespace-nowrap"
+              className="group flex items-center w-fit text-md font-medium text-slate-600 hover:text-slate-800 transition-colors"
             >
-              <ArrowLeft className="w-4 h-4 mr-1 transition-transform group-hover:-translate-x-1 shrink-0" />
+              <ArrowLeft className="w-4 h-4 mr-1.5 transition-transform group-hover:-translate-x-1" />
               本棚に戻る
             </Link>
-            <div className="bg-slate-200/50 p-1 rounded-full flex items-center shrink-0">
+            <div className="bg-slate-200/50 p-1 rounded-full flex items-center w-fit">
               <button
                 onClick={() => setLang("ja")}
-                className={`px-3 py-1 rounded-full text-xs font-medium transition-all duration-300 ease-out cursor-pointer ${
+                className={`px-4 py-1 rounded-full text-sm font-medium transition-all duration-300 ease-out cursor-pointer ${
                   lang === "ja"
                     ? "bg-white text-slate-800 shadow-sm"
                     : "text-slate-500 hover:text-slate-800 hover:shadow-sm"
@@ -99,7 +99,7 @@ export default function BookDetail({
               </button>
               <button
                 onClick={() => setLang("en")}
-                className={`px-3 py-1 rounded-full text-xs font-medium transition-all duration-300 ease-out cursor-pointer ${
+                className={`px-4 py-1 rounded-full text-sm font-medium transition-all duration-300 ease-out cursor-pointer ${
                   lang === "en"
                     ? "bg-white text-slate-800 shadow-sm"
                     : "text-slate-500 hover:text-slate-800 hover:shadow-sm"

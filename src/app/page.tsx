@@ -71,7 +71,7 @@ export default function Home() {
   }, [searchQuery, statusFilter]);
 
   return (
-    <div className="mx-auto max-w-8xl px-4 py-8 pt-15 font-klee font-semibold">
+    <div className="mx-auto max-w-8xl py-4 px-4 sm:py-8 sm:pt-15 font-klee font-semibold">
       {/*ログインしていないユーザーがFavoriteボタンを押した場合、の時のみログインモーダル表示 */}
       {showLoginModal && (
         <LoginModal
@@ -97,7 +97,7 @@ export default function Home() {
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: "easeOut", delay: 0.3 }}
-        className="flex flex-wrap items-center gap-3 mb-8 sm:mb-40 ml-4 sm:ml-30 pr-4 sm:pr-0"
+        className="flex flex-wrap items-center gap-3 mb-8 ml-4 pr-4 sm:mb-40 sm:ml-30 sm:pr-0"
       >
         {/* 検索ボックス */}
         <div className="relative">
@@ -107,7 +107,7 @@ export default function Home() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="なまえ・さくしゃでさがす"
-            className="pl-9 pr-4 py-2 rounded-full border border-slate-200 bg-white/80 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-300 shadow-sm w-full sm:w-56"
+            className="pl-9 pr-4 py-2 rounded-full border border-slate-200 bg-white/80 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-300 shadow-sm w-70"
           />
         </div>
 
@@ -199,10 +199,10 @@ export default function Home() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, ease: "easeIn" }}
-            className="w-full h-100 mt-[-150] opacity-90 "
+            className="w-full h-50 mt-[-82] sm:h-100 sm:mt-[-150] opacity-90 "
             style={{
               backgroundImage: "url('/bookshelf.png')",
-              backgroundSize: "100% 100%",
+              backgroundSize: "110% 100%",
               backgroundPosition: "top",
               backgroundRepeat: "no-repeat",
               filter:

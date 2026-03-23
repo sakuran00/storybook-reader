@@ -31,7 +31,7 @@ export default function BookFlipReader({
 
   // ログアウト状態（未認証）の時だけモーダルを出す
   useEffect(() => {
-    const isAtEnd = currentPage >= totalPages - 2;
+    const isAtEnd = Math.ceil((currentPage + 1) / 2) >= Math.floor(totalPages / 2);
 
     // isAuthenticated === falseの条件追加
     if (isAtEnd && !showLoginModal && !isAuthenticated) {
@@ -79,7 +79,7 @@ export default function BookFlipReader({
 
       <div className="mx-auto rounded-md overflow-hidden ring-slate-900/10 ">
         <div className="text-center text-sm -mt-1 text-gray-600">
-          {currentPage + 1} / {totalPages}
+          {Math.ceil((currentPage + 1) /2)}  / {Math.floor(totalPages / 2)} 
         </div>
         <HTMLFlipBook
           width={400}
