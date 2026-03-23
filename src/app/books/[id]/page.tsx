@@ -74,10 +74,11 @@ export default function BookDetail({
         }}
         className="flex-1 flex flex-col z-20"
       >
-        {/* タイトル・ナビゲーション（元のまま） */}
-        <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] items-center mt-6 font-klee font-semibold">
-          {/* 左側:本棚に戻る */}
-          <div className="flex items-center justify-start ml-15 font-bold font-zen-maru-gothic">
+        {/* タイトル・ナビゲーション */}
+        <div className="mt-6 font-klee font-semibold">
+
+          {/* モバイル: 本棚に戻る + 言語トグルを同じ行に */}
+          <div className="flex items-center justify-between px-4 md:hidden font-bold font-zen-maru-gothic mb-2">
             <Link
               href="/"
               className="group flex items-center w-fit text-md font-medium text-slate-600 hover:text-slate-800 transition-colors"
@@ -85,23 +86,10 @@ export default function BookDetail({
               <ArrowLeft className="w-4 h-4 mr-1.5 transition-transform group-hover:-translate-x-1" />
               本棚に戻る
             </Link>
-          </div>
-
-          {/* 中央:タイトル */}
-          <div className="text-center">
-            <h1 className="text-xl sm:text-2xl lg:text-3xl text-shadow-sm text-slate-800 tracking-tight">
-              <span className="text-amber-700/50 select-none mr-2">✦</span>
-              {book.title}
-              <span className="text-amber-700/50 select-none ml-2">✦</span>
-            </h1>
-          </div>
-
-          {/* ios風のトグルスイッチ型言語ボタン */}
-          <div className="flex items-center justify-start auto md:justify-end mr-15 font-bold font-zen-maru-gothic">
             <div className="bg-slate-200/50 p-1 rounded-full flex items-center w-fit">
               <button
                 onClick={() => setLang("ja")}
-                className={`px-6 py-1.5 rounded-full text-sm font-medium transition-all duration-300 ease-out cursor-pointer ${
+                className={`px-4 py-1 rounded-full text-sm font-medium transition-all duration-300 ease-out cursor-pointer ${
                   lang === "ja"
                     ? "bg-white text-slate-800 shadow-sm"
                     : "text-slate-500 hover:text-slate-800 hover:shadow-sm"
@@ -111,7 +99,7 @@ export default function BookDetail({
               </button>
               <button
                 onClick={() => setLang("en")}
-                className={`px-6 py-1.5 rounded-full text-sm font-medium transition-all duration-300 ease-out cursor-pointer ${
+                className={`px-4 py-1 rounded-full text-sm font-medium transition-all duration-300 ease-out cursor-pointer ${
                   lang === "en"
                     ? "bg-white text-slate-800 shadow-sm"
                     : "text-slate-500 hover:text-slate-800 hover:shadow-sm"
@@ -121,6 +109,60 @@ export default function BookDetail({
               </button>
             </div>
           </div>
+
+          {/* モバイル: タイトル */}
+          <div className="text-center px-4 md:hidden">
+            <h1 className="text-xl text-shadow-sm text-slate-800 tracking-tight">
+              <span className="text-amber-700/50 select-none mr-2">✦</span>
+              {book.title}
+              <span className="text-amber-700/50 select-none ml-2">✦</span>
+            </h1>
+          </div>
+
+          {/* デスクトップ: 3カラムグリッド */}
+          <div className="hidden md:grid md:grid-cols-[1fr_auto_1fr] items-center">
+            <div className="flex items-center justify-start ml-15 font-bold font-zen-maru-gothic">
+              <Link
+                href="/"
+                className="group flex items-center w-fit text-md font-medium text-slate-600 hover:text-slate-800 transition-colors"
+              >
+                <ArrowLeft className="w-4 h-4 mr-1.5 transition-transform group-hover:-translate-x-1" />
+                本棚に戻る
+              </Link>
+            </div>
+            <div className="text-center">
+              <h1 className="text-xl sm:text-2xl lg:text-3xl text-shadow-sm text-slate-800 tracking-tight">
+                <span className="text-amber-700/50 select-none mr-2">✦</span>
+                {book.title}
+                <span className="text-amber-700/50 select-none ml-2">✦</span>
+              </h1>
+            </div>
+            <div className="flex items-center justify-end mr-15 font-bold font-zen-maru-gothic">
+              <div className="bg-slate-200/50 p-1 rounded-full flex items-center w-fit">
+                <button
+                  onClick={() => setLang("ja")}
+                  className={`px-6 py-1.5 rounded-full text-sm font-medium transition-all duration-300 ease-out cursor-pointer ${
+                    lang === "ja"
+                      ? "bg-white text-slate-800 shadow-sm"
+                      : "text-slate-500 hover:text-slate-800 hover:shadow-sm"
+                  }`}
+                >
+                  日本語
+                </button>
+                <button
+                  onClick={() => setLang("en")}
+                  className={`px-6 py-1.5 rounded-full text-sm font-medium transition-all duration-300 ease-out cursor-pointer ${
+                    lang === "en"
+                      ? "bg-white text-slate-800 shadow-sm"
+                      : "text-slate-500 hover:text-slate-800 hover:shadow-sm"
+                  }`}
+                >
+                  English
+                </button>
+              </div>
+            </div>
+          </div>
+
         </div>
       </motion.div>
 

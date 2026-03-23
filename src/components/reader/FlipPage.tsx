@@ -80,7 +80,7 @@ const FlipPage = forwardRef<HTMLDivElement, FlipPageProps>(
             {loading ? (
               <p className="text-gray-500 text-sm">読み込み中...</p>
             ) : (
-              <div className="relative mt-110 ml-5 mr-5 flex flex-col items-center">
+              <div className="relative mt-16 sm:mt-40 md:mt-110 ml-5 mr-5 flex flex-col items-center">
                 <pre
                   className={`whitespace-pre-wrap text-center text-2xl text-gray-800 font-bold bg-white/50 backdrop-blur-sm p-4 rounded-xl font-klee`}
                 >

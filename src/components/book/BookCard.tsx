@@ -70,7 +70,7 @@ export default function BookCard({
   const coverContent = (
     <div
       className={`
-        relative aspect-[3/4] w-48 shadow-md transition-transform 
+        relative aspect-[3/4] w-32 sm:w-48 shadow-md transition-transform
         duration-300 group
         ${!isTransitioning ? "hover:-translate-y-5 hover:shadow-xl/30 hover:scale-110" : "scale-110 -translate-y-5"}
         `}
@@ -80,7 +80,7 @@ export default function BookCard({
           src={coverImageUrl}
           alt={title}
           fill
-          sizes="192px"
+          sizes="(max-width: 640px) 128px, 192px"
           className="object-cover rounded-sm pointer-events-none select-none"
           draggable={false} // 画像のドラッグを無効化
         />
@@ -105,7 +105,7 @@ export default function BookCard({
   const spineContent = (
     <div
       className={`
-      relative h-64 w-12 rounded-sm shadow-md transition-transform duration-300
+      relative h-48 w-8 sm:h-64 sm:w-12 rounded-sm shadow-md transition-transform duration-300
       border border-slate-50/10 bg-slate-400/80
       ${rotation}
       ${!isTransitioning ? "hover:-translate-y-4 hover:shadow-xl/30 hover:scale-110 hover:rotate-0" : "scale-110 -translate-y-4 rotate-0 shadow-xl/30"}

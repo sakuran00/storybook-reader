@@ -151,6 +151,8 @@ export default function Home() {
       {/* 本棚 */}
       {filteredBooks.length > 0 ? (
         <div className="relative">
+          {/* モバイルは overflow-x-auto でタッチスクロール、デスクトップは drag-scroll */}
+          <div className="overflow-x-auto sm:overflow-visible pb-2 sm:pb-0">
           <motion.div
             // 親要素にvariantsを設定して、初期状態(hidden)と目標状態(show)を指定
             className="relative z-10 flex flex-row ml-4 sm:ml-30 w-full gap-4 sm:gap-8 items-end min-w-max cursor-grab active:cursor-grabbing select-none"
@@ -190,6 +192,7 @@ export default function Home() {
               );
             })}
           </motion.div>
+          </div>
 
           {/* 本棚画像（本の下に1つだけ） */}
           <motion.div
