@@ -14,7 +14,7 @@ interface BookCardProps {
   title: string;
   subtitle: string;
   author?: string;
-  requiresAuth?:boolean;
+  requiresAuth?: boolean;
   coverImageUrl: string;
   disabled?: boolean;
   isDragging?: boolean; // *ドラッグ中の誤クリック防止用
@@ -48,11 +48,13 @@ export default function BookCard({
     // Linkの遷移を一旦止めて、アニメーションを走らせるためのstateをtrueにする
     e.preventDefault();
 
-    if(requiresAuth){
+    if (requiresAuth) {
       const supabase = createClient();
-      const { data: { user } } =await supabase.auth.getUser();
-      if(!user){
-        setShowLoginModal(true)
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (!user) {
+        setShowLoginModal(true);
         return;
       }
     }

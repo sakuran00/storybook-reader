@@ -5,7 +5,7 @@ export interface Book {
   status: "available" | "unavailable";
   author: string;
   cover: string;
-  requiresAuth?:boolean;
+  requiresAuth?: boolean;
   pages?: {
     image: string;
     textJa?: string;
@@ -293,6 +293,7 @@ export const BOOKS: Book[] = [
     title: "追加予定",
     subtitle: "Coming soon",
     status: "unavailable",
+    requiresAuth: true,
     author: "",
     cover: "/covers/magic book (ロゴ).png",
   },

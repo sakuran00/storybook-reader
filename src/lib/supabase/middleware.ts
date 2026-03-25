@@ -37,7 +37,8 @@ export async function updateSession(request: NextRequest) {
   const isPublicRoute =
     request.nextUrl.pathname === "/" || // トップページ（本棚）
     request.nextUrl.pathname.startsWith("/books/princess-adventure") || // 冒険の書
-    request.nextUrl.pathname.startsWith("/auth") ||
+    (request.nextUrl.pathname.startsWith("/auth") &&
+      !request.nextUrl.pathname.startsWith("auth/reset-password")) ||
     request.nextUrl.pathname.startsWith("/signin") ||
     request.nextUrl.pathname.startsWith("/signup");
 

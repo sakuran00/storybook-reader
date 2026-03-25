@@ -76,7 +76,6 @@ export default function BookDetail({
       >
         {/* タイトル・ナビゲーション */}
         <div className="mt-6 font-klee font-semibold">
-
           {/* モバイル: 本棚に戻る + 言語トグルを同じ行に */}
           <div className="flex items-center justify-between px-4 md:hidden font-bold font-zen-maru-gothic mb-2">
             <Link
@@ -162,7 +161,6 @@ export default function BookDetail({
               </div>
             </div>
           </div>
-
         </div>
       </motion.div>
 

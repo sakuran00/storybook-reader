@@ -19,7 +19,7 @@ export default function SplashScreen() {
     setFading(true);
     setTimeout(() => {
       sessionStorage.setItem("splashDone", "true");
-      window.dispatchEvent(new CustomEvent("splashDone"))
+      window.dispatchEvent(new CustomEvent("splashDone"));
       setVisible(false);
     }, 1500);
   };

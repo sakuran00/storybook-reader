@@ -160,8 +160,7 @@ export function SignupForm(): React.ReactElement {
                   {isPending ? "登録中..." : "登録"}
                 </Button>
                 <FieldDescription className="text-sm text-center">
-                  既にアカウントをお持ちの方は{" "}
-                  <a href="/auth/signin">こちら</a>
+                  既にアカウントをお持ちの方は <a href="/auth/signin">こちら</a>
                 </FieldDescription>
               </Field>
             </FieldGroup>

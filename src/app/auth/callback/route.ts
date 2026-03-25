@@ -52,7 +52,7 @@ export async function GET(request: NextRequest) {
     const updateData: Prisma.ProfileUpdateInput = {
       ...(nickName !== undefined ? { nickName } : {}),
     };
-    
+
     await prisma.user.upsert({
       where: { email: user.email },
       create: { id: user.id, email: user.email },
@@ -65,7 +65,8 @@ export async function GET(request: NextRequest) {
       update: updateData,
     });
 
-    return NextResponse.redirect(new URL("/", request.url));
+    const next = new URL(request.url).searchParams.get("next");
+    return NextResponse.redirect(new URL(next || "/", request.url));
   } catch (error) {
     console.error("Callback error:", error);
     return NextResponse.redirect(

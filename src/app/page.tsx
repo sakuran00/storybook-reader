@@ -41,11 +41,11 @@ export default function Home() {
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [splashDone, setSplashDone] = useState(() => {
-    if(typeof window === "undefined") return false;
+    if (typeof window === "undefined") return false;
     return sessionStorage.getItem("splashDone") === "true";
-  })
+  });
 
-  useEffect(() => { 
+  useEffect(() => {
     // スプラッシュ終了イベント後に表示
     const handler = () => {
       sessionStorage.setItem("splashDone", "true");
@@ -53,7 +53,7 @@ export default function Home() {
     };
     window.addEventListener("splashDone", handler);
     return () => window.removeEventListener("splashDone", handler);
-    }, []);
+  }, []);
 
   // 検索・フィルタリング
   const filteredBooks = useMemo(() => {
@@ -125,10 +125,12 @@ export default function Home() {
               onClick={async () => {
                 if (value === "favorite") {
                   const supabase = createClient();
-                  const { data : { user } } = await supabase.auth.getUser();
-                  if(!user){
+                  const {
+                    data: { user },
+                  } = await supabase.auth.getUser();
+                  if (!user) {
                     setShowLoginModal(true);
-                  } 
+                  }
                 } else {
                   setStatusFilter(value);
                 }
@@ -153,45 +155,45 @@ export default function Home() {
         <div className="relative">
           {/* モバイルは overflow-x-auto でタッチスクロール、デスクトップは drag-scroll */}
           <div className="overflow-x-auto sm:overflow-visible pb-2 sm:pb-0">
-          <motion.div
-            // 親要素にvariantsを設定して、初期状態(hidden)と目標状態(show)を指定
-            className="relative z-10 flex flex-row ml-2 sm:ml-30 w-full gap-3 sm:gap-8 items-end min-w-max cursor-grab active:cursor-grabbing select-none pr-4 sm:pr-0"
-            variants={containerVariants}
-            initial="hidden"
-            animate={splashDone ? "show" : "hidden"}
-            ref={ref}
-            onMouseDown={onMouseDown}
-            onMouseLeave={onMouseLeave}
-            onMouseUp={onMouseUp}
-            onMouseMove={onMouseMove}
-          >
-            {filteredBooks.map((book, index) => {
-              // 背表紙の色と傾きをランダムに決定
-              const isSpine = (index + 1) % 3 === 0; // 3の倍数を背表紙とする
-              const isCover = !isSpine; // それ以外は表紙とする
+            <motion.div
+              // 親要素にvariantsを設定して、初期状態(hidden)と目標状態(show)を指定
+              className="relative z-10 flex flex-row ml-2 sm:ml-30 w-full gap-3 sm:gap-8 items-end min-w-max cursor-grab active:cursor-grabbing select-none pr-4 sm:pr-0"
+              variants={containerVariants}
+              initial="hidden"
+              animate={splashDone ? "show" : "hidden"}
+              ref={ref}
+              onMouseDown={onMouseDown}
+              onMouseLeave={onMouseLeave}
+              onMouseUp={onMouseUp}
+              onMouseMove={onMouseMove}
+            >
+              {filteredBooks.map((book, index) => {
+                // 背表紙の色と傾きをランダムに決定
+                const isSpine = (index + 1) % 3 === 0; // 3の倍数を背表紙とする
+                const isCover = !isSpine; // それ以外は表紙とする
 
-              // 色と角度を順番やランダムで決める。
-              const rotation = ROTATIONS[index % ROTATIONS.length];
+                // 色と角度を順番やランダムで決める。
+                const rotation = ROTATIONS[index % ROTATIONS.length];
 
-              return (
-                <motion.div
-                  // 子供要素をmotion.divで囲み、variants="item"を適用
-                  key={book.id}
-                  variants={itemVariants}
-                  className="origin-bottom"
-                >
-                  <BookCard
+                return (
+                  <motion.div
+                    // 子供要素をmotion.divで囲み、variants="item"を適用
                     key={book.id}
-                    {...book}
-                    coverImageUrl={book.cover}
-                    isDragging={isDragging} // ドラッグ中の誤クリック防止用に渡す
-                    variant={isCover ? "cover" : "spine"} // 偶数番目を表紙、奇数番目を背表紙とする
-                    rotation={rotation}
-                  />
-                </motion.div>
-              );
-            })}
-          </motion.div>
+                    variants={itemVariants}
+                    className="origin-bottom"
+                  >
+                    <BookCard
+                      key={book.id}
+                      {...book}
+                      coverImageUrl={book.cover}
+                      isDragging={isDragging} // ドラッグ中の誤クリック防止用に渡す
+                      variant={isCover ? "cover" : "spine"} // 偶数番目を表紙、奇数番目を背表紙とする
+                      rotation={rotation}
+                    />
+                  </motion.div>
+                );
+              })}
+            </motion.div>
           </div>
 
           {/* 本棚画像（本の下に1つだけ） */}
