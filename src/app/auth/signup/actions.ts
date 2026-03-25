@@ -59,7 +59,5 @@ export async function signup(
   }
 
   revalidatePath("/", "layout");
-  redirect("/");
-  // メール認証の実装が完了したら、以下のようにメール送信後のメッセージを返すようにする
-  // redirect("/auth/signup/before-confirm")
+  redirect("/auth/signup/before-confirm")
 }
