@@ -1,8 +1,11 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
+import { usePathname } from "next/navigation";
 
 export default function SplashScreen() {
+  const pathname = usePathname();
+
   // セッションストレージを利用して、ユーザーがすでにスプラッシュスクリーンを見たかどうかを判定
   const [visible, setVisible] = useState(() => {
     if (window.location.pathname.startsWith("/auth/")) {
@@ -26,6 +29,19 @@ export default function SplashScreen() {
       setVisible(false);
     }, 1500);
   };
+
+  // ソフトナビゲーションでauthページから/に来た場合に対応
+  useEffect(() => {
+    if (!pathname.startsWith("/auth/") && !visible) {
+      if (!sessionStorage.getItem("splashShown")) {
+        sessionStorage.setItem("splashShown", "true");
+        setVisible(true);
+      } else if (!sessionStorage.getItem("splashDone")) {
+        sessionStorage.setItem("splashDone", "true");
+        window.dispatchEvent(new CustomEvent("splashDone"));
+      }
+    }
+  }, [pathname]);
 
   // 再生速度を設定
   useEffect(() => {
