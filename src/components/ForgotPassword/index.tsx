@@ -35,7 +35,7 @@ export default function ForgotPasswordForm() {
       </CardHeader>
       <CardContent>
         {sent ? (
-          <p className="text-center text-sm ">
+          <p className="text-center text-sm">
             メールを送信しました。受信ボックスをご確認ください。
           </p>
         ) : (

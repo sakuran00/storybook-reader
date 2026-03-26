@@ -130,6 +130,8 @@ export default function Home() {
                   } = await supabase.auth.getUser();
                   if (!user) {
                     setShowLoginModal(true);
+                  } else {
+                    router.push("/favorites")
                   }
                 } else {
                   setStatusFilter(value);
