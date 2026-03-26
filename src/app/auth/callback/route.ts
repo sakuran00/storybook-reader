@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@/lib/supabase/server";
+import { createServerClient } from "@supabase/ssr";
 import { prisma } from "@/db/client";
 import { Prisma } from "@prisma/client";
 
@@ -8,19 +8,41 @@ type AuthUserMeta = {
 };
 
 export async function GET(request: NextRequest) {
-  // code取得
-  const code = new URL(request.url).searchParams.get("code");
+  const { searchParams } = new URL(request.url);
+  const code = searchParams.get("code");
+  const next = searchParams.get("next") || "/";
 
-  // codeがなければサインインにリダイレクト
   if (!code) {
     return NextResponse.redirect(
       new URL("/auth/signin?error=no_code", request.url),
     );
   }
 
+  const redirectTo = new URL(next, request.url);
+  let response = NextResponse.redirect(redirectTo);
+
   try {
-    // このコードを使ってセッション確立
-    const supabase = await createClient();
+    // ミドルウェアと同じパターンでレスポンスに直接Cookieをセット
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
+      {
+        cookies: {
+          getAll() {
+            return request.cookies.getAll();
+          },
+          setAll(cookiesToSet) {
+            cookiesToSet.forEach(({ name, value }) =>
+              request.cookies.set(name, value),
+            );
+            response = NextResponse.redirect(redirectTo);
+            cookiesToSet.forEach(({ name, value, options }) =>
+              response.cookies.set(name, value, options),
+            );
+          },
+        },
+      },
+    );
 
     const { error: exchangeError } =
       await supabase.auth.exchangeCodeForSession(code);
@@ -65,8 +87,7 @@ export async function GET(request: NextRequest) {
       update: updateData,
     });
 
-    const next = new URL(request.url).searchParams.get("next");
-    return NextResponse.redirect(new URL(next || "/", request.url));
+    return response;
   } catch (error) {
     console.error("Callback error:", error);
     return NextResponse.redirect(

@@ -47,6 +47,7 @@ export function ResetPasswordForm() {
     const { error } = await supabase.auth.updateUser({ password });
 
     if (error) {
+      console.error("updateUser error:", error);
       setServerError("パスワードの更新に失敗しました");
       setIsPending(false);
       return;
