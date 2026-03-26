@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { createClient } from "@/lib/supabase/client";
+import { updatePassword } from "@/app/auth/reset-password/action"
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
@@ -14,7 +13,6 @@ type LocalErrors = {
 };
 
 export function ResetPasswordForm() {
-  const router = useRouter();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [localErrors, setLocalErrors] = useState<LocalErrors>({});
@@ -43,17 +41,16 @@ export function ResetPasswordForm() {
     setIsPending(true);
     setServerError(null);
 
-    const supabase = createClient();
-    const { error } = await supabase.auth.updateUser({ password });
+    const formData = new FormData();
+    formData.append("password", password);
 
-    if (error) {
-      console.error("updateUser error:", error);
-      setServerError("パスワードの更新に失敗しました");
+    const result = await updatePassword(formData);
+
+    if(result?.error){
+      setServerError(result.error);
       setIsPending(false);
-      return;
     }
-
-    router.push("/");
+    // 成功時は server action内で redirect("/")されるので何もしない
   };
 
   return (

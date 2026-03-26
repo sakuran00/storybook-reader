@@ -3,15 +3,17 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 
-export async function forgotPassword(formData: FormData) {
-  const email = formData.get("email") as string;
+export async function updatePassword(formData: FormData) {
+  const password = formData.get("password") as string;
   const supabase = await createClient();
-  const siteUrl = process.env.Next_PUBLIC_SITE_URL == "http://localhost:3000";
 
-  await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: "${siteUrl}/auth/callback?next=/auth/reset-password",
-  });
+  const { error } = await supabase.auth.updateUser({password});
 
-  // メールが存在しない場合も同じ画面にする
-  redirect("/auth/forgot-password?sent=true");
+  if(error){
+    console.error("updateUser error:", error)
+    return{ error: "パスワードの更新に失敗しました"}
+  }
+
+  redirect("/")
+
 }
