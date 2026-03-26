@@ -57,7 +57,7 @@ export function ResetPasswordForm() {
     <Card className="font-zen-maru-gothic font-bold">
       <CardHeader>
         <CardTitle className="flex justify-center text-2xl">
-          パスワードの再設定
+          パスワード再設定
         </CardTitle>
       </CardHeader>
       <CardContent>

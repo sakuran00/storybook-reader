@@ -5,6 +5,9 @@ import { useEffect, useState, useRef } from "react";
 export default function SplashScreen() {
   // セッションストレージを利用して、ユーザーがすでにスプラッシュスクリーンを見たかどうかを判定
   const [visible, setVisible] = useState(() => {
+    if (window.location.pathname.startsWith("/auth/")) {
+      return false;
+    };
     if (!sessionStorage.getItem("splashShown")) {
       sessionStorage.setItem("splashShown", "true");
       return true; // 初めて→表示

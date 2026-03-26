@@ -1,30 +1,45 @@
 "use client";
 
+import { useState } from "react";
+import { createClient } from "@/lib/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { forgotPassword } from "@/app/auth/forgot-password/action";
-import SubmitButton from "../ui/SubmitButton";
+import { Button } from "@/components/ui/button";
 
-interface ResetPasswordFormProps {
-  sent?: boolean;
-}
+export default function ForgotPasswordForm() {
+  const [sent, setSent] = useState(false);
+  const [isPending, setIsPending] = useState(false);
 
-export default function ForgotPasswordForm({ sent }: ResetPasswordFormProps) {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsPending(true);
+    const email = new FormData(e.currentTarget).get("email") as string;
+    const supabase = createClient();
+    const siteUrl =
+      process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+
+    await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${siteUrl}/auth/callback?next=/auth/reset-password`,
+    });
+    setSent(true);
+    setIsPending(false);
+  };
+
   return (
     <Card className="font-zen-maru-gothic font-bold">
       <CardHeader>
         <CardTitle className="flex justify-center text-2xl">
-          パスワードの再設定
+          パスワード再設定
         </CardTitle>
       </CardHeader>
       <CardContent>
         {sent ? (
-          <p className="text-center text-sm text-slate-600">
+          <p className="text-center text-sm ">
             メールを送信しました。受信ボックスをご確認ください。
           </p>
         ) : (
-          <form action={forgotPassword}>
+          <form onSubmit={handleSubmit}>
             <FieldGroup>
               <Field>
                 <FieldLabel htmlFor="email">メールアドレス</FieldLabel>
@@ -37,7 +52,9 @@ export default function ForgotPasswordForm({ sent }: ResetPasswordFormProps) {
                 />
               </Field>
               <Field>
-                <SubmitButton />
+                <Button type="submit" disabled={isPending}>
+                  {isPending ? "送信中..." : "再設定メール送信"}
+                </Button>
               </Field>
             </FieldGroup>
           </form>
