@@ -125,9 +125,7 @@ export function SignupForm(): React.ReactElement {
                   {errors.password}
                 </p>
               )}
-              <FieldDescription>
-                6文字以上で入力してください。
-              </FieldDescription>
+              <FieldDescription>6文字以上で入力してください。</FieldDescription>
             </Field>
             <Field>
               <FieldLabel htmlFor="confirm-password">パスワード確認</FieldLabel>

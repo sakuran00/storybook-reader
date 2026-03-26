@@ -59,5 +59,5 @@ export async function signup(
   }
 
   revalidatePath("/", "layout");
-  redirect("/auth/signup/before-confirm")
+  redirect("/auth/signup/before-confirm");
 }

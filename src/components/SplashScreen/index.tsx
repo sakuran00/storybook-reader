@@ -7,7 +7,7 @@ export default function SplashScreen() {
   const [visible, setVisible] = useState(() => {
     if (window.location.pathname.startsWith("/auth/")) {
       return false;
-    };
+    }
     if (!sessionStorage.getItem("splashShown")) {
       sessionStorage.setItem("splashShown", "true");
       return true; // 初めて→表示

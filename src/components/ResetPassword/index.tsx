@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { updatePassword } from "@/app/auth/reset-password/action"
+import { updatePassword } from "@/app/auth/reset-password/action";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
@@ -46,7 +46,7 @@ export function ResetPasswordForm() {
 
     const result = await updatePassword(formData);
 
-    if(result?.error){
+    if (result?.error) {
       setServerError(result.error);
       setIsPending(false);
     }

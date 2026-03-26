@@ -13,7 +13,9 @@ export default function BeforeConfirmPage() {
           </CardHeader>
           <CardContent>
             <p className="text-center text-sm leading-8">
-              メールを送信しました。<br />受信ボックスのリンクをクリックして登録を完了してください。
+              メールを送信しました。
+              <br />
+              受信ボックスのリンクをクリックして登録を完了してください。
             </p>
           </CardContent>
         </Card>

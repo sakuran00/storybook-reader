@@ -42,7 +42,10 @@ export default function Home() {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [splashDone, setSplashDone] = useState(() => {
     if (typeof window === "undefined") return false;
-    return sessionStorage.getItem("splashDone") === "true";
+    const done = sessionStorage.getItem("splashDone") === "true";
+    const shown = sessionStorage.getItem("splashShown") === "true";
+    if (shown && !done) sessionStorage.setItem("splashDone", "true");
+    return done || shown;
   });
 
   useEffect(() => {
@@ -131,7 +134,7 @@ export default function Home() {
                   if (!user) {
                     setShowLoginModal(true);
                   } else {
-                    router.push("/favorites")
+                    router.push("/favorites");
                   }
                 } else {
                   setStatusFilter(value);

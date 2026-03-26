@@ -16,8 +16,7 @@ export default function ForgotPasswordForm() {
     setIsPending(true);
     const email = new FormData(e.currentTarget).get("email") as string;
     const supabase = createClient();
-    const siteUrl =
-      process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
     await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: `${siteUrl}/auth/callback?next=/auth/reset-password`,
