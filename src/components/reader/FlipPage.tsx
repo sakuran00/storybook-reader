@@ -10,31 +10,34 @@ export interface FlipPageProps {
   videoSrc?: string;
   posterSrc?: string;
   isLastPage?: boolean;
+  shouldPlay?: boolean;
 }
 
 const FlipPage = forwardRef<HTMLDivElement, FlipPageProps>(
-  ({ imageSrc, textUrl, videoSrc, posterSrc, isLastPage }, ref) => {
+  ({ imageSrc, textUrl, videoSrc, posterSrc, isLastPage, shouldPlay }, ref) => {
     const [text, setText] = useState<string>("");
     const [loading, setLoading] = useState(!!textUrl);
     const videoRef = useRef<HTMLVideoElement>(null);
     const playPromiseRef = useRef<Promise<void> | null>(null);
 
-    const handlePlay = () => {
-      if (videoRef.current) {
-        playPromiseRef.current = videoRef.current.play().catch(() => {});
+    useEffect(() => {
+      const video = videoRef.current;
+      if(!video) return;
+      if(shouldPlay){
+        playPromiseRef.current = video.play().catch(() => {});
+      } else {
+        const stop = () => {
+          video.pause();
+          video.currentTime = 0;
+        };
+        if (playPromiseRef.current){
+          playPromiseRef.current.then(stop).catch(() => {});
+          playPromiseRef.current = null;
+        } else {
+          stop();
+        }
       }
-    };
-
-    const handleEnded = () => {
-      if (playPromiseRef.current) {
-        playPromiseRef.current.then(() => {
-          videoRef.current?.pause();
-        });
-        playPromiseRef.current = null;
-      } else if (videoRef.current) {
-        videoRef.current.pause();
-      }
-    };
+    }, [shouldPlay])
 
     useEffect(() => {
       if (!textUrl) return;
@@ -57,9 +60,8 @@ const FlipPage = forwardRef<HTMLDivElement, FlipPageProps>(
             style={{ width: "100%", height: "100%", objectFit: "contain" }}
             muted
             playsInline
+            loop
             controls={false}
-            onMouseEnter={handlePlay}
-            onMouseLeave={handleEnded}
           />
         ) : (
           <div className="flip-page-image">

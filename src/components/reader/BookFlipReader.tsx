@@ -24,8 +24,11 @@ export default function BookFlipReader({
   // refの型を「何でも入る箱」にして、ESLintのチェックだけ外す
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const flipBookRef = useRef<any>(null);
+  const bookContainerRef = useRef<HTMLDivElement>(null);
+  const [isOutsideClicked, setIsOutsideClicked] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const [showLoginModal, setShowLoginModal] = useState(false); // モーダル表示用のstate
+  const [isGrabbing, setIsGrabbing] = useState(false);
 
   const totalPages = book.pages?.length || 0;
 
@@ -43,9 +46,26 @@ export default function BookFlipReader({
     }
   }, [currentPage, totalPages, showLoginModal, isAuthenticated]);
 
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        bookContainerRef.current &&
+        !bookContainerRef.current.contains(e.target as Node)
+      ){
+        setIsOutsideClicked(true);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+    return() => {
+      document.removeEventListener("click", handleClickOutside);
+    }
+  }, [])
+
   //  イベントeの型を指定
   const handleFlip = useCallback((e: { data: number }) => {
     setCurrentPage(e.data);
+    setIsOutsideClicked(false);
   }, []);
 
   // 開いたページの音声URLを取得
@@ -68,7 +88,7 @@ export default function BookFlipReader({
   const currentAudioUrl = getAudioUrl();
 
   return (
-    <div className={`items-center relative font-klee font-semibold`}>
+    <div className="items-center relative font-klee font-semibold cursor-pointer">
       {/* showLoginModalがtrueの時のみログインモーダル表示 */}
       {showLoginModal && (
         <LoginModal
@@ -78,7 +98,14 @@ export default function BookFlipReader({
         />
       )}
 
-      <div className="mx-auto rounded-md overflow-hidden ring-slate-900/10 ">
+      <div 
+        ref={bookContainerRef} 
+        className={`mx-auto rounded-md overflow-hidden ring-slate-900/10 ${isGrabbing ? "cursor-grabbing" : "cursor-grab" }`}
+        onMouseDown={() => setIsGrabbing(true)}
+        onMouseUp={() => setIsGrabbing(false)}
+        onMouseLeave={() => setIsGrabbing(false)} 
+        
+        >
         <div className="text-center text-sm -mt-1 text-gray-600">
           {Math.ceil((currentPage + 1) / 2)} / {Math.floor(totalPages / 2)}
         </div>
@@ -126,6 +153,7 @@ export default function BookFlipReader({
                 videoSrc={page.movie}
                 posterSrc={page.image}
                 isLastPage={isLastPage}
+                shouldPlay={isOutsideClicked && (i === currentPage || i === currentPage + 1)}
               />
             );
           })}

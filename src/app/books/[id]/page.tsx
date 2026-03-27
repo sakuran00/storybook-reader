@@ -45,7 +45,7 @@ export default function BookDetail({
 
   return (
     <div
-      className="min-h-[100dvh] flex flex-col relative overflow-hidden"
+      className="min-h-[100dvh] flex flex-col relative overflow-hidden cursor-pointer"
       style={{ backgroundImage: "url('bg.jpg')" }}
     >
       {/* ページ遷移 最初は真っ白（または背景色）で、ゆっくり透明になって消える */}
@@ -164,6 +164,33 @@ export default function BookDetail({
         </div>
       </motion.div>
 
+      <motion.div
+        initial={{
+          opacity: 0,
+          y: -20,
+          scale: 0.9,
+          filter: "blur(5px)",
+        }}
+        animate={{
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          filter: "blur(0px)",
+        }}
+        transition={{
+          duration: 1.5,
+          delay: 0.25,
+          ease: [0.5, 0.8, 1, 1],
+        }}
+        className="flex-1 flex flex-col z-20"
+        style={{ backgroundImage: "url('bg.jpg')" }}
+      >
+        <p className="text-center text-sm font-klee -mt-4.5 text-slate-800/80">
+          え をうごかしたいときは、ほんのそとがわ をタッチしてみてね
+        </p>
+      </motion.div>
+      
+      
       {/* {FlipBook} */}
       {/* isAuthenticatedが確認できるまでローディング　またはそのまま渡す */}
       <motion.div
