@@ -73,7 +73,7 @@ export default function BookCard({
     <div
       className={`
         relative aspect-[3/4] w-32 sm:w-48 shadow-md transition-transform
-        duration-300 group ease-out
+        duration-300 group ease-in
         ${!isTransitioning ? "hover:-translate-y-5 hover:shadow-xl/30 hover:scale-110" : "scale-110 -translate-y-5"}
         `}
     >
