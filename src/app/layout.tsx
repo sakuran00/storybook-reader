@@ -5,6 +5,7 @@ import Header from "@/components/header";
 import { createClient } from "@/lib/supabase/server";
 import { ToastProvider } from "@/components/ui/Toaster";
 import SplashScreenWrapper from "@/components/SplashScreen/ClientWrapper";
+import { Analytics } from "@vercel/analytics/next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -53,6 +54,7 @@ export default async function RootLayout({
           <Header isAuthenticated={!!user} />
           {children}
         </ToastProvider>
+        <Analytics />
       </body>
     </html>
   );
