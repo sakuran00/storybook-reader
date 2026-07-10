@@ -226,8 +226,11 @@ export default function Home() {
       >
         <div className="relative w-[104px] h-[104px]">
           {/* 波紋（内側と外側で少しタイミングをずらす） */}
-          <span className="absolute left-1/2 top-1/2 w-20 h-20 rounded-full bg-ink/15 animate-[drag-ripple_1.8s_ease_0.2s_infinite_both]" />
-          <span className="absolute left-1/2 top-1/2 w-40 h-40 rounded-full bg-ink/10 animate-[drag-ripple_1.8s_ease_0.6s_infinite_both]" />
+          <span className="absolute left-1/2 top-1/2 w-20 h-20 rounded-full bg-ink/15 animate-drag-ripple" />
+          <span
+            className="absolute left-1/2 top-1/2 w-40 h-40 rounded-full bg-ink/10 animate-drag-ripple"
+            style={{ animationDelay: "0.45s" }}
+          />
           {/* 手のアイコン */}
           <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-washi border border-linen shadow-[0_10px_24px_-8px_rgba(58,42,24,0.4)] flex items-center justify-center">
             <Hand className="w-6 h-6 text-cocoa" strokeWidth={1.6} />
