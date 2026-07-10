@@ -4,8 +4,8 @@ import { BOOKS } from "@/data/books";
 import BookCard from "@/components/book/BookCard";
 import { useDragScroll } from "@/hooks/useDragScroll";
 import { motion, Variants } from "framer-motion";
-import { useState, useMemo, useEffect } from "react";
-import { Search, Move } from "lucide-react";
+import { useState, useMemo, useEffect, useRef } from "react";
+import { Search, Move, Hand } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import LoginModal from "@/components/ui/LoginModal";
@@ -58,6 +58,25 @@ export default function Home() {
     window.addEventListener("splashDone", handler);
     return () => window.removeEventListener("splashDone", handler);
   }, []);
+
+  // ドラッグガイド（入場時に中央でふわっと出て、しばらくすると消える）
+  const [guideVisible, setGuideVisible] = useState(false);
+  const guideDismissed = useRef(false); // 一度操作したら再表示しない
+  const dismissGuide = () => {
+    guideDismissed.current = true;
+    setGuideVisible(false);
+  };
+  useEffect(() => {
+    if (!splashDone) return;
+    const showTimer = setTimeout(() => {
+      if (!guideDismissed.current) setGuideVisible(true);
+    }, 1200);
+    const hideTimer = setTimeout(() => setGuideVisible(false), 5500);
+    return () => {
+      clearTimeout(showTimer);
+      clearTimeout(hideTimer);
+    };
+  }, [splashDone]);
 
   // 検索・フィルタリング
   const filteredBooks = useMemo(() => {
@@ -130,7 +149,11 @@ export default function Home() {
       {filteredBooks.length > 0 ? (
         <div
           ref={ref}
-          onMouseDown={onMouseDown}
+          onMouseDown={(e) => {
+            dismissGuide(); // 操作が始まったらガイドを消す
+            onMouseDown(e);
+          }}
+          onTouchStart={dismissGuide}
           onMouseLeave={onMouseLeave}
           onMouseUp={onMouseUp}
           onMouseMove={onMouseMove}
@@ -194,6 +217,23 @@ export default function Home() {
           さがしてみてね
         </motion.div>
       )}
+
+      {/* ドラッグガイド（デスクトップのみ・入場時に中央で波紋つきで表示） */}
+      <div
+        className={`hidden sm:block fixed left-1/2 top-[45%] -translate-x-1/2 -translate-y-1/2 z-30 pointer-events-none transition-opacity duration-700 ${
+          guideVisible ? "opacity-100" : "opacity-0"
+        }`}
+      >
+        <div className="relative w-[104px] h-[104px]">
+          {/* 波紋（内側と外側で少しタイミングをずらす） */}
+          <span className="absolute left-1/2 top-1/2 w-20 h-20 rounded-full bg-ink/15 animate-[drag-ripple_1.8s_ease_0.2s_infinite_both]" />
+          <span className="absolute left-1/2 top-1/2 w-40 h-40 rounded-full bg-ink/10 animate-[drag-ripple_1.8s_ease_0.6s_infinite_both]" />
+          {/* 手のアイコン */}
+          <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-washi border border-linen shadow-[0_10px_24px_-8px_rgba(58,42,24,0.4)] flex items-center justify-center">
+            <Hand className="w-6 h-6 text-cocoa" strokeWidth={1.6} />
+          </span>
+        </div>
+      </div>
 
       {/* フッター */}
       <div className="hidden sm:block fixed left-14 bottom-8 z-10 text-[11px] tracking-[0.18em] text-fawn pointer-events-none">

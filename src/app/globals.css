@@ -151,6 +151,22 @@ body {
   --sidebar-ring: oklch(0.553 0.013 58.071);
 }
 
+/* ドラッグガイドの波紋（ふわっと広がって消える） */
+@keyframes drag-ripple {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0);
+  }
+  40% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.9);
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
