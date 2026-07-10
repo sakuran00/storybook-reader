@@ -85,7 +85,7 @@ export default function FavoriteButton({ bookId }: FavoriteButtonProps) {
   };
 
   if (isLoading) {
-    return <div className="h-6 w-6 animate-pulse bg-gray-200 rounded-full" />;
+    return <div className="h-[30px] w-[30px] animate-pulse bg-linen rounded-full" />;
   }
 
   // お気に入りの状態に応じて、ハートの色を変える
@@ -100,15 +100,16 @@ export default function FavoriteButton({ bookId }: FavoriteButtonProps) {
 
       <button
         onClick={handleToggleFavorite}
-        className="p-2 rounded-full hover:bg-black/10 transition-colors"
+        className={`h-[30px] w-[30px] shrink-0 rounded-full border flex items-center justify-center cursor-pointer transition-colors hover:border-honey ${
+          isFavorite ? "bg-[#fbeee6] border-beige" : "bg-washi border-beige"
+        }`}
         aria-label={isFavorite ? "お気に入りから削除" : "お気に入りに追加"}
       >
         <Heart
-          className={`w-6 h-6 transition-colors cursor-pointer drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)] ${
-            isFavorite
-              ? "fill-red-500 text-red-500"
-              : "fill-gray-200 text-gray-300"
+          className={`w-3.5 h-3.5 text-clay transition-colors ${
+            isFavorite ? "fill-clay" : "fill-transparent"
           }`}
+          strokeWidth={1.8}
         />
       </button>
     </>

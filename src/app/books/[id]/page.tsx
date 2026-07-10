@@ -32,28 +32,31 @@ export default function BookDetail({
     checkUser();
   }, []);
 
+  // 言語タブの共通スタイル
+  const langClass = (active: boolean) =>
+    `pb-0.5 border-b-[1.5px] text-[13px] font-bold transition-colors cursor-pointer ${
+      active ? "text-ink border-ink" : "text-sand border-transparent hover:text-cocoa"
+    }`;
+
   if (!book) {
     return (
-      <div className="mx-auto w-[85%] px-4 py-12 space-y-8">
-        <Link href="/" className="text-sm text-slate-800 shadow-sm">
-          本棚に戻る
+      <div className="mx-auto w-[85%] px-4 py-12 space-y-8 font-bold">
+        <Link href="/" className="text-sm text-cocoa hover:text-ink">
+          ← ほんだなへ
         </Link>
-        <p className="mt-4 text-gray-800">えほんが見つかりませんでした</p>
+        <p className="mt-4 text-ink">えほんが見つかりませんでした</p>
       </div>
     );
   }
 
   return (
-    <div
-      className="min-h-[100dvh] flex flex-col relative overflow-hidden cursor-pointer"
-      style={{ backgroundImage: "url('bg.jpg')" }}
-    >
-      {/* ページ遷移 最初は真っ白（または背景色）で、ゆっくり透明になって消える */}
+    <div className="min-h-[100dvh] flex flex-col relative overflow-hidden cursor-pointer">
+      {/* ページ遷移 最初は紙の色で、ゆっくり透明になって消える */}
       <motion.div
         initial={{ opacity: 1 }}
         animate={{ opacity: 0 }}
         transition={{ delay: 0.5, duration: 1.0, ease: "easeOut" }}
-        className="absolute inset-0 z-50 bg-stone-50 pointer-events-none"
+        className="absolute inset-0 z-50 bg-paper pointer-events-none"
       />
 
       {/* ヘッダー（少し上からスッと上がってくる） */}
@@ -75,90 +78,62 @@ export default function BookDetail({
         className="sm:flex-1 flex flex-col z-20"
       >
         {/* タイトル・ナビゲーション */}
-        <div className="mt-6 font-klee font-semibold">
-          {/* モバイル: 本棚に戻る + 言語トグルを同じ行に */}
-          <div className="flex items-center justify-between px-4 md:hidden font-bold font-zen-maru-gothic mb-2">
+        <div className="mt-8 font-bold">
+          {/* モバイル: ほんだなへ + 言語トグルを同じ行に */}
+          <div className="flex items-center justify-between px-5 md:hidden mb-3">
             <Link
               href="/"
-              className="group flex items-center w-fit text-md font-medium text-slate-600 hover:text-slate-800 transition-colors"
+              className="group flex items-center w-fit text-[13px] text-cocoa hover:text-ink transition-colors"
             >
               <ArrowLeft className="w-4 h-4 mr-1.5 transition-transform group-hover:-translate-x-1" />
-              本棚に戻る
+              ほんだなへ
             </Link>
-            <div className="bg-slate-200/50 p-1 rounded-full flex items-center w-fit">
-              <button
-                onClick={() => setLang("ja")}
-                className={`px-4 py-1 rounded-full text-sm font-medium transition-all duration-300 ease-out cursor-pointer ${
-                  lang === "ja"
-                    ? "bg-white text-slate-800 shadow-sm"
-                    : "text-slate-500 hover:text-slate-800 hover:shadow-sm"
-                }`}
-              >
+            <div className="flex items-center gap-4">
+              <button onClick={() => setLang("ja")} className={langClass(lang === "ja")}>
                 日本語
               </button>
-              <button
-                onClick={() => setLang("en")}
-                className={`px-4 py-1 rounded-full text-sm font-medium transition-all duration-300 ease-out cursor-pointer ${
-                  lang === "en"
-                    ? "bg-white text-slate-800 shadow-sm"
-                    : "text-slate-500 hover:text-slate-800 hover:shadow-sm"
-                }`}
-              >
+              <button onClick={() => setLang("en")} className={langClass(lang === "en")}>
                 English
               </button>
             </div>
           </div>
 
           {/* モバイル: タイトル */}
-          <div className="text-center px-4 md:hidden">
-            <h1 className="text-xl text-shadow-sm text-slate-800 tracking-tight">
-              <span className="text-amber-700/50 select-none mr-2">✦</span>
+          <div className="px-5 md:hidden">
+            <h1 className="font-klee font-semibold text-lg text-ink tracking-[0.12em]">
               {book.title}
-              <span className="text-amber-700/50 select-none ml-2">✦</span>
             </h1>
+            <p className="text-[10px] text-sand tracking-[0.18em] mt-1">
+              さく・え　{book.author}
+            </p>
           </div>
 
           {/* デスクトップ: 3カラムグリッド */}
           <div className="hidden md:grid md:grid-cols-[1fr_auto_1fr] items-center">
-            <div className="flex items-center justify-start ml-15 font-bold font-zen-maru-gothic">
+            <div className="flex items-center justify-start ml-12">
               <Link
                 href="/"
-                className="group flex items-center w-fit text-md font-medium text-slate-600 hover:text-slate-800 transition-colors"
+                className="group flex items-center w-fit text-[13px] text-cocoa hover:text-ink transition-colors"
               >
                 <ArrowLeft className="w-4 h-4 mr-1.5 transition-transform group-hover:-translate-x-1" />
-                本棚に戻る
+                ほんだなへ
               </Link>
             </div>
             <div className="text-center">
-              <h1 className="text-xl sm:text-2xl lg:text-3xl text-shadow-sm text-slate-800 tracking-tight">
-                <span className="text-amber-700/50 select-none mr-2">✦</span>
+              <h1 className="font-klee font-semibold text-xl lg:text-2xl text-ink tracking-[0.22em]">
                 {book.title}
-                <span className="text-amber-700/50 select-none ml-2">✦</span>
               </h1>
+              <p className="text-[11px] text-sand tracking-[0.2em] mt-1">
+                さく・え　{book.author}
+              </p>
             </div>
-            <div className="flex items-center justify-end mr-15 font-bold font-zen-maru-gothic">
-              <div className="bg-slate-200/50 p-1 rounded-full flex items-center w-fit">
-                <button
-                  onClick={() => setLang("ja")}
-                  className={`px-6 py-1.5 rounded-full text-sm font-medium transition-all duration-300 ease-out cursor-pointer ${
-                    lang === "ja"
-                      ? "bg-white text-slate-800 shadow-sm"
-                      : "text-slate-500 hover:text-slate-800 hover:shadow-sm"
-                  }`}
-                >
-                  日本語
-                </button>
-                <button
-                  onClick={() => setLang("en")}
-                  className={`px-6 py-1.5 rounded-full text-sm font-medium transition-all duration-300 ease-out cursor-pointer ${
-                    lang === "en"
-                      ? "bg-white text-slate-800 shadow-sm"
-                      : "text-slate-500 hover:text-slate-800 hover:shadow-sm"
-                  }`}
-                >
-                  English
-                </button>
-              </div>
+            <div className="flex items-center justify-end mr-12 gap-5">
+              <button onClick={() => setLang("ja")} className={langClass(lang === "ja")}>
+                日本語
+              </button>
+              <button onClick={() => setLang("en")} className={langClass(lang === "en")}>
+                English
+              </button>
             </div>
           </div>
         </div>
@@ -182,15 +157,13 @@ export default function BookDetail({
           delay: 0.25,
           ease: [0.5, 0.8, 1, 1],
         }}
-        className="flex-1 flex flex-col z-20"
-        style={{ backgroundImage: "url('bg.jpg')" }}
+        className="sm:flex-1 flex flex-col z-20"
       >
-        <p className="text-center text-sm font-klee -mt-4.5 text-slate-800/80">
-          え をうごかしたいときは、ほんのそとがわ をタッチしてみてね
+        <p className="text-center text-xs sm:text-sm font-klee font-semibold mt-2 px-6 text-taupe">
+          え をうごかしたいときは、ほんのそとがわ をタッチしてみてね ✦
         </p>
       </motion.div>
-      
-      
+
       {/* {FlipBook} */}
       {/* isAuthenticatedが確認できるまでローディング　またはそのまま渡す */}
       <motion.div
@@ -212,10 +185,10 @@ export default function BookDetail({
           ease: [0.5, 0.8, 1, 1],
         }}
         className="flex-1 flex flex-col z-20"
-        style={{ backgroundImage: "url('bg.jpg')" }}
       >
         <div className="w-full flex justify-center mt-3">
-          <div className="w-full max-w-4xl h-[60vh] sm:h-[70vh] md:h-[80vh]">
+          {/* モバイルは下の音声バーと重ならない範囲でなるべく大きく表示する */}
+          <div className="w-full max-w-[96vw] sm:max-w-4xl h-[60vh] sm:h-[70vh] md:h-[80vh]">
             {isAuthenticated !== null && (
               <BookFlipReader
                 key={lang}

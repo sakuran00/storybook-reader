@@ -5,12 +5,13 @@ import BookCard from "@/components/book/BookCard";
 import { useDragScroll } from "@/hooks/useDragScroll";
 import { motion, Variants } from "framer-motion";
 import { useState, useMemo, useEffect } from "react";
-import { Search } from "lucide-react";
+import { Search, Move } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import LoginModal from "@/components/ui/LoginModal";
 
-const ROTATIONS = ["rotate-0", "rotate-5", "-rotate-5"];
+// 本の傾き（つくえに置いた感じを出す）
+const ROTATIONS = ["-rotate-3", "rotate-3", "-rotate-2"];
 
 // 親と子のアニメーション設定（variant）を定義
 const containerVariants: Variants = {
@@ -73,8 +74,17 @@ export default function Home() {
     });
   }, [searchQuery, statusFilter]);
 
+  // 「きょうのひとこと」などの飾りは、しぼりこみ中は出さない
+  const showExtras = statusFilter === "all" && searchQuery.trim() === "";
+
+  // フィルタタブの共通スタイル
+  const tabClass = (active: boolean) =>
+    `pb-0.5 border-b-[1.5px] text-xs font-bold cursor-pointer transition-colors ${
+      active ? "text-ink border-ink" : "text-sand border-transparent hover:text-cocoa"
+    }`;
+
   return (
-    <div className="mx-auto max-w-8xl py-4 px-4 sm:py-8 sm:pt-15 font-klee font-semibold">
+    <div className="relative font-bold">
       {/*ログインしていないユーザーがFavoriteボタンを押した場合、の時のみログインモーダル表示 */}
       {showLoginModal && (
         <LoginModal
@@ -83,149 +93,167 @@ export default function Home() {
           description="ログインして、おきにいりのほんをみつけよう"
         />
       )}
+
+      {/* タイトル（デスクトップ：縦書き / モバイル：横書き） */}
       <motion.h1
-        // タイトルも少し上からふわっと出したい場合はここにも設定
         initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1.0, ease: "easeOut" }}
-        className="text-xl sm:text-3xl mb-6 sm:mb-10 ml-4 sm:ml-30 text-amber-950 text-shadow-md"
+        className="font-klee font-semibold text-ink z-10 px-6 pt-1 text-xl tracking-[0.14em] leading-relaxed sm:absolute sm:left-14 sm:top-6 sm:px-0 sm:pt-0 sm:text-[26px] sm:tracking-[0.24em] sm:h-85 sm:[writing-mode:vertical-rl] sm:pointer-events-none"
       >
-        <span className="text-amber-700/50 select-none mr-2">✦</span>
-        よみたいほんをえらんでね
-        <span className="text-amber-700/50 select-none ml-2">✦</span>
+        きょうは、
+        <br className="sm:hidden" />
+        どのおはなしにする？
       </motion.h1>
+      <p className="sm:hidden px-6 pt-2 text-[11px] text-sand">
+        したに スクロールして さがしてね ↓
+      </p>
 
-      {/* 検索・フィルターエリア */}
+      {/* ドラッグのヒント（デスクトップのみ） */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6, ease: "easeOut", delay: 0.5 }}
+        className="hidden sm:flex absolute left-24 top-115 items-center gap-2.5 pointer-events-none z-10"
+      >
+        <div className="w-11 h-11 rounded-full border-[1.5px] border-fawn flex items-center justify-center">
+          <Move className="w-4.5 h-4.5 text-taupe" strokeWidth={1.6} />
+        </div>
+        <div className="text-xs text-sand leading-relaxed">
+          ドラッグして
+          <br />
+          つくえの上をさがしてね
+        </div>
+      </motion.div>
+
+      {/* つくえの上（本エリア） */}
+      {filteredBooks.length > 0 ? (
+        <div
+          ref={ref}
+          onMouseDown={onMouseDown}
+          onMouseLeave={onMouseLeave}
+          onMouseUp={onMouseUp}
+          onMouseMove={onMouseMove}
+          className="overflow-x-auto sm:cursor-grab sm:active:cursor-grabbing pb-2 [scrollbar-width:none]"
+        >
+          <motion.div
+            // 親要素にvariantsを設定して、初期状態(hidden)と目標状態(show)を指定
+            variants={containerVariants}
+            initial="hidden"
+            animate={splashDone ? "show" : "hidden"}
+            className="flex flex-wrap justify-center items-start gap-x-6 gap-y-10 px-5 pt-8 pb-6 select-none sm:flex-nowrap sm:justify-start sm:min-w-max sm:gap-x-20 sm:pl-70 sm:pr-40 sm:pt-20 sm:pb-10"
+          >
+            {filteredBooks.map((book, index) => (
+              <motion.div
+                // 子供要素をmotion.divで囲み、variantsを適用
+                key={book.id}
+                variants={itemVariants}
+                className={index % 2 === 1 ? "mt-10 sm:mt-24" : ""}
+              >
+                <BookCard
+                  {...book}
+                  coverImageUrl={book.cover}
+                  disabled={book.status === "unavailable"}
+                  isDragging={isDragging} // ドラッグ中の誤クリック防止用に渡す
+                  rotation={ROTATIONS[index % ROTATIONS.length]}
+                />
+              </motion.div>
+            ))}
+
+            {/* きょうのひとこと（メモ） */}
+            {showExtras && (
+              <motion.div
+                variants={itemVariants}
+                className="w-44 shrink-0 rotate-6 mt-4 sm:mt-40 rounded-[4px] bg-washi border border-linen shadow-[0_10px_18px_-8px_rgba(58,42,24,0.3)] px-4 py-3.5"
+              >
+                <div className="font-klee font-semibold text-[13px] text-cocoa leading-loose">
+                  きょうのひとこと
+                </div>
+                <div className="font-klee text-xs text-taupe leading-relaxed">
+                  「ぴこ」といっしょに
+                  <br />
+                  ぼうけんのつづきを
+                  <br />
+                  よもうね
+                </div>
+              </motion.div>
+            )}
+          </motion.div>
+        </div>
+      ) : (
+        // みつからなかったとき（付箋）
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="mx-auto mt-16 sm:mt-40 w-56 -rotate-2 rounded-[4px] bg-cream border border-butter shadow-[0_10px_18px_-8px_rgba(58,42,24,0.3)] px-5 py-4 font-klee font-semibold text-[13px] text-ochre leading-loose"
+        >
+          みつからなかったよ。
+          <br />
+          ことばをかえて
+          <br />
+          さがしてみてね
+        </motion.div>
+      )}
+
+      {/* フッター */}
+      <div className="hidden sm:block fixed left-14 bottom-8 z-10 text-[11px] tracking-[0.18em] text-fawn pointer-events-none">
+        STORYBOOK READER — えほんの つくえ
+      </div>
+      <div className="sm:hidden text-center text-[10px] tracking-[0.18em] text-fawn pt-6 pb-40">
+        STORYBOOK READER — えほんの つくえ
+      </div>
+
+      {/* 検索・フィルターエリア（画面下に固定） */}
       <motion.div
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: "easeOut", delay: 0.3 }}
-        className="flex flex-wrap items-center gap-3 mb-8 ml-4 pr-4 sm:mb-40 sm:ml-30 sm:pr-0"
+        className="fixed bottom-6 left-4 right-4 sm:left-auto sm:right-14 sm:bottom-8 z-20 flex flex-col sm:flex-row items-center gap-2.5 sm:gap-5"
       >
+        {/* ステータスフィルター */}
+        <div className="order-1 sm:order-2 flex gap-5 bg-paper/90 sm:bg-transparent rounded-full px-4 py-1.5 sm:p-0">
+          <button
+            onClick={() => setStatusFilter("all")}
+            className={tabClass(statusFilter === "all")}
+          >
+            すべて
+          </button>
+          <button
+            onClick={() => setStatusFilter("available")}
+            className={tabClass(statusFilter === "available")}
+          >
+            よめる
+          </button>
+          <button
+            onClick={async () => {
+              const supabase = createClient();
+              const {
+                data: { user },
+              } = await supabase.auth.getUser();
+              if (!user) {
+                setShowLoginModal(true);
+              } else {
+                router.push("/favorites");
+              }
+            }}
+            className={tabClass(false)}
+          >
+            おきにいり
+          </button>
+        </div>
+
         {/* 検索ボックス */}
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+        <div className="order-2 sm:order-1 relative w-full sm:w-44">
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-sand pointer-events-none" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="なまえ・さくしゃでさがす"
-            className="pl-9 pr-4 py-2 rounded-full border border-slate-200 bg-white/80 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-300 shadow-sm w-70"
+            placeholder="さがす"
+            className="w-full pl-9 pr-4 py-2.5 sm:py-2 rounded-full border-[1.5px] border-beige bg-washi/95 text-[13px] sm:text-xs font-bold text-ink placeholder:text-sand focus:outline-none focus:border-fawn shadow-[0_10px_24px_-8px_rgba(58,42,24,0.2)]"
           />
-        </div>
-
-        {/* ステータスフィルター */}
-        <div className="flex gap-2 text-sm">
-          {(
-            [
-              { value: "all", label: "すべて" },
-              { value: "available", label: "よめる" },
-              { value: "favorite", label: "❤︎" },
-            ] as { value: StatusFilter; label: string }[]
-          ).map(({ value, label }) => (
-            <button
-              key={value}
-              onClick={async () => {
-                if (value === "favorite") {
-                  const supabase = createClient();
-                  const {
-                    data: { user },
-                  } = await supabase.auth.getUser();
-                  if (!user) {
-                    setShowLoginModal(true);
-                  } else {
-                    router.push("/favorites");
-                  }
-                } else {
-                  setStatusFilter(value);
-                }
-              }}
-              className={`
-                px-3 py-1.5 rounded-full border hover:shadow-lg transition-all cursor-pointer
-                ${
-                  statusFilter === value
-                    ? "bg-slate-700/80 text-white"
-                    : "bg-white/70 text-slate-600 border-slate-200 hover:bg-slate-200/60"
-                }
-              `}
-            >
-              {label}
-            </button>
-          ))}
         </div>
       </motion.div>
-
-      {/* 本棚 */}
-      {filteredBooks.length > 0 ? (
-        <div className="relative">
-          {/* モバイルは overflow-x-auto でタッチスクロール、デスクトップは drag-scroll */}
-          <div className="overflow-x-auto sm:overflow-visible pb-2 sm:pb-0">
-            <motion.div
-              // 親要素にvariantsを設定して、初期状態(hidden)と目標状態(show)を指定
-              className="relative z-10 flex flex-row ml-2 sm:ml-30 w-full gap-3 sm:gap-8 items-end min-w-max cursor-grab active:cursor-grabbing select-none pr-4 sm:pr-0"
-              variants={containerVariants}
-              initial="hidden"
-              animate={splashDone ? "show" : "hidden"}
-              ref={ref}
-              onMouseDown={onMouseDown}
-              onMouseLeave={onMouseLeave}
-              onMouseUp={onMouseUp}
-              onMouseMove={onMouseMove}
-            >
-              {filteredBooks.map((book, index) => {
-                // 背表紙の色と傾きをランダムに決定
-                const isSpine = (index + 1) % 3 === 0; // 3の倍数を背表紙とする
-                const isCover = !isSpine; // それ以外は表紙とする
-
-                // 色と角度を順番やランダムで決める。
-                const rotation = ROTATIONS[index % ROTATIONS.length];
-
-                return (
-                  <motion.div
-                    // 子供要素をmotion.divで囲み、variants="item"を適用
-                    key={book.id}
-                    variants={itemVariants}
-                    className="origin-bottom"
-                  >
-                    <BookCard
-                      key={book.id}
-                      {...book}
-                      coverImageUrl={book.cover}
-                      isDragging={isDragging} // ドラッグ中の誤クリック防止用に渡す
-                      variant={isCover ? "cover" : "spine"} // 偶数番目を表紙、奇数番目を背表紙とする
-                      rotation={rotation}
-                    />
-                  </motion.div>
-                );
-              })}
-            </motion.div>
-          </div>
-
-          {/* 本棚画像（本の下に1つだけ） */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, ease: "easeIn" }}
-            className="w-full h-50 mt-[-82] sm:h-100 sm:mt-[-150] opacity-90 "
-            style={{
-              backgroundImage: "url('/bookshelf.png')",
-              backgroundSize: "110% 100%",
-              backgroundPosition: "top",
-              backgroundRepeat: "no-repeat",
-              filter:
-                "drop-shadow(0 -12px 20px rgba(0, 0, 0, 0.35)) drop-shadow(-8px 0 12px rgba(0, 0, 0, 0.10)) drop-shadow(8px 0 12px rgba(0, 0, 0, 0.10))",
-            }}
-          />
-        </div>
-      ) : (
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="text-slate-500 text-center py-16 text-lg"
-        >
-          みつかりませんでした 🔍
-        </motion.p>
-      )}
     </div>
   );
 }

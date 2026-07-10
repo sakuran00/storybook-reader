@@ -9,14 +9,14 @@ interface countProps {
 export default function FavoriteTitles({ count }: countProps) {
   return (
     <motion.h1
-      className="text-3xl font-bold mb-5 text-amber-950 text-shadow-md"
+      className="font-klee font-semibold text-xl sm:text-2xl text-ink tracking-[0.14em] leading-relaxed"
       initial={{ opacity: 0, y: -30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 1.0, ease: "easeOut" }}
     >
-      <span className="text-amber-700/50 select-none mr-2">✦</span>
-      おきにいりのほん ({count}さつ)
-      <span className="text-amber-700/50 select-none ml-2">✦</span>
+      {count === 0
+        ? "まだなにもない つくえ"
+        : `おきにいりのほん（${count}さつ）`}
     </motion.h1>
   );
 }

@@ -22,6 +22,7 @@ export default function SplashScreen() {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const handleEnded = () => {
+    if (fading) return; // 2重実行を防ぐ（タップとonEndedの両方から呼ばれるため）
     setFading(true);
     setTimeout(() => {
       sessionStorage.setItem("splashDone", "true");
@@ -56,7 +57,10 @@ export default function SplashScreen() {
   if (!visible) return null;
 
   return (
-    <div className="fixed inset-0 z-[9999] bg-white flex items-center justify-center">
+    <div
+      onClick={handleEnded} // タップでスキップ
+      className="fixed inset-0 z-[9999] bg-paper flex flex-col items-center justify-center gap-7 cursor-pointer"
+    >
       <video
         ref={videoRef}
         src="/opening.mp4"
@@ -66,8 +70,11 @@ export default function SplashScreen() {
         onEnded={handleEnded}
         style={{ width: "70vw", height: "70vh", objectFit: "contain" }}
       />
+      <div className="text-sm font-bold text-sand tracking-[0.12em] font-zen-maru-gothic">
+        タップでスキップ
+      </div>
       <div
-        className="absolute inset-0 bg-white pointer-events-none"
+        className="absolute inset-0 bg-paper pointer-events-none"
         style={{
           opacity: fading ? 1 : 0,
           transition: "opacity 1.5s ease-out",

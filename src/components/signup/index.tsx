@@ -59,10 +59,10 @@ export function SignupForm(): React.ReactElement {
   };
 
   return (
-    <Card className="font-zen-maru-gothic font-bold">
+    <Card className="font-zen-maru-gothic font-bold bg-washi border-linen shadow-[0_28px_50px_-16px_rgba(58,42,24,0.4),0_3px_8px_rgba(58,42,24,0.12)]">
       <CardHeader>
-        <CardTitle className="flex justify-center text-2xl">
-          サインアップ
+        <CardTitle className="flex justify-center font-klee font-semibold text-2xl text-ink tracking-[0.1em]">
+          はじめまして
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -153,12 +153,15 @@ export function SignupForm(): React.ReactElement {
                 <Button
                   type="submit"
                   disabled={isPending}
-                  className="hover:bg-slate-800/70"
+                  className="rounded-full h-12 bg-ink text-washi font-black hover:bg-cocoa"
                 >
-                  {isPending ? "登録中..." : "登録"}
+                  {isPending ? "登録中..." : "とうろくする"}
                 </Button>
-                <FieldDescription className="text-sm text-center">
-                  既にアカウントをお持ちの方は <a href="/auth/signin">こちら</a>
+                <FieldDescription className="text-sm text-center text-sand">
+                  アカウントをおもちの方は{" "}
+                  <a href="/auth/signin" className="text-caramel">
+                    サインイン
+                  </a>
                 </FieldDescription>
               </Field>
             </FieldGroup>

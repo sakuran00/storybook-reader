@@ -26,17 +26,21 @@ export default function ForgotPasswordForm() {
   };
 
   return (
-    <Card className="font-zen-maru-gothic font-bold">
+    <Card className="font-zen-maru-gothic font-bold bg-washi border-linen shadow-[0_28px_50px_-16px_rgba(58,42,24,0.4),0_3px_8px_rgba(58,42,24,0.12)]">
       <CardHeader>
-        <CardTitle className="flex justify-center text-2xl">
-          パスワード再設定
+        <CardTitle className="flex justify-center font-klee font-semibold text-2xl text-ink tracking-[0.1em]">
+          パスワードをわすれたら
         </CardTitle>
       </CardHeader>
       <CardContent>
         {sent ? (
-          <p className="text-center text-sm">
-            メールを送信しました。受信ボックスをご確認ください。
-          </p>
+          <div className="rounded-[4px] bg-cream border border-butter px-5 py-4 font-klee font-semibold text-sm text-ochre leading-loose text-center">
+            メールをおくったよ！
+            <br />
+            とどいたリンクから
+            <br />
+            あたらしいパスワードをつくってね
+          </div>
         ) : (
           <form onSubmit={handleSubmit}>
             <FieldGroup>
@@ -51,8 +55,12 @@ export default function ForgotPasswordForm() {
                 />
               </Field>
               <Field>
-                <Button type="submit" disabled={isPending}>
-                  {isPending ? "送信中..." : "再設定メール送信"}
+                <Button
+                  type="submit"
+                  disabled={isPending}
+                  className="rounded-full h-12 bg-ink text-washi font-black hover:bg-cocoa"
+                >
+                  {isPending ? "送信中..." : "メールをおくる"}
                 </Button>
               </Field>
             </FieldGroup>

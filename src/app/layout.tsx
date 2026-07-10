@@ -24,7 +24,7 @@ const kleeOne = Klee_One({
 });
 
 const zenMaruGothic = Zen_Maru_Gothic({
-  weight: ["400"],
+  weight: ["400", "700", "900"],
   variable: "--font-zen-maru-gothic",
   display: "swap",
 });
@@ -47,7 +47,7 @@ export default async function RootLayout({
   return (
     <html lang="ja">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${kleeOne.variable} ${zenMaruGothic.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${kleeOne.variable} ${zenMaruGothic.variable} antialiased font-zen-maru-gothic`}
       >
         <ToastProvider>
           <SplashScreenWrapper />

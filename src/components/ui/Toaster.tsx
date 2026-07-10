@@ -48,8 +48,8 @@ export function ToastProvider({ children }: { children: ReactNode }) {
     <ToastContext.Provider value={{ toast }}>
       {children}
 
-      {/* トースト表示エリア（画面右下） */}
-      <div className="fixed bottom-6 right-6 z-[9999] flex flex-col gap-2 pointer-events-none">
+      {/* トースト表示エリア（画面下の中央・付箋風） */}
+      <div className="fixed bottom-28 left-1/2 -translate-x-1/2 z-[9999] flex flex-col items-center gap-2 pointer-events-none">
         <AnimatePresence>
           {toasts.map((t) => (
             <motion.div
@@ -58,30 +58,35 @@ export function ToastProvider({ children }: { children: ReactNode }) {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 10, scale: 0.95 }}
               transition={{ duration: 0.25, ease: "easeOut" }}
-              className={`
-                pointer-events-auto flex items-center gap-3
-                px-4 py-3 rounded-xl shadow-lg text-sm font-klee font-semibold
-                min-w-[220px] max-w-xs
-                ${
-                  t.type === "success"
-                    ? "bg-white border border-green-200 text-green-800"
-                    : "bg-white border border-red-200 text-red-700"
-                }
-              `}
+              className="pointer-events-auto"
             >
-              {t.type === "success" ? (
-                <CheckCircle className="w-5 h-5 text-green-500 shrink-0" />
-              ) : (
-                <XCircle className="w-5 h-5 text-red-400 shrink-0" />
-              )}
-              <span className="flex-1">{t.message}</span>
-              <button
-                onClick={() => dismiss(t.id)}
-                className="ml-1 text-slate-400 hover:text-slate-600 transition-colors"
-                aria-label="閉じる"
+              {/* 傾きはmotionのtransformとぶつからないよう内側のdivにつける */}
+              <div
+                className={`
+                  -rotate-2 flex items-center gap-3
+                  px-5 py-3 rounded-[3px] text-sm font-klee font-semibold whitespace-nowrap
+                  shadow-[0_12px_22px_-8px_rgba(58,42,24,0.35)]
+                  ${
+                    t.type === "success"
+                      ? "bg-cream border border-butter text-ochre"
+                      : "bg-[#fbeee6] border border-clay/40 text-clay"
+                  }
+                `}
               >
-                <X className="w-4 h-4" />
-              </button>
+                {t.type === "success" ? (
+                  <CheckCircle className="w-4 h-4 shrink-0 opacity-70" />
+                ) : (
+                  <XCircle className="w-4 h-4 shrink-0 opacity-70" />
+                )}
+                <span className="flex-1">{t.message}</span>
+                <button
+                  onClick={() => dismiss(t.id)}
+                  className="ml-1 opacity-50 hover:opacity-100 transition-opacity"
+                  aria-label="閉じる"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
             </motion.div>
           ))}
         </AnimatePresence>

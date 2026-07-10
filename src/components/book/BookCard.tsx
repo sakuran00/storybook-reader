@@ -20,19 +20,16 @@ interface BookCardProps {
   isDragging?: boolean; // *ドラッグ中の誤クリック防止用
 
   // デザイン用
-  variant?: "cover" | "spine"; // 表紙（cover）か背表紙（spine）か
-  rotation?: string; // 傾きのクラス（例: rotate-1, -rotate-2)
+  rotation?: string; // 傾きのクラス（例: rotate-3, -rotate-2)
 }
 
 export default function BookCard({
   id,
   title,
-  subtitle,
   requiresAuth,
   coverImageUrl,
   disabled = false,
   isDragging = false,
-  variant = "cover",
   rotation = "rotate-0",
 }: BookCardProps) {
   const router = useRouter();
@@ -68,75 +65,23 @@ export default function BookCard({
     }, 800);
   };
 
-  // 表紙モードのコンテンツ
-  const coverContent = (
-    <div
-      className={`
-        relative aspect-[3/4] w-32 sm:w-48 shadow-md transition-transform
-        duration-300 group ease-in
-        ${!isTransitioning ? "hover:-translate-y-5 hover:shadow-xl/30 hover:scale-110" : "scale-110 -translate-y-5"}
-        `}
-    >
-      {coverImageUrl ? (
-        <Image
-          src={coverImageUrl}
-          alt={title}
-          fill
-          sizes="(max-width: 640px) 128px, 192px"
-          className="object-cover rounded-sm pointer-events-none select-none"
-          draggable={false} // 画像のドラッグを無効化
-        />
-      ) : (
-        <div
-          className={`flex h-full items-center justify-center text-gray-200 font-klee font-semibold`}
-        >
-          No Image
+  // じゅんびちゅう（読めない本）は破線のプレースホルダーで表示
+  if (disabled) {
+    return (
+      <div className={`flex flex-col gap-2.5 w-32 sm:w-44 ${rotation}`}>
+        <div className="aspect-[3/4] w-32 sm:w-44 rounded-[3px] border-[1.5px] border-dashed border-khaki bg-washi/55 flex flex-col items-center justify-center gap-2">
+          <span className="text-xl text-khaki select-none">＋</span>
+          <span className="text-[11px] font-bold text-sand text-center leading-relaxed">
+            あたらしい本を
+            <br />
+            じゅんびちゅう
+          </span>
         </div>
-      )}
-      {!disabled && (
-        <div className="absolute top-2 right-2 z-10">
-          <FavoriteButton bookId={id} />
-        </div>
-      )}
-
-      {/* 帯のようなデザインを入れるならここ */}
-    </div>
-  );
-
-  // 背表紙モードのコンテンツ
-  const spineContent = (
-    <div
-      className={`
-      relative h-48 w-8 sm:h-64 sm:w-12 rounded-sm shadow-md transition-transform duration-300
-      border border-slate-50/10 bg-slate-400/80
-      ${rotation}
-      ${!isTransitioning ? "hover:-translate-y-4 hover:shadow-xl/30 hover:scale-110 hover:rotate-0" : "scale-110 -translate-y-4 rotate-0 shadow-xl/30"}
-      `}
-    >
-      {/* タイトルと著者を縦書きで表示 */}
-      <div className="flex-1 flex items-center justify-center py-4">
-        <h3
-          className={`text-sm tracking-widest text-slate-800 font-klee font-semibold`}
-          style={{ writingMode: "vertical-rl" }}
-        >
-          {title}
-        </h3>
-      </div>
-
-      {/* 帯部分 */}
-      <div className="h-16 w-full flex items-center justify-center px-1 py-1 bg-white">
-        {/* 帯の中のテキスト */}
-        <span className="text-[10px] text-slate-800 break-all leading-tight text-center line-clamp-3">
-          {subtitle}
+        <span className="w-max text-[10px] font-bold tracking-wider text-sand border border-beige rounded-full px-2.5 py-0.5">
+          じゅんびちゅう
         </span>
       </div>
-    </div>
-  );
-
-  const content = variant === "cover" ? coverContent : spineContent;
-
-  if (disabled) {
-    return <div className="opacity-50 grayscale">{content}</div>;
+    );
   }
 
   return (
@@ -149,17 +94,50 @@ export default function BookCard({
           description="ログインして、ほかのほんもよんでみよう"
         />
       )}
-      <Link
-        href={`/books/${id}`}
-        className="block outline-none select-none appearance-none touch-none focus:outline-none focus-visible:outline-none"
-        style={{ WebkitTapHighlightColor: "transparent" }}
-        draggable={false}
-        onClick={handleBookClick}
-      >
-        {content}
-      </Link>
 
-      {/* フェードアウト演出 */}
+      <div className={`flex flex-col gap-2.5 w-32 sm:w-44 ${rotation}`}>
+        <Link
+          href={`/books/${id}`}
+          className="block outline-none select-none appearance-none touch-none focus:outline-none focus-visible:outline-none"
+          style={{ WebkitTapHighlightColor: "transparent" }}
+          draggable={false}
+          onClick={handleBookClick}
+        >
+          <div
+            className={`relative aspect-[3/4] w-32 sm:w-44 rounded-[3px] shadow-[0_18px_30px_-12px_rgba(58,42,24,0.45),0_2px_5px_rgba(58,42,24,0.15)] transition-transform duration-300 ease-in ${!isTransitioning ? "hover:-translate-y-2 hover:shadow-xl/30 hover:scale-105" : "scale-105 -translate-y-2"}`}
+          >
+            {coverImageUrl ? (
+              <Image
+                src={coverImageUrl}
+                alt={title}
+                fill
+                sizes="(max-width: 640px) 128px, 176px"
+                className="object-cover rounded-[3px] pointer-events-none select-none"
+                draggable={false} // 画像のドラッグを無効化
+              />
+            ) : (
+              <div className="flex h-full items-center justify-center text-sand font-klee font-semibold">
+                No Image
+              </div>
+            )}
+          </div>
+        </Link>
+
+        {/* バッジ + おきにいりボタン */}
+        <div className="flex items-center gap-2">
+          <span className="text-[10px] font-bold tracking-wider text-caramel border border-beige rounded-full px-2.5 py-0.5 whitespace-nowrap">
+            よめる｜日・英
+          </span>
+          <FavoriteButton bookId={id} />
+        </div>
+
+        {/* タイトル */}
+        <span className="text-xs sm:text-[13px] font-black text-ink leading-relaxed">
+          {title}
+        </span>
+      </div>
+
+      {/* フェードアウト演出（リーダーの紙背景と同じ色にフェードしてつなげる） */}
       <AnimatePresence>
         {isTransitioning && (
           <motion.div
@@ -169,9 +147,11 @@ export default function BookCard({
             transition={{ duration: 0.8, delay: 0.2, ease: "easeInOut" }}
           >
             <div
-              className="absolute inset-0 bg-cover bg-center"
+              className="absolute inset-0 bg-paper"
               style={{
-                backgroundImage: "url('/bg.jpg')",
+                backgroundImage:
+                  "radial-gradient(rgba(58,42,24,0.05) 1px, transparent 1px)",
+                backgroundSize: "28px 28px",
               }}
             />
           </motion.div>

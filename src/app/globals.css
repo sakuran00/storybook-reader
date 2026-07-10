@@ -9,11 +9,30 @@ body {
 }
 
 body {
-  /* public 配下はルート参照になるので /bg.jpg にする */
-  background-image: url("/bg.jpg");
-  background-size: cover;
-  background-attachment: fixed;
-  background-position: center;
+  /* つくえのうえ：紙の色 + うっすらドット柄 */
+  background-color: #f3eee2;
+  background-image: radial-gradient(rgba(58, 42, 24, 0.05) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* つくえのうえデザインの配色（bg-paper, text-ink などのクラスとして使える） */
+@theme {
+  --color-paper: #f3eee2; /* 机の上の紙の背景 */
+  --color-washi: #fffdf8; /* カード用の白い紙 */
+  --color-ink: #3a2a18; /* メインの文字色（濃い茶） */
+  --color-cocoa: #6b5138; /* 見出し・リンクの茶色 */
+  --color-taupe: #8a7a64; /* ラベルなどの中間色 */
+  --color-sand: #a8977e; /* 補助テキスト */
+  --color-fawn: #b3a48d; /* フッターなど薄い文字 */
+  --color-linen: #e6dcc9; /* カードの枠線 */
+  --color-beige: #ddd2b8; /* 入力欄などの枠線 */
+  --color-khaki: #cfc2a6; /* 入力欄の下線 */
+  --color-caramel: #a3702c; /* バッジ・リンク強調 */
+  --color-honey: #c9a45c; /* おきにいりバッジの金色 */
+  --color-clay: #b0623c; /* ハート・エラー */
+  --color-cream: #fdf3d1; /* 付箋の黄色 */
+  --color-butter: #ecdba4; /* 付箋の枠線 */
+  --color-ochre: #8a6b2e; /* 付箋の文字色 */
 }
 
 @theme inline {
@@ -137,6 +156,6 @@ body {
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply text-ink;
   }
 }

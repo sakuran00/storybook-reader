@@ -41,9 +41,7 @@ export default async function FavoritePage() {
 
   // お気に入りの本がない場合の表示
   return (
-    <div
-      className={`mx-auto max-w-7xl px-4 py-8 pt-24 font-semibold font-klee`}
-    >
+    <div className="mx-auto max-w-6xl px-6 py-8 sm:px-14 font-bold">
       <FavoriteTitles count={favoriteBooks.length} />
       <FavoriteBookCard books={favoriteBooks} />
     </div>

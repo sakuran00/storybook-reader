@@ -1,20 +1,19 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { createClient } from "@/lib/supabase/client";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 
 // 受け取るProps
 interface HeaderProps {
-  navItems?: { label: string; href: string }[]; // ナビゲーション項目
   isAuthenticated: boolean; // 認証状態
 }
 
 // UI構造
 export default function Header({ isAuthenticated }: HeaderProps) {
   const router = useRouter();
+  const pathname = usePathname();
   const supabase = createClient();
 
   // サインアウト処理
@@ -25,78 +24,62 @@ export default function Header({ isAuthenticated }: HeaderProps) {
     router.refresh();
   };
 
+  // リーダー画面では絵本に集中できるようヘッダーを出さない（戻るリンクはページ側にある）
+  if (pathname.startsWith("/books/")) return null;
+
+  // ナビの共通スタイル（現在のページには下線をつける）
+  const navClass = (active: boolean) =>
+    `pb-1 border-b-[1.5px] transition-colors ${
+      active
+        ? "text-cocoa border-cocoa"
+        : "text-sand border-transparent hover:text-cocoa"
+    }`;
+
   return (
-    <header
-      className={`mx-auto sticky top-0 z-30 text-shadow-sm backdrop-blur-sm bg-white/20 border-b border-white/20 font-zen-maru-gothic font-bold`}
-    >
-      <div className="flex items-center justify-between py-3 text-[11px] uppercase tracking-[0.18em] text-gray-800 sm:px-8 sm:text-sm">
-        {!isAuthenticated ? (
-          <>
-            <div className="flex items-center gap-3">
+    <header className="sticky top-0 z-30 font-bold bg-gradient-to-b from-paper via-paper/90 to-transparent">
+      <div className="flex items-start justify-between gap-3 px-4 pt-5 pb-3 sm:px-14 sm:pt-8">
+        <Link href="/" className="cursor-pointer hover:opacity-70 transition-opacity shrink-0">
+          <Image
+            src="/logo.png"
+            alt="Storybook Reader"
+            width={190}
+            height={42}
+            loading="eager"
+            className="w-28 sm:w-48 h-auto object-contain opacity-90"
+          />
+        </Link>
+
+        <nav className="flex items-center gap-3 sm:gap-8 text-[11px] sm:text-[13px] pt-1 sm:pt-3 whitespace-nowrap">
+          <Link href="/" className={navClass(pathname === "/")}>
+            ほんだな
+          </Link>
+          <Link href="/favorites" className={navClass(pathname === "/favorites")}>
+            おきにいり
+          </Link>
+          {!isAuthenticated ? (
+            <>
               <Link
-                href="/"
-                className="cursor-pointer hover:opacity-70 transition-opacity"
+                href="/auth/signup"
+                className="text-sand hover:text-cocoa transition-colors"
               >
-                <div className="relative w-40 h-10 sm:w-80 sm:h-20 opacity-90">
-                  <Image
-                    src="/logo.png"
-                    alt="Storybook Reader"
-                    fill
-                    loading="eager"
-                    sizes="(max-width: 640px) 200px, 320px"
-                    className="object-contain"
-                  />
-                </div>
+                新規登録
               </Link>
-            </div>
-            <div className="flex gap-3">
-              <Button
-                size="lg"
-                className="rounded-full hover:bg-slate-800/60 mr-2 h-8 px-3 sm:h-10 sm:px-6"
-                onClick={() => router.push("/auth/signup")}
-              >
-                新規作成
-              </Button>
-              <Button
-                size="lg"
-                className="rounded-full border border-gray-800 bg-slate-50 text-slate-800 hover:bg-slate-800 hover:text-white mr-2 sm:mr-20 h-8 px-3 sm:h-10 sm:px-6"
-                onClick={() => router.push("/auth/signin")}
+              <Link
+                href="/auth/signin"
+                className="text-sand hover:text-cocoa transition-colors"
               >
                 ログイン
-              </Button>
-            </div>
-          </>
-        ) : (
-          <>
-            <div className="flex items-center gap-3">
-              <Link
-                href="/"
-                className="cursor-pointer hover:opacity-70 transition-opacity"
-              >
-                <div className="relative w-50 h-10 sm:w-80 sm:h-20 opacity-90">
-                  <Image
-                    src="/logo.png"
-                    alt="Storybook Reader"
-                    fill
-                    loading="eager"
-                    sizes="(max-width: 640px) 200px, 320px"
-                    className="object-contain"
-                  />
-                </div>
               </Link>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <Button
-                size={"lg"}
-                className="font-semibold rounded-full border border-amber-950/60 bg-slate-50 text-amber-950 hover:bg-amber-950/60 hover:text-white hover:shadow-md transition mr-2 sm:mr-20"
-                onClick={signoutHandler}
-              >
-                ログアウト
-              </Button>
-            </div>
-          </>
-        )}
+            </>
+          ) : (
+            <button
+              onClick={signoutHandler}
+              className="text-sand hover:text-cocoa transition-colors cursor-pointer"
+            >
+              ログアウト
+            </button>
+          )}
+        </nav>
       </div>
     </header>
   );
