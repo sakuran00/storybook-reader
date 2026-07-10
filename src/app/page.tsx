@@ -99,7 +99,7 @@ export default function Home() {
         initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1.0, ease: "easeOut" }}
-        className="font-klee font-semibold text-ink z-10 px-6 pt-1 text-xl tracking-[0.14em] leading-relaxed sm:absolute sm:left-14 sm:top-6 sm:px-0 sm:pt-0 sm:text-[26px] sm:tracking-[0.24em] sm:h-85 sm:[writing-mode:vertical-rl] sm:pointer-events-none"
+        className="font-klee font-semibold text-ink z-10 px-6 pt-1 text-xl tracking-[0.14em] leading-relaxed sm:absolute sm:left-14 sm:top-6 sm:px-0 sm:pt-0 sm:text-[26px] sm:tracking-[0.24em] sm:whitespace-nowrap sm:[writing-mode:vertical-rl] sm:pointer-events-none"
       >
         きょうは、
         <br className="sm:hidden" />
